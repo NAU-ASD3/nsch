@@ -1,1 +1,4 @@
+importFrom(nc, capture_all_str)
+importFrom(data.table, data.table)
+importFrom(utils, download.file)
 export(get_nsch_index)
