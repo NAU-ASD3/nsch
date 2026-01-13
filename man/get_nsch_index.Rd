@@ -23,6 +23,7 @@ Toby Dylan Hocking
 }
 \examples{
 
-get_nsch_index(system.file("extdata", "datasets.html", package="nsch"))
+get_nsch_index(system.file(
+  package="nsch", "extdata", "datasets.html", mustWork = TRUE))
 
 }
