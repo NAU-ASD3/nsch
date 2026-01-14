@@ -8,7 +8,7 @@ get_nsch_index <- function(local_html = tempfile()){
     local_html,
     url=list(
       nsch_url_prefix,
-      year="[0-9]+",
+      year=list("[0-9]+", as.integer),
       ".html"))
   unique(year_dt)
 }
