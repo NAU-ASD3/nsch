@@ -17,4 +17,8 @@ Description: The National Survey of Children’s Health
 License: GPL-3
 URL: https://github.com/NAU-ASD3/nsch
 BugReports: https://github.com/NAU-ASD3/nsch/issues
-Imports: data.table, nc
+Imports:
+ data.table,
+ nc
+Suggests:
+ testthat
