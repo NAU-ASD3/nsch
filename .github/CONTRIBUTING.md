@@ -3,7 +3,7 @@ Thank you for following these guidelines!
 ## Pull requests
 
 Please avoid pushing commits directly to the main branch.
-Instead, please create a new branch, push commits to that branch, then send a minimal Pull Request (PR) to main.
+Instead, please create a new branch, push commits to that branch, then send a minimal Pull Request (PR) to main ([video demonstration](https://vimeo.com/1159760944)).
 Before merging any PR, there should be one other project member that reviews and approves the proposed changes.
 
 * Documentation should be written directly in man/*.Rd files.
