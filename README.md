@@ -13,3 +13,9 @@ devtools::install_github("NAU-ASD3/nsch")
 ```r
 nsch::get_nsch_index()
 ```
+
+## Related work
+
+* https://github.com/vas235/ASD3-machine-learning-prep
+* https://github.com/tdhock/2024-01-ml-for-autism
+
