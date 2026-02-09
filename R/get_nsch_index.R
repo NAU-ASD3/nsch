@@ -4,11 +4,13 @@ get_nsch_index <- function(local_html = tempfile()){
   if(!file.exists(local_html)){
     download.file(nsch_data_url, local_html, quiet = TRUE)
   }
+  ## capture one or more digits, convert to integer.
+  digits_to_int = list("[0-9]+", as.integer)
   year_dt <- nc::capture_all_str(
     local_html,
     url=list(
       nsch_url_prefix,
-      year=list("[0-9]+", as.integer),
+      year=digits_to_int,
       ".html"))
   unique(year_dt)
 }
