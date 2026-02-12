@@ -1,0 +1,24 @@
+Package: nsch
+Type: Package
+Encoding: UTF-8
+Title: National Survey of Children’s Health
+Version: 2026.1.13
+Authors@R: c(
+    person("Toby", "Hocking",
+     email="toby.hocking@r-project.org",
+     role=c("aut", "cre")),
+    person("Vincent", "Sutherland",
+     role=c("aut")))
+Description: The National Survey of Children’s Health
+ <https://www.census.gov/programs-surveys/nsch.html>
+ publishes data online, which this package can download
+ and standardize across years, to facilitate machine
+ learning analyses.
+License: GPL-3
+URL: https://github.com/NAU-ASD3/nsch
+BugReports: https://github.com/NAU-ASD3/nsch/issues
+Imports:
+ data.table,
+ nc
+Suggests:
+ testthat
