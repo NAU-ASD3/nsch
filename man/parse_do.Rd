@@ -22,7 +22,7 @@ parse_do(year.do)
 }
 \arguments{
   \item{year.do}{
-    Path to do file.
+    Path to do file (one is included for each NSCH survey year).
   }
 }
 \value{
