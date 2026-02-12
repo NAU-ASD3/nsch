@@ -1,7 +1,7 @@
 \name{parse_do}
 \alias{parse_do}
 \title{
-  Parse NSCH do file
+  Parse Stata do file for NSCH variable metadata
 }
 \description{
   NSCH data contain a do file for every year.
