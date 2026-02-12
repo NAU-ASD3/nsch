@@ -8,7 +8,7 @@ parse_do <- function(year.do.path){
   do_list <- list()
   for(data_type in names(do_patterns)){
     do_list[[data_type]] <- nc::capture_all_str(
-      year.do,
+      year.do.path,
       "label ",
       data_type,
       " ",
