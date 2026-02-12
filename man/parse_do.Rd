@@ -26,10 +26,14 @@ parse_do(year.do)
   }
 }
 \value{
-  \item{var}{data table with one row per variable, and columns
-    \code{variable} and \code{desc}.}
-  \item{define}{data table with one row per factor level, and columns
-    \code{variable}, \code{value}, \code{desc}.}
+  A named list with two elements, each a
+  \code{\link[data.table]{data.table}}:
+
+  \item{var}{One row per variable.  Columns: \code{variable} (character,
+    the variable name) and \code{desc} (character, the label text).}
+  \item{define}{One row per factor level.  Columns: \code{variable}
+    (character, the variable name), \code{value} (character, the integer
+    code), and \code{desc} (character, the level label).}
 }
 \author{
   Toby Dylan Hocking
