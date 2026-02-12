@@ -11,3 +11,7 @@ Before merging any PR, there should be one other project member that reviews and
 * Increase the version number in NEWS.md and DESCRIPTION, based on the current date.
 * Add an item in NEWS.md to describe the changes.
 * Each PR should be minimal, which means there should be one (not multiple) new feature or bug fix, so that the PR is easy to review. Please indicate in the PR title whether the PR is a bugfix, a feature, or a documentation update, etc.
+
+## Coding style
+
+* function arguments that are local file paths should have the `.path` suffix, like `local_html.path` and `year.do.path`.
