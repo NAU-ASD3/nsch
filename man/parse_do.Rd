@@ -18,10 +18,10 @@
   }
 }
 \usage{
-parse_do(year.do)
+parse_do(year.do.path)
 }
 \arguments{
-  \item{year.do}{
+  \item{year.do.path}{
     Path to do file (one is included for each NSCH survey year).
   }
 }
