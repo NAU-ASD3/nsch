@@ -4,9 +4,18 @@
   Parse Stata do file for NSCH variable metadata
 }
 \description{
-  NSCH data contain a do file for every year.
-  Each file contains two pieces of information:
-  variable names, and factor levels.
+  Parses a Stata \code{.do} file distributed with the National Survey
+  of Children's Health (NSCH) to extract variable labels and factor
+  level definitions.  Uses \code{\link[nc]{capture_all_str}} to match
+  two kinds of \code{label} commands:
+
+  \itemize{
+    \item \code{label var VARIABLE "description"} — associates a
+      human-readable description with each variable name.
+    \item \code{label define VARIABLE_lab VALUE "description"} —
+      associates a human-readable description with each integer-coded
+      factor level.
+  }
 }
 \usage{
 parse_do(year.do)
