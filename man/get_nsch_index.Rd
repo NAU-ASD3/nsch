@@ -10,10 +10,10 @@
   to download data from each available year.
 }
 \usage{
-get_nsch_index(local_html = tempfile())
+get_nsch_index(local_html.path = tempfile())
 }
 \arguments{
-  \item{local_html}{
+  \item{local_html.path}{
     Local file in which HTML will be downloaded,
     if it does not already exist.
   }
