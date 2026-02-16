@@ -21,5 +21,5 @@ test_that("get_year() error for html with no zip", {
   cat("no links", file=file.path(data.dir, "datasets.html"))
   expect_error({
     nsch::get_year("https://www.census.gov/programs-surveys/nsch/data/datasets.html", data.dir)
-    }, "no topical_Stata.zip urls on https://www.census.gov/programs-surveys/nsch/data/datasets.html", fixed=TRUE)
+    }, "expected 1 topical_Stata.zip url on https://www.census.gov/programs-surveys/nsch/data/datasets.html but found 0", fixed=TRUE)
 })
