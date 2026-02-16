@@ -11,14 +11,14 @@
   zip file are unzipped into the \code{data.path} directory.
 }
 \usage{
-get_year(year_url, data.path = tempdir())
+get_year(year_url, data.path = file.path("NSCH_data", "00_original_Stata"))
 }
 \arguments{
   \item{year_url}{
     URL to a NSCH year-specific data web page, as returned by \code{\link{get_nsch_index}}.
   }
   \item{data.path}{
-    Local path where data files will be downloaded, typically \code{"NSCH_data/00_original_Stata"}.
+    Local path where data files will be downloaded, default \code{"NSCH_data/00_original_Stata"}.
   }
 }
 \value{

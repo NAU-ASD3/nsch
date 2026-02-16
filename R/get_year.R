@@ -1,4 +1,4 @@
-get_year <- function(year_url, data.path=tempdir()){
+get_year <- function(year_url, data.path=file.path("NSCH_data", "00_original_Stata")){
   year.html <- basename(year_url)
   data.path.year.html <- file.path(data.path, year.html)
   if(!file.exists(data.path.year.html)){
@@ -14,7 +14,7 @@ get_year <- function(year_url, data.path=tempdir()){
   year.zip <- basename(http_url)
   data.path.year.zip <- file.path(data.path, year.zip)
   if(!file.exists(data.path.year.zip)){
-    download.file(http_url, data.path.year.zip)
+    download.file(http_url, data.path.year.zip, mode="wb")
   }
   unzip(data.path.year.zip, exdir=data.path)
 }
