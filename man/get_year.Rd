@@ -22,7 +22,7 @@ get_year(year_url, data.path = file.path("NSCH_data", "00_original_Stata"))
   }
 }
 \value{
-  Nothing.
+  Value from \code{\link{unzip}}.
 }
 \author{
   Toby Dylan Hocking
