@@ -18,7 +18,7 @@ test_that("get_year() test 2024 data unzipped", {
 test_that("get_year() error for html with no zip", {
   data.dir <- tempfile()
   dir.create(data.dir)
-  cat("no links", file=file.path(data.dir, "datasets.html"))
+  cat("no links\n", file=file.path(data.dir, "datasets.html"))
   expect_error({
     nsch::get_year("https://www.census.gov/programs-surveys/nsch/data/datasets.html", data.dir)
     }, "expected 1 topical_Stata.zip url on https://www.census.gov/programs-surveys/nsch/data/datasets.html but found 0", fixed=TRUE)
