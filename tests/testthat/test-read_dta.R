@@ -32,18 +32,20 @@ test_that("no haven_labelled columns remain", {
 })
 
 test_that("tagged NAs are replaced with sentinel codes", {
-  dt <- nsch::read_dta(dta2024)
-  ## The NSCH .dta files contain tagged NAs in many columns.
-  ## After read_dta, those should be converted to 996-999.
-  ## We check that at least one of the sentinel codes appears
-  ## somewhere in the data (they are pervasive in NSCH).
-  all_values <- unlist(lapply(dt, function(col){
-    if(is.numeric(col)) col else NULL
-  }))
-  sentinel_codes <- c(996L, 997L, 998L, 999L)
-  found <- sentinel_codes %in% all_values
-  expect_true(any(found),
-              info = "expected at least one sentinel code (996-999) in the data")
+  ## The bundled 2024 .dta has no tagged NAs, so we create a small
+  ## synthetic .dta with known tagged NAs to verify the mapping.
+  tf <- tempfile(fileext = ".dta")
+  test_df <- data.frame(
+    year = 2099L,
+    x = haven::labelled(
+      c(1, 2, haven::tagged_na("m"), haven::tagged_na("n"),
+        haven::tagged_na("l"), haven::tagged_na("d")),
+      labels = c(Yes = 1, No = 2)
+    )
+  )
+  haven::write_dta(test_df, tf)
+  dt <- nsch::read_dta(tf)
+  expect_identical(dt[["x"]], c(1, 2, 996, 997, 998, 999))
 })
 
 test_that("stratum is numeric", {
