@@ -15,7 +15,7 @@ read_dta <- function(dta.path){
   for(col in names(raw)){
     col_vec <- raw[[col]]
     for(tag in names(tag_map)){
-      is_tag <- is_tagged_na(col_vec, tag)
+      is_tag <- haven::is_tagged_na(col_vec, tag)
       if(any(is_tag)){
         if(!is.numeric(col_vec)){
           col_vec <- as.numeric(col_vec)
