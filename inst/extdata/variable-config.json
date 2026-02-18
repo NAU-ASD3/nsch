@@ -1,0 +1,287 @@
+{
+	"desired_variables": [
+		"year", "hhid", "stratum", "fwc", "fipsst", "cbsafp_yn", "metro_yn", "mpc_yn",
+
+		"sc_age_years", "sc_race_r", "sc_hispanic_r", "sc_sex",
+
+		"agepos4", "hhlanguage", "totage_0_5", "totage_12_17", "totage_6_11",
+		"totfemale", "totmale", "totcshcn", "totnonshcn",
+
+		"sc_cshcn", "sc_k2q10", "sc_k2q13", "sc_k2q16", "sc_k2q19", "sc_k2q22",
+
+		"allergies", "autismmed", "autismtreat", "blindness", "blood", "breathing",
+		"cavities", "cystfib", "downsyn", "gumbleed", "hcability",
+		"headache", "heart", "k2q01", "k2q01_d", "k2q30a", "k2q31a", "k2q32a",
+		"k2q33a", "k2q34a", "k2q35a", "k2q35a_1_years", "k2q35b", "k2q35c",
+		"k2q35d", "k2q36a", "k2q37a", "k2q38a", "k2q40a", "diabetes", "k2q42a",
+		"k2q43b", "k2q60a", "k2q61a", "physicalpain", "stomach", "swallowing",
+		"toothaches",
+
+		"birthwt", "k2q05",
+
+		"c4q04", "hospitaler", "k4q01", "k4q02_r", "k4q20r", "k4q22_r",
+		"k4q23", "k4q24_r", "k4q27", "dentistvisit", "eyedoctor", "k4q36",
+		"k6q15", "s4q01", "usualgo", "wgtconc",
+
+		"bestforchild", "discussopt", "k4q04_r", "k5q10", "k5q11", "k5q20_r",
+		"k5q21", "k5q31_r", "k5q40", "k5q41", "k5q42", "k5q43", "k5q44",
+
+		"currins", "insgap", "instype",
+
+		"arrangehc", "athomehc", "avoidchg", "cuthours", "howmuch", "stopwork",
+
+		"bedtime", "bornusa", "sleep", "k11q43r", "k8q30", "k8q31", "k8q32",
+
+		"k8q34", "k8q35",
+
+		"ace1", "ace10", "ace3", "ace4", "ace5", "ace6", "ace7",
+		"ace8", "ace9", "foodsit", "goforhelp", "hopeful", "k10q11", "k10q12",
+		"k10q13", "k10q14", "k10q20", "k10q22", "k10q23", "k10q30", "k10q31",
+		"k10q40_r", "k11q60", "k11q61", "k11q62", "k8q11", "k9q40", "s9q34",
+		"strengths", "talkabout", "wktosolve",
+
+		"a1_age", "a1_born", "a1_grade", "a1_marital", "a1_menthealth",
+		"a1_physhealth", "a1_relation", "a1_sex", "a2_age", "a2_born", "a2_grade",
+		"a2_marital", "a2_menthealth", "a2_physhealth", "a2_relation", "a2_sex",
+
+		"famcount", "family", "fpl_i1", "hhcount", "higrade", "higrade_tvis",
+		"house_gen"
+	],
+	"transformations": {
+
+		"transform": {
+			"k2q01_d": {
+				"years": ["2016", "2017"],
+				"value": ["6"],
+				"new_value": ["6"],
+				"new_label": ["This child does not have any teeth [T1 only]"]
+			},
+			"birthwt": {
+				"years": ["2016"],
+				"value": ["1", "2", "3"],
+				"new_value": ["1", "2", "3"],
+				"new_label": ["Very low birth weight (less than 1,500g)", "Low birth weight (less than 2,500g)", "Not low birth weight"]
+			},
+			"currins": {
+				"years": ["2016"],
+				"value": ["1", "2"],
+				"new_value": ["1", "2"],
+				"new_label": ["Currently insured (does not include Indian Health Service or a religious health share)", "Currently uninsured, or only insured through Indian Health Service or a religious health share"]
+			},
+			"mpc_yn": {
+				"years": ["2016"],
+				"value": ["1", "2"],
+				"new_value": ["1", "2"],
+				"new_label": ["Metropolitan Principal City", "Not Metropolitan Principal City"]
+			},
+			"metro_yn": {
+				"years": ["2016"],
+				"value": ["1", "2"],
+				"new_value": ["1", "2"],
+				"new_label": ["Metropolitan Statistical Area", "Not Metropolitan Statistical Area"]
+			},
+			"hospitaler": {
+				"years": ["2016", "2017", "2022", "2023"],
+				"value": ["1", "2", "3", "4"],
+				"new_value": ["1", "2", "3", "3"],
+				"new_label": ["None", "1 time", "2 or more times", "2 or more times"]
+			},
+			"k4q02_r": {
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022"],
+				"value": ["5", "8", "998"],
+				"new_value": ["5", "7", "8"],
+				"new_label": ["Clinic within a drug store or grocery store", "Some other place", "No usual place"]
+			},
+			"gowhensick": {
+				"years": ["2023"],
+				"value": ["4", "8", "998"],
+				"new_value": ["4", "7", "8"],
+				"new_label": ["Clinic or Health Center", "Some other place", "No usual place"]
+			},
+			"higrade": {
+				"years": ["2016"],
+				"value": ["1", "2", "3"],
+				"new_value": ["1", "2", "3"],
+				"new_label": ["Less than high school", "High school (including vocational, trade, or business school)", "More than high school"]
+			},
+			"higrade_tvis": {
+				"years": ["2016"],
+				"value": ["1", "2"],
+				"new_value": ["1", "2"],
+				"new_label": ["Less than high school", "High school (including vocational, trade, or business school)"]
+			},
+			"house_gen": {
+				"years": ["2016"],
+				"value": ["1", "2", "3", "4"],
+				"new_value": ["1", "2", "3", "4"],
+				"new_label": ["1st generation household [Child is born outside the United States and all reported parents are born outside the United States. At least one parent must be reported as born outside the United States.]", "2nd generation household [Child is born in the United States and at least one parent is born outside the United States OR child is born outside the United States, one parent is born in the United States and one parent is born outside the United States.]", "3rd+ generation [All parents in the household are born in the United States]", "Other [Child is born in the United States, parents are not listed.]"]
+			},
+			"k4q20r": {
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"value": ["998"],
+				"new_value": ["1"],
+				"new_label": ["0 visits"]
+			},
+			"dentistvisit": {
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"value": ["998"],
+				"new_value": ["1"],
+				"new_label": ["No preventive visits in past 12 months"]
+			},
+			"bestforchild": {
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"value": ["998"],
+				"new_value": ["4"],
+				"new_label": ["No healthcare provider visits last 12 months"]
+			},
+			"discussopt": {
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"value": ["998"],
+				"new_value": ["4"],
+				"new_label": ["No healthcare provider visits last 12 months"]
+			},
+			"k5q11": {
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"value": ["1", "2", "3", "998"],
+				"new_value": ["1", "2", "3", "4"],
+				"new_label": ["Not difficult", "Somewhat difficult", "Very difficult", "Did not need a referral"]
+			},
+			"k5q20_r": {
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"value": ["998"],
+				"new_value": ["3"],
+				"new_label": ["Did not see more than one health care provider in the past 12 months"]
+			},
+			"k5q21": {
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"value": ["998"],
+				"new_value": ["2"],
+				"new_label": ["No healthcare provider visits last 12 months"]
+			},
+			"k5q31_r": {
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"value": ["998"],
+				"new_value": ["3"],
+				"new_label": ["Did not need health care provider to communicate with these providers"]
+			},
+			"k5q40": {
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"value": ["998"],
+				"new_value": ["4"],
+				"new_label": ["No healthcare provider visits last 12 months"]
+			},
+			"k5q41": {
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"value": ["998"],
+				"new_value": ["4"],
+				"new_label": ["No healthcare provider visits last 12 months"]
+			},
+			"k5q42": {
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"value": ["998"],
+				"new_value": ["4"],
+				"new_label": ["No healthcare provider visits last 12 months"]
+			},
+			"k5q43": {
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"value": ["998"],
+				"new_value": ["4"],
+				"new_label": ["No healthcare provider visits last 12 months"]
+			},
+			"k5q44": {
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"value": ["998"],
+				"new_value": ["4"],
+				"new_label": ["No healthcare provider visits last 12 months"]
+			},
+			"instype": {
+				"years": ["2016", "2017", "2018"],
+				"value": ["1", "2", "4", "5"],
+				"new_value": ["1", "2", "1", "5"],
+				"new_label": ["Public only (government assistance)", "Private only (privately purchased, including through ACA marketplace, through employer, or TRICARE)", "Public only (government assistance)", "Not insured"]
+			},
+			"arrangehc": {
+				"years": ["2016", "2017", "2018"],
+				"value": ["1", "6"],
+				"new_value": ["2", "6"],
+				"new_label": ["Less than 1 hour per week", "This child does not need health care coordinated on a weekly basis"]
+			},
+			"athomehc": {
+				"years": ["2016", "2017"],
+				"value": ["1", "6"],
+				"new_value": ["2", "6"],
+				"new_label": ["Less than 1 hour per week", "This child does not need health care provided at home on a weekly basis"]
+			},
+			"hoursleep": {
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"value": ["1", "2", "3", "4", "5", "6", "7"],
+				"new_value": ["1", "1", "2", "3", "4", "5", "6"],
+				"new_label": ["Less than 7 hours", "Less than 7 hours", "7 hours", "8 hours", "9 hours", "10 hours", "11 or more hours"]
+			},
+			"hoursleep05": {
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"value": ["6", "7"],
+				"new_value": ["6", "6"],
+				"new_label": ["11 or more hours", "11 or more hours"]
+			},
+			"a1_relation": {
+				"years": ["2016", "2017"],
+				"value": ["5"],
+				"new_value": ["6"],
+				"new_label": ["Other: Relative"]
+			},
+			"a2_relation": {
+				"years": ["2016", "2017", "2018"],
+				"value": ["5", "8"],
+				"new_value": ["6", "8"],
+				"new_label": ["Other: Relative", "There is only one primary adult caregiver in the household for this child"]
+			},
+			"family": {
+				"years": ["2016"],
+				"value": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+				"new_value": ["1", "2", "3", "4", "5", "5", "8", "8", "8"],
+				"new_label": ["Two biogical/adoptive parents, currently married", "Two biogical/adoptive parents, not currently married", "Two parents (at least one not biological/adoptive), currently married", "Two parents (at least one not biological/adoptive), not currently married", "Single mother", "Single mother", "Other relation", "Other relation", "Other relation"]
+			},
+			"hcability": {
+				"years": ["2016", "2017", "2018"],
+				"value": ["1"],
+				"new_value": ["1"],
+				"new_label": ["This child does not have any health conditions"]
+			},
+			"k8q30": {
+				"years": ["2016", "2017"],
+				"value": ["4"],
+				"new_value": ["4"],
+				"new_label": ["Not well at all"]
+			}
+
+		},
+
+		"rename_columns": {
+			"k2q41a": {
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021"],
+				"new_name": "diabetes"
+			},
+			"k4q31_r": {
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021"],
+				"new_name": "eyedoctor"
+			},
+			"family_r": {
+				"years": ["2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"new_name": "family"
+			},
+			"gowhensick": {
+				"years": ["2023"],
+				"new_name": "k4q02_r"
+			}
+		},
+
+		"merge_columns": {
+			"sleep": {
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"column_1": "hoursleep",
+				"column_2": "hoursleep05"
+			}
+		}
+	}
+}
