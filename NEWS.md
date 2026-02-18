@@ -1,6 +1,6 @@
 # nsch news and updates
 
-## 2026.2.17 (PR#5)
+## 2026.2.17 (PR#6)
 
 * `read_config()` reads a JSON harmonization config and returns the
   parsed R list preserving the original structure.
