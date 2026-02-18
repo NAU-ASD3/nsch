@@ -1,6 +1,13 @@
 # nsch news and updates
 
-## 2026.2.16 (PR#4)
+## 2026.2.17 (PR#5)
+
+* `read_config()` reads a JSON harmonization config and returns the
+  parsed R list preserving the original structure.
+* `validate_config()` checks structural integrity of a harmonization
+  config and optionally cross-references against `.do` metadata.
+
+## 2026.2.16 (PR#5)
 
 * `read_dta()` reads one NSCH Stata .dta file into a clean data.table
   with tagged NAs replaced by sentinel codes.
