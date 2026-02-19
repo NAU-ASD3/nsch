@@ -48,6 +48,6 @@ merge_vars(dt, merges, year)
     column_1 = "col_a",
     column_2 = "col_b"))
   merge_vars(dt, merges, 2016L)
-  print(dt)
+  dt
 
 }
