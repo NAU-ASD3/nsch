@@ -1,8 +1,6 @@
 importFrom(utils, unzip)
 importFrom(nc, capture_all_str)
 importFrom(data.table, data.table)
-importFrom(data.table, setnames)
-importFrom(data.table, set)
 importFrom(utils, download.file)
 importFrom(haven, is_tagged_na)
 importFrom(RJSONIO, fromJSON)
