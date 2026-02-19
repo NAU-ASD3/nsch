@@ -48,6 +48,6 @@ transform_values(dt, transforms, year)
     new_value = c("1", "2"),
     new_label = c("Male", "Female")))
   transform_values(dt, transforms, 2016L)
-  print(dt)
+dt
 
 }
