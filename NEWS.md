@@ -1,5 +1,12 @@
 # nsch news and updates
 
+## 2026.2.18 (PR#7)
+
+* `transform_values()` remaps numeric values and creates _label columns per JSON config rules.
+* `rename_vars()` renames columns (and _label companions) per JSON config rules.
+* `merge_vars()` coalesces paired columns into one, removing originals.
+* `subset_vars()` selects desired columns plus any _label companions.
+
 ## 2026.2.17 (PR#6)
 
 * `read_config()` reads a JSON harmonization config and returns the
