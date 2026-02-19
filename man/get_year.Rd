@@ -29,11 +29,16 @@ get_year(year_url, data.path = file.path("NSCH_data", "00_original_Stata"))
 }
 \examples{
 
-files2024 <- system.file(package="nsch", "extdata", c("datasets.2024.html", "nsch_2024_topical_Stata.zip"), mustWork=TRUE)
+files2024 <- system.file(
+  package="nsch", "extdata",
+  c("datasets.2024.html", "nsch_2024_topical_Stata.zip"),
+  mustWork=TRUE)
 dir2024 <- tempfile()
 dir.create(dir2024)
 file.copy(files2024, dir2024)
-nsch::get_year("https://www.census.gov/programs-surveys/nsch/data/datasets.2024.html", dir2024)
+nsch::get_year(
+  "https://www.census.gov/programs-surveys/nsch/data/datasets.2024.html",
+  dir2024)
 dir(dir2024)
 
 }
