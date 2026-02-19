@@ -15,7 +15,7 @@ fwrite_list <- function(data_list, year_dir, verbose=FALSE){
       rows=nrow(type_dt),
       cols=ncol(type_dt))
   }
-  rbindlist(size_dt_list)
+  data.table::rbindlist(size_dt_list)
 }
 
 Stata2csv_year <- function(year, Stata.path, csv.path, verbose=FALSE){
@@ -38,5 +38,5 @@ Stata2csv_year <- function(year, Stata.path, csv.path, verbose=FALSE){
     size_dt_list[[fmt]] <- data.table(
       in_file, fmt_sizes)
   }
-  rbindlist(size_dt_list)
+  data.table::rbindlist(size_dt_list)
 }
