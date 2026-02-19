@@ -36,6 +36,6 @@ subset_vars(dt, desired.variables)
     a = 1:3, a_label = c("x", "y", "z"),
     b = 4:6, c = 7:9)
   result <- subset_vars(dt, c("a", "c"))
-  print(names(result))
+names(result)
 
 }
