@@ -6,7 +6,7 @@ fwrite_list <- function(data_list, year_dir, verbose=FALSE){
       year_dir,
       sprintf("%s.csv", data_type))
     if(verbose)message(sprintf(
-      "writing %s %d×%d",
+      "writing %s %d rows, %d columns",
       out.csv, nrow(type_dt), ncol(type_dt)))
     data.table::fwrite(type_dt, out.csv)
     size_dt_list[[data_type]] <- data.table(
