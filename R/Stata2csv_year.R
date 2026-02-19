@@ -18,7 +18,7 @@ fwrite_list <- function(data_list, year_dir, verbose=FALSE){
   data.table::rbindlist(size_dt_list)
 }
 
-Stata2csv_year <- function(year, Stata.path, csv.path, verbose=FALSE){
+Stata2csv_year <- function(year, Stata.path = file.path("NSCH_data", "00_original_Stata"), csv.path = file.path("NSCH_data", "01_original_csv"), verbose=FALSE){
   file_list <- list(
     "nsch_%d_topical.do"=parse_do,
     "nsch_%de_topical.dta"=function(f)
