@@ -43,6 +43,6 @@ rename_vars(dt, renames, year)
   renames <- list(old_var = list(
     years = "2016", new_name = "new_var"))
   rename_vars(dt, renames, 2016L)
-  print(names(dt))
+names(dt)
 
 }
