@@ -1,6 +1,6 @@
 library(testthat)
 
-test_that("columns are coalesced preferring column_1", {
+test_that("columns are coalesced preferring column_preferred", {
   dt <- data.table::data.table(
     col_a = c(1, NA, 3),
     col_b = c(NA, 2, 4),
@@ -9,8 +9,8 @@ test_that("columns are coalesced preferring column_1", {
   merges <- list(
     merged = list(
       years = "2016",
-      column_1 = "col_a",
-      column_2 = "col_b"))
+      column_preferred = "col_a",
+      column_fallback = "col_b"))
   nsch::merge_vars(dt, merges, 2016L)
   expect_identical(dt[["merged"]], c(1, 2, 3))
   ## Source columns should be removed.
@@ -27,8 +27,8 @@ test_that("label columns are also coalesced", {
   merges <- list(
     merged = list(
       years = "2016",
-      column_1 = "col_a",
-      column_2 = "col_b"))
+      column_preferred = "col_a",
+      column_fallback = "col_b"))
   nsch::merge_vars(dt, merges, 2016L)
   expect_identical(dt[["merged_label"]], c("one", "two"))
   ## Source label columns should also be removed.
@@ -43,8 +43,8 @@ test_that("no merge for non-matching year", {
   merges <- list(
     merged = list(
       years = "2016",
-      column_1 = "col_a",
-      column_2 = "col_b"))
+      column_preferred = "col_a",
+      column_fallback = "col_b"))
   nsch::merge_vars(dt, merges, 2020L)
   expect_true("col_a" %in% names(dt))
   expect_true("col_b" %in% names(dt))
@@ -56,8 +56,8 @@ test_that("missing source columns are silently skipped", {
   merges <- list(
     merged = list(
       years = "2016",
-      column_1 = "not_here",
-      column_2 = "also_not"))
+      column_preferred = "not_here",
+      column_fallback = "also_not"))
   expect_no_error(nsch::merge_vars(dt, merges, 2016L))
   expect_identical(names(dt), "x")
 })
