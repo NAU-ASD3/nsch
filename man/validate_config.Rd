@@ -15,7 +15,7 @@
     \item Each \code{$transformations$rename_columns} entry has
       \code{years} and \code{new_name}.
     \item Each \code{$transformations$merge_columns} entry has
-      \code{years}, \code{column_1}, and \code{column_2}.
+      \code{years}, \code{column_preferred}, and \code{column_fallback}.
   }
 
   If \code{do.list} is provided, additionally warns for any desired
