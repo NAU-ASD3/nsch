@@ -10,17 +10,16 @@
 
   \enumerate{
     \item Replaces Stata tagged \code{NA} values (\code{.m}, \code{.n},
-      \code{.l}, \code{.d}) with integer sentinel codes 996, 997, 998,
-      999 respectively.
+          \code{.l}, \code{.d}) with integer sentinel codes using
+          \code{\link{na_tag_map}}.
     \item Strips \code{haven_labelled} classes so all columns are plain
-      R types.
-    \item Normalizes the \code{stratum} column by converting
-      \code{"2A"} to numeric \code{2} (a known quirk in some NSCH
-      years).
+          R types.
+    \item Normalizes the \code{stratum} column by converting \code{"2A"}
+          to numeric \code{2} (a known quirk in some NSCH years).
   }
 
-  Factor labels are \emph{not} applied here; that is deferred to a
-  later step using \code{\link{parse_do}} output.
+  Factor labels are \emph{not} applied here; that is deferred to a later
+  step using \code{\link{parse_do}} output.
 }
 \usage{
 read_dta(dta.path)
@@ -34,14 +33,13 @@ read_dta(dta.path)
 \value{
   A \code{\link[data.table]{data.table}} with one row per survey
   respondent.  All columns are plain numeric or character (no
-  \code{haven_labelled} classes).  A \code{year} column is present
-  and integer-typed.
+  \code{haven_labelled} classes).  A \code{year} column is present and
+  integer-typed.
 }
 \author{
-  Vincent Sutherland
+  Chris Reger
 }
 \examples{
-
 ## First unzip the bundled 2024 test data.
 files2024 <- system.file(
   package = "nsch", "extdata",
@@ -53,10 +51,8 @@ file.copy(files2024, dir2024)
 nsch::get_year(
   "https://www.census.gov/programs-surveys/nsch/data/datasets.2024.html",
   dir2024)
-
 ## Now read the .dta file.
 dta.path <- file.path(dir2024, "nsch_2024e_topical.dta")
 dt <- nsch::read_dta(dta.path)
 str(dt[, 1:5])
-
 }
