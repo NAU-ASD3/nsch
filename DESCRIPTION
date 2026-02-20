@@ -2,7 +2,7 @@ Package: nsch
 Type: Package
 Encoding: UTF-8
 Title: National Survey of Children’s Health
-Version: 2026.2.20
+Version: 2026.2.21
 Authors@R: c(
     person("Toby", "Hocking",
      email="toby.hocking@r-project.org",

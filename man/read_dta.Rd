@@ -38,7 +38,7 @@ read_dta(dta.path)
   and integer-typed.
 }
 \author{
-  Vincent Sutherland
+  Chris Reger
 }
 \examples{
 

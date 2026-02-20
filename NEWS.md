@@ -1,5 +1,10 @@
 # nsch news and updates
 
+## 2026.2.21 (PR#15)
+
+* `apply_do_labels()` converts numeric columns to R factors using .do label definitions, maps sentinel codes 996-999 to NA, and applies _label overrides from transform_values().
+* `na_tag_map` exported named integer vector shared by read_dta() and apply_do_labels().
+
 ## 2026.2.20 (PR#14)
 * Renamed merge_columns config fields column_1/column_2 to
   column_preferred/column_fallback for clarity.
