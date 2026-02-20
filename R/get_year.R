@@ -1,4 +1,13 @@
-get_year <- function(year_url, data.path=file.path("NSCH_data", "00_original_Stata")){
+ get_year <- function(year_url, data.path=file.path("NSCH_data", "00_original_Stata")){
+  ##Input validation
+  if(!is.character(year_url) || length(year_url) != 1){
+    stop("`year_url` must be a single character string.")
+  }
+
+  if(!is.character(data.path) || length(data.path) != 1){
+    stop("`data.path` must be a single character string.")
+  }
+
   dir.create(data.path, recursive = TRUE, showWarnings = FALSE)
   year.html <- basename(year_url)
   data.path.year.html <- file.path(data.path, year.html)
@@ -19,3 +28,4 @@ get_year <- function(year_url, data.path=file.path("NSCH_data", "00_original_Sta
   }
   unzip(data.path.year.zip, exdir=data.path)
 }
+  
