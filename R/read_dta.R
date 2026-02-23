@@ -2,25 +2,21 @@ read_dta <- function(dta.path){
   if(!file.exists(dta.path)){
     stop(
       "dta.path should be the path to a Stata .dta file, ",
-      "but this file does not exist: ", dta.path)
+      "but this file does not exist: ",
+      dta.path)
   }
   raw <- haven::read_dta(dta.path)
-  ## Replace tagged NA values with integer sentinel codes.
-  ## NSCH .dta files use four tagged NA types:
-  ##   .m (no valid response) -> 996
-  ##   .n (not in universe)   -> 997
-  ##   .l (logical skip)      -> 998
-  ##   .d (suppressed)        -> 999
-  tag_map <- c(m=996L, n=997L, l=998L, d=999L)
+  ## Replace tagged NA values with integer sentinel codes defined in
+  ## na_tag_map (see ?na_tag_map for the full mapping table).
   for(col in names(raw)){
     col_vec <- raw[[col]]
-    for(tag in names(tag_map)){
+    for(tag in names(na_tag_map)){
       is_tag <- haven::is_tagged_na(col_vec, tag)
       if(any(is_tag)){
         if(!is.numeric(col_vec)){
           col_vec <- as.numeric(col_vec)
         }
-        col_vec[is_tag] <- tag_map[[tag]]
+        col_vec[is_tag] <- na_tag_map[[tag]]
       }
     }
     ## Strip haven_labelled class so columns are plain numeric/character.
