@@ -6,10 +6,9 @@ get_years_csv <- function(NSCH_data.path="NSCH_data", verbose=FALSE){
   size_dt_list <- list()
   for(year_i in 1:nrow(index_dt)){
     index_row <- index_dt[year_i]
-    nsch::get_year(index_row$url, original_Stata)
+    nsch::get_year(index_row$url, original_Stata, verbose)
     year_dt <- nsch::Stata2csv_year(
-      index_row$year, original_Stata, csv_dir,
-      verbose=TRUE)
+      index_row$year, original_Stata, csv_dir, verbose)
     size_dt_list[[year_i]] <- data.table(
       index_row, year_dt)
   }
