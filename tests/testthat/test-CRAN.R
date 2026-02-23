@@ -23,3 +23,16 @@ test_that("get_year() error for html with no zip", {
     nsch::get_year("https://www.census.gov/programs-surveys/nsch/data/datasets.html", data.dir)
     }, "expected 1 topical_Stata.zip url on https://www.census.gov/programs-surveys/nsch/data/datasets.html but found 0", fixed=TRUE)
 })
+
+test_that("Stata2csv_year() returns data table with 3 rows", {
+  files2024 <- system.file(package="nsch", "extdata", c("datasets.2024.html", "nsch_2024_topical_Stata.zip"), mustWork=TRUE)
+  NSCH_data.path <- tempfile()
+  original_Stata.path <- file.path(NSCH_data.path, "00_original_Stata")
+  original_csv.path <- file.path(NSCH_data.path, "01_original_csv")
+  dir.create(original_Stata.path, recursive=TRUE)
+  file.copy(files2024, original_Stata.path)
+  nsch::get_year("https://www.census.gov/programs-surveys/nsch/data/datasets.2024.html", original_Stata.path)
+  meta_dt <- nsch::Stata2csv_year(2024, original_Stata.path, original_csv.path)
+  expected_dt <- data.table(data_type=c("var","define","surveys"))
+  expect_identical(meta_dt[, .(data_type)], expected_dt)
+})

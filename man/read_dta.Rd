@@ -15,7 +15,13 @@
     \item Strips \code{haven_labelled} classes so all columns are plain
           R types.
     \item Normalizes the \code{stratum} column by converting \code{"2A"}
-          to numeric \code{2} (a known quirk in some NSCH years).
+          to numeric \code{2} (a known encoding inconsistency in some
+          NSCH years).  This is done at read time rather than in the JSON
+          harmonization config because the config-driven transform
+          mechanism operates via \code{as.numeric()} comparisons and
+          cannot match the non-numeric \code{"2A"} value.  Fixing the
+          type here also ensures \code{\link[data.table]{rbindlist}} can
+          combine years without coercing the column to character.
   }
 
   Factor labels are \emph{not} applied here; that is deferred to a later
