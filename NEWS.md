@@ -1,5 +1,9 @@
 # nsch news and updates
 
+## 2026.2.19 (PR#12)
+
+* `Stata2csv_year()` converts one year of NSCH data from Stata to CSV.
+
 ## 2026.2.16 (PR#4)
 
 -   `read_dta()` reads one NSCH Stata .dta file into a clean data.table with tagged NAs replaced by sentinel codes.
