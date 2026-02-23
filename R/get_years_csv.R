@@ -12,7 +12,7 @@ get_years_csv <- function(NSCH_data.path="NSCH_data", verbose=FALSE){
     size_dt_list[[year_i]] <- data.table(
       index_row, year_dt)
   }
-  size_dt <- rbindlist(size_dt_list)
+  size_dt <- data.table::rbindlist(size_dt_list)
   sizes.csv <- file.path(NSCH_data.path, "01_cleanTypes_sizes.csv")
   data.table::fwrite(size_dt, sizes.csv)
   size_dt
