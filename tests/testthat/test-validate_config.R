@@ -22,8 +22,8 @@ make_valid_config <- function(){
       merge_columns = list(
         merged = list(
           years = c("2016"),
-          column_1 = "col_a",
-          column_2 = "col_b"
+          column_preferred = "col_a",
+          column_fallback = "col_b"
         )
       )
     )
@@ -80,12 +80,12 @@ test_that("missing merge_columns fields raise error", {
   config <- make_valid_config()
   config$transformations$merge_columns$bad_merge <- list(
     years = c("2016"),
-    column_1 = "a"
-    ## column_2 is missing
+    column_preferred = "a"
+    ## column_fallback is missing
   )
   expect_error(
     nsch::validate_config(config),
-    "column_2")
+    "column_fallback")
 })
 
 test_that("cross-reference with do.list warns for missing variable", {

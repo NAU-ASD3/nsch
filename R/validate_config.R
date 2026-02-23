@@ -34,11 +34,11 @@ validate_config <- function(config, do.list = NULL){
       stop("rename_columns entry '", var.name, "' is missing 'new_name'")
     }
   }
-  ## 4. Each merge_columns entry needs years, column_1, column_2.
+  ## 4. Each merge_columns entry needs years, column_preferred, column_fallback.
   merges <- config$transformations$merge_columns
   for(var.name in names(merges)){
     entry <- merges[[var.name]]
-    for(field in c("years", "column_1", "column_2")){
+    for(field in c("years", "column_preferred", "column_fallback")){
       if(is.null(entry[[field]])){
         stop(
           "merge_columns entry '", var.name,

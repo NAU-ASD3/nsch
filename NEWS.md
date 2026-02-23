@@ -1,5 +1,9 @@
 # nsch news and updates
 
+## 2026.2.20 (PR#14)
+* Renamed merge_columns config fields column_1/column_2 to column_preferred/column_fallback for clarity.
+* Renamed internal merge_vars() variables (col1, col2, vec1, vec2, lab1, lab2) to descriptive dot-notation names (col.preferred, col.fallback, vec.preferred, vec.fallback, lab.preferred, lab.fallback).
+
 ## 2026.2.19 (PR#12)
 
 * `Stata2csv_year()` converts one year of NSCH data from Stata to CSV.
