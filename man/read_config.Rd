@@ -4,17 +4,18 @@
   Read JSON harmonization config for NSCH data
 }
 \description{
-  Reads a JSON harmonization specification file and returns the parsed
-  R list with its original structure preserved.  The top-level elements
-  are \code{$desired_variables} (a character vector of column names to
-  retain) and \code{$transformations} (a list containing
-  \code{$transform}, \code{$rename_columns}, and
-  \code{$merge_columns}).
-
-  Uses \code{\link[RJSONIO]{fromJSON}} internally.  No structural
+  Uses \code{\link[RJSONIO]{fromJSON}}, but with more informative errors.
+  No structural
   flattening is performed --- the returned object mirrors the JSON
   layout so users can cross-reference against the file.  See
-  \code{\link{validate_config}} for structural validation.
+  \code{\link{validate_config}} for structural validation
+  of the two expected top-level elements,
+  \code{$desired_variables} (a character vector of column names to retain)
+  and \code{$transformations}
+  (a list containing
+  \code{$transform},
+  \code{$rename_columns}, and
+  \code{$merge_columns}).
 }
 \usage{
 read_config(config.path)
