@@ -17,10 +17,8 @@
 
 ## 2026.2.17 (PR#6)
 
-* `read_config()` reads a JSON harmonization config and returns the
-  parsed R list preserving the original structure.
-* `validate_config()` checks structural integrity of a harmonization
-  config and optionally cross-references against `.do` metadata.
+* `read_config()` reads a JSON harmonization config and returns the parsed R list preserving the original structure.
+* `validate_config()` checks structural integrity of a harmonization config and optionally cross-references against `.do` metadata.
 
 ## 2026.2.16 (PR#4)
 
