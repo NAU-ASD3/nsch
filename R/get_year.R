@@ -1,4 +1,5 @@
-get_year <- function(year_url, data.path=file.path("NSCH_data", "00_original_Stata")){
+ get_year <- function(year_url,
+                     data.path = file.path("NSCH_data", "00_original_Stata")) {
   dir.create(data.path, recursive = TRUE, showWarnings = FALSE)
   year.html <- basename(year_url)
   data.path.year.html <- file.path(data.path, year.html)
@@ -19,3 +20,4 @@ get_year <- function(year_url, data.path=file.path("NSCH_data", "00_original_Sta
   }
   unzip(data.path.year.zip, exdir=data.path)
 }
+  
