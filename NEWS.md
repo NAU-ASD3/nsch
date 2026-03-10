@@ -1,8 +1,17 @@
 # nsch news and updates
 
+## 2026.3.10 (PR#6)
+
+* `read_config()` reads a JSON harmonization config and returns the parsed R list preserving the original structure.
+* `validate_config()` checks structural integrity of a harmonization config and optionally cross-references against `.do` metadata.
+
 ## 2026.2.20 (PR#14)
 * Renamed merge_columns config fields column_1/column_2 to column_preferred/column_fallback for clarity.
 * Renamed internal merge_vars() variables (col1, col2, vec1, vec2, lab1, lab2) to descriptive dot-notation names (col.preferred, col.fallback, vec.preferred, vec.fallback, lab.preferred, lab.fallback).
+
+## 2026.2.23 (PR#20)
+
+* `get_years_csv()` downloads all available years of NSCH data, and converts from Stata to CSV.
 
 ## 2026.2.19 (PR#12)
 
@@ -14,11 +23,6 @@
 * `rename_vars()` renames columns (and _label companions) per JSON config rules.
 * `merge_vars()` coalesces paired columns into one, removing originals.
 * `subset_vars()` selects desired columns plus any _label companions.
-
-## 2026.2.17 (PR#6)
-
-* `read_config()` reads a JSON harmonization config and returns the parsed R list preserving the original structure.
-* `validate_config()` checks structural integrity of a harmonization config and optionally cross-references against `.do` metadata.
 
 ## 2026.2.16 (PR#4)
 

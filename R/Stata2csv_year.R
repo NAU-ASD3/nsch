@@ -18,11 +18,11 @@ fwrite_list <- function(data_list, year_dir, verbose=FALSE){
   data.table::rbindlist(size_dt_list)
 }
 
-Stata2csv_year <- function(year, Stata.path = file.path("NSCH_data", "00_original_Stata"), csv.path = file.path("NSCH_data", "01_original_csv"), verbose=FALSE){
+Stata2csv_year <- function(year, Stata.path = file.path("NSCH_data", "00_original_Stata"), csv.path = file.path("NSCH_data", "01_cleanTypes_csv"), verbose=FALSE){
   file_list <- list(
     "nsch_%d_topical.do"=parse_do,
     "nsch_%de_topical.dta"=function(f)
-      list(surveys=haven::read_stata(f)))
+      list(surveys=read_dta(f)))
   year_dir <- file.path(csv.path, year)
   if(verbose)message(sprintf("converting %s to %s", Stata.path, year_dir))
   dir.create(year_dir, showWarnings=FALSE, recursive=TRUE)

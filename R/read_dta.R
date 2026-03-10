@@ -13,9 +13,6 @@ read_dta <- function(dta.path){
     for(tag in names(na_tag_map)){
       is_tag <- haven::is_tagged_na(col_vec, tag)
       if(any(is_tag)){
-        if(!is.numeric(col_vec)){
-          col_vec <- as.numeric(col_vec)
-        }
         col_vec[is_tag] <- na_tag_map[[tag]]
       }
     }
@@ -30,7 +27,7 @@ read_dta <- function(dta.path){
   if("stratum" %in% names(raw)){
     s <- as.character(raw[["stratum"]])
     s[grepl("^2[aA]?$", s)] <- "2"
-    raw[["stratum"]] <- as.numeric(s)
+    raw[["stratum"]] <- as.integer(s)
   }
   dt <- data.table(raw)
   ## Verify year column exists (the entire pipeline depends on it).

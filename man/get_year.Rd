@@ -11,7 +11,10 @@
   zip file are unzipped into the \code{data.path} directory.
 }
 \usage{
-get_year(year_url, data.path = file.path("NSCH_data", "00_original_Stata"))
+get_year(
+  year_url,
+  data.path = file.path("NSCH_data", "00_original_Stata"),
+  verbose = FALSE)
 }
 \arguments{
   \item{year_url}{
@@ -19,6 +22,9 @@ get_year(year_url, data.path = file.path("NSCH_data", "00_original_Stata"))
   }
   \item{data.path}{
     Local path where data files will be downloaded, default \code{"NSCH_data/00_original_Stata"}.
+  }
+  \item{verbose}{
+    logical: emit messages for download?
   }
 }
 \value{

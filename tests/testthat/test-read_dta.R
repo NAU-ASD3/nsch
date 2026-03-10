@@ -48,10 +48,10 @@ test_that("tagged NAs are replaced with sentinel codes", {
   expect_identical(dt[["x"]], c(1, 2, 996, 997, 998, 999))
 })
 
-test_that("stratum is numeric", {
+test_that("stratum is integer", {
   dt <- nsch::read_dta(dta2024)
   if("stratum" %in% names(dt)){
-    expect_true(is.numeric(dt[["stratum"]]))
+    expect_true(is.integer(dt[["stratum"]]))
   }
 })
 
