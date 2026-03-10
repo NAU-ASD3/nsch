@@ -13,7 +13,7 @@
 Stata2csv_year(
   year,
   Stata.path = file.path("NSCH_data", "00_original_Stata"),
-  csv.path = file.path("NSCH_data", "01_original_csv"),
+  csv.path = file.path("NSCH_data", "01_cleanTypes_csv"),
   verbose = FALSE)
 }
 \arguments{
@@ -24,7 +24,7 @@ Stata2csv_year(
   }
   \item{csv.path}{
     path to directory,
-    default \code{"NSCH_data/01_original_csv"},
+    default \code{"NSCH_data/01_cleanTypes_csv"},
     where a year sub-directory will be created,
     in which CSV data files will be written.
   }
@@ -46,7 +46,7 @@ files2024 <- system.file(
   mustWork=TRUE)
 NSCH_data.path <- tempfile()
 original_Stata.path <- file.path(NSCH_data.path, "00_original_Stata")
-original_csv.path <- file.path(NSCH_data.path, "01_original_csv")
+original_csv.path <- file.path(NSCH_data.path, "01_cleanTypes_csv")
 dir.create(original_Stata.path, recursive=TRUE)
 file.copy(files2024, original_Stata.path)
 nsch::get_year(

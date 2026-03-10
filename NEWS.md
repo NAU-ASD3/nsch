@@ -1,5 +1,9 @@
 # nsch news and updates
 
+## 2026.2.23 (PR#20)
+
+* `get_years_csv()` downloads all available years of NSCH data, and converts from Stata to CSV.
+
 ## 2026.2.19 (PR#12)
 
 * `Stata2csv_year()` converts one year of NSCH data from Stata to CSV.

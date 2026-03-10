@@ -1,9 +1,9 @@
-get_year <- function(year_url, data.path=file.path("NSCH_data", "00_original_Stata")){
+get_year <- function(year_url, data.path=file.path("NSCH_data", "00_original_Stata"), verbose=FALSE){
   dir.create(data.path, recursive = TRUE, showWarnings = FALSE)
   year.html <- basename(year_url)
   data.path.year.html <- file.path(data.path, year.html)
   if(!file.exists(data.path.year.html)){
-    download.file(year_url, data.path.year.html)
+    download.file(year_url, data.path.year.html, quiet=!verbose)
   }
   html <- readLines(data.path.year.html)
   url.dt <- nc::capture_all_str(
@@ -15,7 +15,7 @@ get_year <- function(year_url, data.path=file.path("NSCH_data", "00_original_Sta
   year.zip <- basename(http_url)
   data.path.year.zip <- file.path(data.path, year.zip)
   if(!file.exists(data.path.year.zip)){
-    download.file(http_url, data.path.year.zip, mode="wb")
+    download.file(http_url, data.path.year.zip, mode="wb", quiet=!verbose)
   }
   unzip(data.path.year.zip, exdir=data.path)
 }
