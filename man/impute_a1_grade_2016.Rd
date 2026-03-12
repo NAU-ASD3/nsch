@@ -28,7 +28,7 @@ impute_a1_grade_2016(combined.dt, dta.2016.path, seed = 1L)
 \arguments{
   \item{combined.dt}{
     A \code{\link[data.table]{data.table}} of combined multi-year
-    survey data, as returned by \code{\link{combine_years}}.  Must
+    survey data, as returned by \code{combine_years}.  Must
     contain columns \code{year}, \code{hhid}, \code{a1_grade},
     \code{higrade}, and \code{higrade_tvis} (all factors).
   }

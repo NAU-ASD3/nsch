@@ -1,4 +1,5 @@
 impute_a1_grade_2016 <- function(combined.dt, dta.2016.path, seed = 1L) {
+  a1_grade_if <- year <- NULL ## for R CMD check
   if (!("year" %in% names(combined.dt))) {
     stop("combined.dt must contain a 'year' column")
   }
@@ -83,7 +84,8 @@ impute_a1_grade_2016 <- function(combined.dt, dta.2016.path, seed = 1L) {
   ## Compute the distribution of fine a1_grade categories from non-2016
   ## rows.  These proportions are used as sampling weights to
   ## redistribute the coarse 2016 categories across fine categories.
-  other.grades <- as.character(combined.dt[year != 2016L][["a1_grade"]])
+  other.grades <- as.character(
+    combined.dt[year != 2016L][["a1_grade"]])
   other.grades <- other.grades[!is.na(other.grades)]
   grade.counts <- table(other.grades)
   
