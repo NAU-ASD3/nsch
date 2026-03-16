@@ -41,28 +41,30 @@ make_combined <- function(n.2016 = 10, n.other = 40) {
   )
   ## Non-2016 rows with populated factors.
   other.grades <- sample(a1_levels, n.other, replace = TRUE)
-  other.higrade <- ifelse(
-    other.grades %in% a1_levels[1:2],
-    higrade_levels[1],
-    ifelse(
-      other.grades %in% a1_levels[3:4],
-      higrade_levels[2],
-      higrade_levels[3]
-    )
+  higrade.map <- c(
+    "8th grade or less" = "Less than high school",
+    "9th-12th grade; No diploma" = "Less than high school",
+    "High School Graduate or GED Completed" = "High school (including vocational, trade, or business school)",
+    "Completed a vocational, trade, or business school program" = "High school (including vocational, trade, or business school)",
+    "Some College Credit, but No Degree" = "More than high school",
+    "Associate Degree (AA, AS)" = "More than high school",
+    "Bachelor's Degree (BA, BS, AB)" = "More than high school",
+    "Master's Degree (MA, MS, MSW, MBA)" = "More than high school",
+    "Doctorate (PhD, EdD) or Professional Degree (MD, DDS, DVM, JD)" = "More than high school"
   )
-  other.tvis <- ifelse(
-    other.grades %in% a1_levels[1:2],
-    higrade_tvis_levels[1],
-    ifelse(
-      other.grades %in% a1_levels[3:4],
-      higrade_tvis_levels[2],
-      ifelse(
-        other.grades %in% a1_levels[5:6],
-        higrade_tvis_levels[3],
-        higrade_tvis_levels[4]
-      )
-    )
+  tvis.map <- c(
+    "8th grade or less" = "Less than high school",
+    "9th-12th grade; No diploma" = "Less than high school",
+    "High School Graduate or GED Completed" = "High school (including vocational, trade, or business school)",
+    "Completed a vocational, trade, or business school program" = "High school (including vocational, trade, or business school)",
+    "Some College Credit, but No Degree" = "Some college or Associate Degree",
+    "Associate Degree (AA, AS)" = "Some college or Associate Degree",
+    "Bachelor's Degree (BA, BS, AB)" = "College degree or higher",
+    "Master's Degree (MA, MS, MSW, MBA)" = "College degree or higher",
+    "Doctorate (PhD, EdD) or Professional Degree (MD, DDS, DVM, JD)" = "College degree or higher"
   )
+  other.higrade <- higrade.map[other.grades]
+  other.tvis <- tvis.map[other.grades]
   dt.other <- data.table(
     year = rep(2017L, n.other),
     hhid = seq_len(n.other) + 1000L,
@@ -112,9 +114,9 @@ test_that("no NA in a1_grade after imputation", {
   dta.path <- make_2016_dta(10)
   dt <- make_combined(10, 40)
   nsch::impute_a1_grade_2016(dt, dta.path, seed = 1L)
-  expect_false(any(is.na(dt[year == 2016L][["a1_grade"]])))
-  expect_false(any(is.na(dt[year == 2016L][["higrade"]])))
-  expect_false(any(is.na(dt[year == 2016L][["higrade_tvis"]])))
+  expect_false(any(is.na(dt[year == 2016L, a1_grade])))
+  expect_false(any(is.na(dt[year == 2016L, higrade])))
+  expect_false(any(is.na(dt[year == 2016L, higrade_tvis])))
 })
 
 test_that("non-imputed 2016 rows are not modified", {
@@ -131,7 +133,8 @@ test_that("non-imputed 2016 rows are not modified", {
   a1.lvls <- levels(dt[["a1_grade"]])
   hi.lvls <- levels(dt[["higrade"]])
   tv.lvls <- levels(dt[["higrade_tvis"]])
-  non.imp <- which(dt[["year"]] == 2016L & dt[["hhid"]] %in% 4:6)
+  ## hhids 4-6 have a1_grade_if = FALSE in the test .dta (not imputed).
+  non.imp <- which(dt[, year == 2016L & hhid %in% 4:6])
   data.table::set(
     dt,
     i = non.imp,

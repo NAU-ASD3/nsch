@@ -6,21 +6,26 @@
 \description{
   In 2016, Census imputed \code{a1_grade} (Adult 1's highest education
   level) into 3 coarse categories stored in \code{a1_grade_i}, rather
-  than the 9 fine-grained categories used in 2017 and later.  This
-  function probabilistically redistributes those coarse categories
-  across the fine categories using the distribution observed in
-  non-2016 data.
+  than the 9 fine-grained categories used in 2017 and later.
 
-  For each 2016 row where \code{a1_grade_if == 1} (imputed), the
-  function looks up the coarse group from \code{a1_grade_i} in the
-  raw 2016 \code{.dta} file, then samples a fine \code{a1_grade}
-  category using proportions computed from all non-2016 rows in
-  \code{combined.dt}.  It also updates \code{higrade} and
-  \code{higrade_tvis} to be consistent with the newly assigned
-  \code{a1_grade} value.
+  This function cannot use the standard config-driven transform
+  pipeline because it requires cross-year proportion computation
+  and probabilistic redistribution — operations that the per-year
+  transform/rename/merge system does not support.
 
-  Modifies \code{combined.dt} by reference.  Uses
-  \code{\link{set.seed}} for reproducibility.
+  For each 2016 row where the imputation flag is set, the function
+  reads the coarse group from the raw 2016 \code{.dta} file, then
+  uses \code{\link{sample}} with weights derived from the non-2016
+  \code{a1_grade} distribution to assign a fine category.
+  Reproducible given the same \code{seed} via \code{\link{set.seed}}.
+
+  After assigning fine \code{a1_grade} values, the function
+  deterministically updates \code{higrade} (3-level) and
+  \code{higrade_tvis} (4-level) to be consistent, using the same
+  mappings that \code{apply_do_labels} derives from the \code{.do}
+  files.
+
+  Modifies \code{combined.dt} by reference.
 }
 \usage{
 impute_a1_grade_2016(combined.dt, dta.2016.path, seed = 1L)
