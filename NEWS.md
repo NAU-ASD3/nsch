@@ -1,14 +1,14 @@
 # nsch news and updates
 
-## 2026.3.10.3 (PR#XX)
+## 2026.3.11 (PR#XX)
 
 * `combine_years()` row-binds a list of per-year data.tables into a single combined dataset with validation for year columns and duplicate detection.
 
-## 2026.3.10.2 (PR#XX)
+## 2026.3.10 (PR#XX)
 
 * `harmonize_year()` convenience wrapper applying the full per-year harmonization sequence: transform_values → rename_vars → merge_vars → subset_vars → apply_do_labels.
 
-## 2026.3.10.1 (PR#6)
+## 2026.3.9 (PR#6)
 
 * `read_config()` reads a JSON harmonization config and returns the parsed R list preserving the original structure.
 * `validate_config()` checks structural integrity of a harmonization config and optionally cross-references against `.do` metadata.
