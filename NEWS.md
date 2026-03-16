@@ -1,5 +1,9 @@
 # nsch news and updates
 
+2026.2.20 (PR#23)
+
+• check_factor_levels() adds validation utility to detect inconsistent factor levels across years.
+
 ## 2026.2.19 (PR#12)
 
 * `Stata2csv_year()` converts one year of NSCH data from Stata to CSV.
