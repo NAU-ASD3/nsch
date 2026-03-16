@@ -1,8 +1,8 @@
 check_factor_levels <- function(dt) {
   # Ensure dt is a data.table
   if (!data.table::is.data.table(dt)) {
-    dt <- data.table::as.data.table(dt)
-  }
+  stop("dt must be a data.table")
+}
 
   # Check required year column
   if (!("year" %in% names(dt))) {
@@ -27,7 +27,7 @@ check_factor_levels <- function(dt) {
 
   # Return empty result if no factor columns exist
   if (length(factor_cols) == 0L) {
-    return(empty_out)
+    empty_out
   }
 
   out_list <- vector("list", length(factor_cols))
@@ -73,11 +73,11 @@ check_factor_levels <- function(dt) {
 
   # Return empty output if nothing remains
   if (length(out_list) == 0L) {
-    return(empty_out)
+    empty_out
   }
 
   # Combine all factor summaries
   result <- data.table::rbindlist(out_list, use.names = TRUE, fill = TRUE)
 
-  return(result)
+  result
 }
