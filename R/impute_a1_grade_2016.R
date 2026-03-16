@@ -23,8 +23,7 @@ impute_a1_grade_2016 <- function(combined.dt, dta.2016.path, seed = 1L) {
   imputed.hhids <- imp.dt[a1_grade_if == TRUE][["hhid"]]
   
   ## Find 2016 rows in the combined data that were imputed.
-  rows.2016 <- which(combined.dt[["year"]] == 2016L &
-                       combined.dt[["hhid"]] %in% imputed.hhids)
+  rows.2016 <- combined.dt[, year == 2016L & hhid %in% imputed.hhids]
   if (length(rows.2016) == 0)
     return(invisible(combined.dt))
   
