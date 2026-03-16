@@ -1,5 +1,5 @@
 impute_a1_grade_2016 <- function(combined.dt, dta.2016.path, seed = 1L) {
-  a1_grade_if <- year <- NULL ## for R CMD check
+a1_grade_if <- year <- hhid <- NULL ## for R CMD check
   if (!("year" %in% names(combined.dt))) {
     stop("combined.dt must contain a 'year' column")
   }
