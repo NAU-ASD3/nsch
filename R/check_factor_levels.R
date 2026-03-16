@@ -1,3 +1,4 @@
+utils::globalVariables(c(".N", ":=", "count", "level", "variable", "year"))
 check_factor_levels <- function(dt) {
   # Ensure dt is a data.table
   if (!data.table::is.data.table(dt)) {
