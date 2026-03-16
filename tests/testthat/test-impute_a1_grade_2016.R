@@ -121,40 +121,30 @@ test_that("no NA in a1_grade after imputation", {
 
 test_that("non-imputed 2016 rows are not modified", {
   tf <- tempfile(fileext = ".dta")
+  imputed.hhids <- 1:3
+  non.imputed.hhids <- 4:6
   df <- data.frame(
     year = 2016L,
-    hhid = 1:6,
-    a1_grade_if = c(TRUE, TRUE, TRUE, FALSE, FALSE, FALSE),
+    hhid = c(imputed.hhids, non.imputed.hhids),
+    a1_grade_if = c(rep(TRUE, length(imputed.hhids)),
+                    rep(FALSE, length(non.imputed.hhids))),
     a1_grade_i = c(1L, 2L, 3L, 1L, 2L, 3L)
   )
   haven::write_dta(df, tf)
   dt <- make_combined(6, 40)
-  ## Give the non-imputed rows (hhid 4,5,6) real values.
+  ## Give the non-imputed rows real values.
   a1.lvls <- levels(dt[["a1_grade"]])
   hi.lvls <- levels(dt[["higrade"]])
   tv.lvls <- levels(dt[["higrade_tvis"]])
-  ## hhids 4-6 have a1_grade_if = FALSE in the test .dta (not imputed).
-  non.imp <- which(dt[, year == 2016L & hhid %in% 4:6])
-  data.table::set(
-    dt,
-    i = non.imp,
-    j = "a1_grade",
-    value = factor("8th grade or less", levels = a1.lvls)
-  )
-  data.table::set(
-    dt,
-    i = non.imp,
-    j = "higrade",
-    value = factor("Less than high school", levels = hi.lvls)
-  )
-  data.table::set(
-    dt,
-    i = non.imp,
-    j = "higrade_tvis",
-    value = factor("Less than high school", levels = tv.lvls)
-  )
-  before <- data.table::copy(dt[hhid %in% 4:6 & year == 2016L])
+  non.imp <- which(dt[, year == 2016L & hhid %in% non.imputed.hhids])
+  data.table::set(dt, i = non.imp, j = "a1_grade",
+                  value = factor("8th grade or less", levels = a1.lvls))
+  data.table::set(dt, i = non.imp, j = "higrade",
+                  value = factor("Less than high school", levels = hi.lvls))
+  data.table::set(dt, i = non.imp, j = "higrade_tvis",
+                  value = factor("Less than high school", levels = tv.lvls))
+  before <- data.table::copy(dt[year == 2016L & hhid %in% non.imputed.hhids])
   nsch::impute_a1_grade_2016(dt, tf, seed = 1L)
-  after <- dt[hhid %in% 4:6 & year == 2016L]
+  after <- dt[year == 2016L & hhid %in% non.imputed.hhids]
   expect_identical(before, after)
 })
