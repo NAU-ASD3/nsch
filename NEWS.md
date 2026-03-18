@@ -1,14 +1,18 @@
 # nsch news and updates
 
-## 2026.3.11 (PR#XX)
+## 2026.3.14 (PR#26)
 
 * `combine_years()` row-binds a list of per-year data.tables into a single combined dataset with validation for year columns and duplicate detection.
 
-## 2026.3.10 (PR#XX)
+## 2026.3.13 (PR#25)
 
 * `harmonize_year()` convenience wrapper applying the full per-year harmonization sequence: transform_values → rename_vars → merge_vars → subset_vars → apply_do_labels.
 
-## 2026.3.9 (PR#6)
+## 2026.3.12 (PR#27)
+
+* `impute_a1_grade_2016()` redistributes coarse 2016 a1_grade imputation across fine 9-category levels using proportions from non-2016 data, and updates higrade and higrade_tvis to match.
+
+## 2026.3.10 (PR#6)
 
 * `read_config()` reads a JSON harmonization config and returns the parsed R list preserving the original structure.
 * `validate_config()` checks structural integrity of a harmonization config and optionally cross-references against `.do` metadata.
