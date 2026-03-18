@@ -2,7 +2,7 @@ Package: nsch
 Type: Package
 Encoding: UTF-8
 Title: National Survey of Children’s Health
-Version: 2026.2.20
+Version: 2026.3.12
 Authors@R: c(
     person("Toby", "Hocking",
      email="toby.hocking@r-project.org",
@@ -20,6 +20,7 @@ BugReports: https://github.com/NAU-ASD3/nsch/issues
 Imports:
  data.table,
  haven,
- nc
+ nc,
+ RJSONIO
 Suggests:
  testthat
