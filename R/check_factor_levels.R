@@ -28,7 +28,7 @@ check_factor_levels <- function(dt) {
 
   # Return empty result if no factor columns exist
   if (length(factor_cols) == 0L) {
-    empty_out
+    return(empty_out)
   }
 
   out_list <- vector("list", length(factor_cols))
@@ -74,7 +74,7 @@ check_factor_levels <- function(dt) {
 
   # Return empty output if nothing remains
   if (length(out_list) == 0L) {
-    empty_out
+    return(empty_out)
   }
 
   # Combine all factor summaries
