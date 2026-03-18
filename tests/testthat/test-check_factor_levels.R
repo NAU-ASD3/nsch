@@ -3,7 +3,7 @@ library(data.table)
 
 test_that("check_factor_levels detects a level present in only some years", {
   dt <- data.table(
-    year = c(2016, 2016, 2017, 2017),
+    year = c(2016L, 2016L, 2017L, 2017L),
     status = factor(c("A", "B", "A", "A"))
   )
 
@@ -20,7 +20,7 @@ test_that("check_factor_levels detects a level present in only some years", {
 
 test_that("check_factor_levels returns empty output for numeric columns", {
   dt <- data.table(
-    year = c(2016, 2017),
+    year = c(2016L, 2017L),
     age = c(5, 6),
     score = c(10, 20)
   )
@@ -28,4 +28,11 @@ test_that("check_factor_levels returns empty output for numeric columns", {
   res <- check_factor_levels(dt)
 
   expect_equal(nrow(res), 0L)
+})
+
+test_that("check_factor_levels errors on non-data.table input", {
+  expect_error(
+    check_factor_levels(data.frame(year = 2016L, x = "a")),
+    "data.table"
+  )
 })
