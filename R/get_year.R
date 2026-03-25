@@ -1,7 +1,8 @@
 get_year <- function(year_url,
-                     data.path = file.path("NSCH_data", "00_original_Stata")) {
+                     data.path = file.path("NSCH_data", "00_original_Stata"),
+                     verbose = FALSE) {
 
-  # Validate inputs
+  # Input validation
   if (!is.character(year_url) || length(year_url) != 1L || is.na(year_url)) {
     stop("year_url must be a single non-NA character string")
   }
@@ -10,26 +11,62 @@ get_year <- function(year_url,
     stop("data.path must be a single non-NA character string")
   }
 
-  # Create directory if needed
-  if (!dir.exists(data.path)) {
-    dir.create(data.path, recursive = TRUE, showWarnings = FALSE)
+  if (!is.logical(verbose) || length(verbose) != 1L || is.na(verbose)) {
+    stop("verbose must be a single non-NA logical value")
   }
 
-  file_name <- basename(year_url)
-  dest_file <- file.path(data.path, file_name)
+  # Create directory
+  dir.create(data.path, recursive = TRUE, showWarnings = FALSE)
 
-  # Download file
-  utils::download.file(year_url, destfile = dest_file, mode = "wb")
+  # Save HTML page
+  year.html <- basename(year_url)
+  data.path.year.html <- file.path(data.path, year.html)
 
-  # Check download success
-  if (!file.exists(dest_file)) {
-    stop("Download failed: file was not created")
+  if (!file.exists(data.path.year.html)) {
+    utils::download.file(
+      year_url,
+      destfile = data.path.year.html,
+      quiet = !verbose
+    )
   }
 
-  # Unzip if needed
-  if (grepl("\\.zip$", dest_file, ignore.case = TRUE)) {
-    utils::unzip(dest_file, exdir = data.path)
+  # Read HTML
+  html <- readLines(data.path.year.html)
+
+  # Extract zip URL
+  url.dt <- nc::capture_all_str(
+    data.path.year.html,
+    html,
+    url = "//.*?topical_Stata[.]zip"
+  )
+
+  # Validate extraction
+  if (nrow(url.dt) != 1L) {
+    stop(
+      "expected 1 topical Stata zip url on ", year_url,
+      ", but found ", nrow(url.dt)
+    )
   }
 
-  dest_file
+  # Build full URL
+  http.url <- paste0("http:", url.dt$url)
+
+  # Save zip
+  year.zip <- basename(http.url)
+  data.path.year.zip <- file.path(data.path, year.zip)
+
+  if (!file.exists(data.path.year.zip)) {
+    utils::download.file(
+      http.url,
+      destfile = data.path.year.zip,
+      mode = "wb",
+      quiet = !verbose
+    )
+  }
+
+  # Unzip
+  utils::unzip(data.path.year.zip, exdir = data.path)
+
+  # Return path
+  data.path.year.zip
 }
