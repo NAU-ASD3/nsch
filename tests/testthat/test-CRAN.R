@@ -1,4 +1,5 @@
 library(testthat)
+library(data.table)
 datasets.html <- system.file(
   package="nsch", "extdata", "datasets.html", mustWork = TRUE)
 test_that("get_nsch_index() year column is int", {
