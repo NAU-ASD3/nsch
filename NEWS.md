@@ -1,5 +1,9 @@
 # nsch news and updates
 
+## 2026.3.12 (PR#XX)
+
+* `impute_a1_grade_2016()` redistributes coarse 2016 a1_grade imputation across fine 9-category levels using proportions from non-2016 data, and updates higrade and higrade_tvis to match.
+
 ## 2026.3.10 (PR#6)
 
 * `read_config()` reads a JSON harmonization config and returns the parsed R list preserving the original structure.

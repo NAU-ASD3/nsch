@@ -9,9 +9,9 @@ test_that("numeric column is converted to factor with correct levels", {
                      "Not in universe", "Suppressed for confidentiality")
   )
   nsch::apply_do_labels(dt, define.dt)
-  expect_true(is.factor(dt$sc_sex))
-  expect_equal(levels(dt$sc_sex), c("Male", "Female"))
-  expect_equal(as.character(dt$sc_sex), c("Male", "Female", "Male", "Female"))
+  expect_identical(dt$sc_sex,
+                   factor(c("Male", "Female", "Male", "Female"),
+                          c("Male", "Female")))
 })
 
 test_that("sentinel codes 996-999 all map to NA", {
@@ -24,9 +24,9 @@ test_that("sentinel codes 996-999 all map to NA", {
                      "Suppressed for confidentiality")
   )
   nsch::apply_do_labels(dt, define.dt)
-  expect_true(is.factor(dt$sc_sex))
-  expect_equal(sum(is.na(dt$sc_sex)), 4L)
-  expect_equal(as.character(dt$sc_sex[1]), "Male")
+  expect_identical(dt$sc_sex,
+                   factor(c("Male", NA, NA, NA, NA),
+                          c("Male", "Female")))
 })
 
 test_that("_label column takes priority over do-derived labels", {
@@ -42,15 +42,12 @@ test_that("_label column takes priority over do-derived labels", {
                      "Not in universe", "Suppressed for confidentiality")
   )
   nsch::apply_do_labels(dt, define.dt)
-  expect_true(is.factor(dt$birthwt))
-  ## Row 1 should use the _label override
-  expect_equal(as.character(dt$birthwt[1]), "Custom VLB Label")
-  ## Rows 2-3 should use the .do-derived labels
-  expect_equal(as.character(dt$birthwt[2]), "Low birth weight")
-  expect_equal(as.character(dt$birthwt[3]), "Not low birth weight")
+  expect_identical(
+    as.character(dt$birthwt),
+    c("Custom VLB Label", "Low birth weight", "Not low birth weight"))
   ## _label column should be removed
   expect_false("birthwt_label" %in% names(dt))
-  expect_true("Custom VLB Label" %in% levels(dt$birthwt))
+  expect_in("Custom VLB Label", levels(dt$birthwt))
 })
 
 test_that("numeric columns without define entries are untouched", {
@@ -61,10 +58,7 @@ test_that("numeric columns without define entries are untouched", {
     desc = "Male"
   )
   nsch::apply_do_labels(dt, define.dt)
-  expect_true(is.numeric(dt$fpl_i1))
-  expect_true(is.na(dt$fpl_i1[3]))
-  expect_equal(dt$fpl_i1[1], 100)
-  expect_equal(dt$fpl_i1[2], 200)
+  expect_identical(dt$fpl_i1, c(100, 200, NA))
 })
 
 test_that("works with 2024 .do data", {
@@ -81,8 +75,8 @@ test_that("works with 2024 .do data", {
     year = rep(2024L, nrow(sc_sex.vals))
   )
   nsch::apply_do_labels(dt, define.dt)
-  expect_true(is.factor(dt$sc_sex))
-  expect_equal(length(levels(dt$sc_sex)), nrow(sc_sex.vals))
+  expect_is(dt$sc_sex, "factor")
+  expect_identical(length(levels(dt$sc_sex)), nrow(sc_sex.vals))
   ## year should remain numeric (no define entries for it)
-  expect_true(is.numeric(dt$year) || is.integer(dt$year))
+  expect_is(dt$year, "integer")
 })
