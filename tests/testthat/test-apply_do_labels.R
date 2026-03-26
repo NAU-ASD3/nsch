@@ -62,7 +62,6 @@ test_that("numeric columns without define entries are untouched", {
 })
 
 test_that("works with 2024 .do data", {
-  skip_if_not_installed("nsch")
   do.path <- system.file(
     package = "nsch", "extdata", "nsch_2024_topical.do", mustWork = TRUE
   )
