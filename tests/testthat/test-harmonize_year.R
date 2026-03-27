@@ -66,6 +66,5 @@ test_that("works with empty transform rules", {
     desc = c("Male", "Female")
   )
   result <- nsch::harmonize_year(dt, config, 2099L, define.dt)
-  expect_is(result[["sc_sex"]], "factor")
-  expect_identical(levels(result[["sc_sex"]]), c("Male", "Female"))
+  expect_identical(result[["sc_sex"]], factor(c("Male", "Female"), c("Male", "Female")))
 })
