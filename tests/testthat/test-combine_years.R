@@ -15,8 +15,7 @@ test_that("fill=TRUE handles columns missing in some years", {
                     var2 = c(10, 20))
   dt2 <- data.table(year = 2017L, x = 3:4)
   result <- nsch::combine_years(list(dt1, dt2))
-  expect_in("var2", names(result))
-  expect_identical(result[year == 2017L][["var2"]], c(NA_real_, NA_real_))
+  expect_identical(result[["var2"]], c(10, 20, NA_real_, NA_real_))
 })
 
 test_that("error for duplicate year values", {
