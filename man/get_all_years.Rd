@@ -35,4 +35,12 @@ get_all_years(
 ## Create a temp directory with dummy NSCH files to demonstrate discovery.
 test.dir <- tempfile()
 dir.create(test.dir)
+file.create(file.path(test.dir, "nsch_2016_topical.dta"))
+file.create(file.path(test.dir, "nsch_2016_topical.do"))
+file.create(file.path(test.dir, "nsch_2017_topical.dta"))
+file.create(file.path(test.dir, "nsch_2017_topical.do"))
+result <- nsch::get_all_years(data.path = test.dir, download = FALSE)
+print(result)
+unlink(test.dir, recursive = TRUE)
+}
 file.crea
