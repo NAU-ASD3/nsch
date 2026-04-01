@@ -81,7 +81,7 @@
 				"new_label": ["Metropolitan Statistical Area", "Not Metropolitan Statistical Area"]
 			},
 			"hospitaler": {
-				"years": ["2016", "2017", "2022", "2023"],
+				"years": ["2016", "2017", "2022", "2023", "2024"],
 				"value": ["1", "2", "3", "4"],
 				"new_value": ["1", "2", "3", "3"],
 				"new_label": ["None", "1 time", "2 or more times", "2 or more times"]
@@ -93,7 +93,7 @@
 				"new_label": ["Clinic within a drug store or grocery store", "Some other place", "No usual place"]
 			},
 			"gowhensick": {
-				"years": ["2023"],
+				"years": ["2023", "2024"],
 				"value": ["4", "8", "998"],
 				"new_value": ["4", "7", "8"],
 				"new_label": ["Clinic or Health Center", "Some other place", "No usual place"]
@@ -143,7 +143,7 @@
 			"k5q11": {
 				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
 				"value": ["1", "2", "3", "998"],
-				"new_value": ["1", "2", "3", "4"],
+				"new_value": ["1", "2", "3", "5"],
 				"new_label": ["Not difficult", "Somewhat difficult", "Very difficult", "Did not need a referral"]
 			},
 			"k5q20_r": {
@@ -277,7 +277,7 @@
 				"new_name": "family"
 			},
 			"gowhensick": {
-				"years": ["2023"],
+				"years": ["2023",  "2024"],
 				"new_name": "k4q02_r"
 			}
 		},
