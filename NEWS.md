@@ -1,5 +1,9 @@
 # nsch news and updates
 
+## 2026.3.31 (PR#35)
+
+* Config: added 2024 to `family_r` rename/transform, `sleep` merge, `hoursleep`/`hoursleep05`/`hospitaler`/`gowhensick` transforms, and `gowhensick` rename. Fixed `k5q11` 998→5 remap to preserve semantic distinction from 2024's native value 4.
+
 ## 2026.3.12 (PR#XX)
 
 * `impute_a1_grade_2016()` redistributes coarse 2016 a1_grade imputation across fine 9-category levels using proportions from non-2016 data, and updates higrade and higrade_tvis to match.
