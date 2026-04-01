@@ -1,5 +1,9 @@
 # nsch news and updates
 
+## 2026.5.20 (PR#36)
+
+- Config: added 2024 to `family_r` rename/transform, `sleep` merge, `hoursleep`/`hoursleep05`/`hospitaler`/`gowhensick` transforms, `family_r` value collapse, and `gowhensick` rename. Fixed `k5q11` 998→5 remap to avoid colliding with native value 4 ("It was not possible to get a referral") that has existed since 2018.
+
 ## 2026.5.14 (PR#43)
 
 - Fixed `read_dta()` silently dropping the data.table over-allocation (truelength) by using base R `[[<-` assignment to coerce the `year` column to integer.  The lost over-allocation caused downstream `set()` calls in `transform_values()` to hit a function-boundary reallocation issue: new `_label` companion columns were visible inside the function but not to the caller, so `apply_do_labels()` received a data.table without them.  This produced `NA` for every config entry with a value remap and `new_label` (k4q20r, dentistvisit, bestforchild, discussopt, k5q11, k5q20_r, k5q21, k5q31_r, k5q40, k5q41, k5q42, k5q43, k5q44).  Replaced `[[<-` with `data.table::set()` which preserves truelength.
