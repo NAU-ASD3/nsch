@@ -1,6 +1,11 @@
 # nsch news and updates
 
-## 2026.3.12 (PR#XX)
+## 2026.3.30 (PR#33)
+
+* `get_all_years()` discovers NSCH .dta and .do files in a data directory, returning a data.table mapping each year to its file paths.
+* `get_clean_data()` runs the full harmonization pipeline: read, transform, rename, merge, subset, label, combine, and optionally impute 2016 a1_grade.
+
+## 2026.3.12 (PR#27)
 
 * `impute_a1_grade_2016()` redistributes coarse 2016 a1_grade imputation across fine 9-category levels using proportions from non-2016 data, and updates higrade and higrade_tvis to match.
 
