@@ -1,6 +1,14 @@
 # nsch news and updates
 
-## 2026.3.12 (PR#XX)
+## 2026.4.2 (PR#37)
+
+* `check_na_rates()` computes NA proportion per column per year.
+* `check_year_coverage()` identifies variables with no data in specific years.
+* `check_sample_sizes()` reports row counts per year.
+* `check_label_consistency()` detects factor level differences across years.
+* `check_config_coverage()` audits config against .do files to verify all desired variables are accounted for.
+
+## 2026.3.12 (PR#27)
 
 * `impute_a1_grade_2016()` redistributes coarse 2016 a1_grade imputation across fine 9-category levels using proportions from non-2016 data, and updates higrade and higrade_tvis to match.
 
