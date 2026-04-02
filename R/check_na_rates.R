@@ -8,7 +8,6 @@ check_na_rates <- function(dt) {
     stop("Input data must contain a 'year' column")
   }
   var.names <- setdiff(names(dt), "year")
-  all.years <- sort(unique(dt[["year"]]))
   out.list <- vector("list", length(var.names))
   for (i in seq_along(var.names)) {
     col <- var.names[i]
