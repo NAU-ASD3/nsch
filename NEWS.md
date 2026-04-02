@@ -1,5 +1,13 @@
 # nsch news and updates
 
+## 2026.4.30 (PR#37)
+
+- `check_na_rates()` computes NA proportion per column per year.
+- `check_year_coverage()` identifies variables with no data in specific years.
+- `check_sample_sizes()` reports row counts per year.
+- `check_label_consistency()` detects factor level differences across years.
+- `check_config_coverage()` audits config against .do files to verify all desired variables are accounted for.
+
 ## 2026.4.27 (PR#34)
 
 - `get_all_years()` discovers NSCH .dta and .do files in a data directory, returning a data.table mapping each year to its file paths.
