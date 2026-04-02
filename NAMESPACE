@@ -13,6 +13,11 @@ export(transform_values)
 export(rename_vars)
 export(merge_vars)
 export(subset_vars)
+export(apply_do_labels)
 export(Stata2csv_year)
+<<<<<<< validation-utils
 export(check_factor_levels)
+=======
+export(harmonize_year)
+>>>>>>> main
 export(impute_a1_grade_2016)
