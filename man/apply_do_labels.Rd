@@ -45,7 +45,7 @@ apply_do_labels(dt, define.dt)
     desc = c("Male", "Female", "No valid response",
              "Not in universe", "Suppressed for confidentiality")
   )
-  apply_do_labels(dt, define.dt)
+  nsch::apply_do_labels(dt, define.dt)
   dt$sc_sex
 }
 

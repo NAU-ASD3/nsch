@@ -42,7 +42,7 @@ rename_vars(dt, renames, year)
   dt <- data.table::data.table(old_var = c(1, 2))
   renames <- list(old_var = list(
     years = "2016", new_name = "new_var"))
-  rename_vars(dt, renames, 2016L)
+  nsch::rename_vars(dt, renames, 2016L)
 names(dt)
 
 }

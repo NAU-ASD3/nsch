@@ -5,7 +5,7 @@
 }
 \description{
   First runs \code{\link{get_nsch_index}} to obtain a list of currently
-  available years of NSCH data. Then on eack year, we run
+  available years of NSCH data. Then on each year, we run
   \code{\link{get_year}} to 
   download the data to the \code{"00_original_Stata"} sub-directory of
   \code{data_dir}, and
@@ -33,4 +33,10 @@ get_years_csv(NSCH_data.path = "NSCH_data", verbose = FALSE)
 }
 \author{
 Toby Dylan Hocking
+}
+\examples{
+\dontrun{
+## Downloads all available years and converts to CSV.
+nsch::get_years_csv()
+}
 }
