@@ -2,9 +2,8 @@ library(testthat)
 library(data.table)
 
 test_that("discovers dta and do files with standard naming", {
-  tmp <- tempdir()
-  test.dir <- file.path(tmp, "nsch_test_get_all_years")
-  dir.create(test.dir, showWarnings = FALSE)
+  test.dir <- tempfile()
+  dir.create(test.dir)
   on.exit(unlink(test.dir, recursive = TRUE))
   file.create(file.path(test.dir, "nsch_2016_topical.dta"))
   file.create(file.path(test.dir, "nsch_2016_topical.do"))
@@ -17,9 +16,8 @@ test_that("discovers dta and do files with standard naming", {
 })
 
 test_that("discovers files with non-standard naming (2024e)", {
-  tmp <- tempdir()
-  test.dir <- file.path(tmp, "nsch_test_2024e")
-  dir.create(test.dir, showWarnings = FALSE)
+  test.dir <- tempfile()
+  dir.create(test.dir)
   on.exit(unlink(test.dir, recursive = TRUE))
   file.create(file.path(test.dir, "nsch_2024e_topical.dta"))
   file.create(file.path(test.dir, "nsch_2024_topical.do"))
@@ -28,9 +26,8 @@ test_that("discovers files with non-standard naming (2024e)", {
 })
 
 test_that("filters to requested years", {
-  tmp <- tempdir()
-  test.dir <- file.path(tmp, "nsch_test_filter")
-  dir.create(test.dir, showWarnings = FALSE)
+  test.dir <- tempfile()
+  dir.create(test.dir)
   on.exit(unlink(test.dir, recursive = TRUE))
   for (yr in 2016:2018) {
     file.create(file.path(test.dir, paste0("nsch_", yr, "_topical.dta")))
@@ -42,9 +39,8 @@ test_that("filters to requested years", {
 })
 
 test_that("error when no dta files found", {
-  tmp <- tempdir()
-  test.dir <- file.path(tmp, "nsch_test_empty")
-  dir.create(test.dir, showWarnings = FALSE)
+  test.dir <- tempfile()
+  dir.create(test.dir)
   on.exit(unlink(test.dir, recursive = TRUE))
   expect_error(
     nsch::get_all_years(data.path = test.dir, download = FALSE),
