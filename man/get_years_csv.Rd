@@ -37,6 +37,6 @@ Toby Dylan Hocking
 \examples{
 \dontrun{
 ## Downloads all available years and converts to CSV.
-nsch::get_years_csv()
+nsch::get_years_csv("NSCH_data", verbose=TRUE)
 }
 }
