@@ -43,4 +43,3 @@ result <- nsch::get_all_years(data.path = test.dir, download = FALSE)
 print(result)
 unlink(test.dir, recursive = TRUE)
 }
-file.crea

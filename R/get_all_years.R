@@ -14,22 +14,20 @@ get_all_years <- function(
     }
   }
   ## Discover .dta and .do files via glob (handles 2024's nsch_2024e_topical.dta).
-  dta.files <- Sys.glob(file.path(data.path, "*topical*.dta"))
-  do.files <- Sys.glob(file.path(data.path, "*topical*.do"))
-  if (length(dta.files) == 0L) {
-    stop("No .dta files found in data.path: ", data.path)
+  dt.list <- list()
+  for (suffix in c("dta", "do")) {
+    files <- Sys.glob(file.path(data.path, paste0("*topical*.", suffix)))
+    if (length(files) == 0L) {
+      stop("No .", suffix, " files found in data.path: ", data.path)
+    }
+    file.years <- as.integer(regmatches(
+      basename(files), regexpr("[0-9]{4}", basename(files))))
+    col.name <- paste0(suffix, ".path")
+    dt.list[[suffix]] <- data.table::data.table(
+      year = file.years, V1 = files)
+    data.table::setnames(dt.list[[suffix]], "V1", col.name)
   }
-  if (length(do.files) == 0L) {
-    stop("No .do files found in data.path: ", data.path)
-  }
-  ## Extract year integers from filenames.
-  dta.years <- as.integer(regmatches(
-    basename(dta.files), regexpr("[0-9]{4}", basename(dta.files))))
-  do.years <- as.integer(regmatches(
-    basename(do.files), regexpr("[0-9]{4}", basename(do.files))))
-  file.dt <- data.table::data.table(year = dta.years, dta.path = dta.files)
-  do.dt <- data.table::data.table(year = do.years, do.path = do.files)
-  result <- merge(file.dt, do.dt, by = "year")
+  result <- merge(dt.list[["dta"]], dt.list[["do"]], by = "year")
   if (!is.null(years)) {
     result <- result[year %in% as.integer(years)]
   }
