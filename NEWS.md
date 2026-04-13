@@ -1,6 +1,14 @@
 # nsch news and updates
 
-## 2026.3.12 (PR#XX)
+## 2026.3.14 (PR#26)
+
+* `combine_years()` row-binds a list of per-year data.tables into a single combined dataset with validation for year columns and duplicate detection.
+
+## 2026.3.13 (PR#25)
+
+* `harmonize_year()` convenience wrapper applying the full per-year harmonization sequence: transform_values → rename_vars → merge_vars → subset_vars → apply_do_labels.
+
+## 2026.3.12 (PR#27)
 
 * `impute_a1_grade_2016()` redistributes coarse 2016 a1_grade imputation across fine 9-category levels using proportions from non-2016 data, and updates higrade and higrade_tvis to match.
 
@@ -11,8 +19,8 @@
 
 ## 2026.2.21 (PR#15)
 
-* `apply_do_labels()` converts numeric columns to R factors using .do label definitions, maps sentinel codes 996-999 to NA, and applies _label overrides from transform_values().
-* `na_tag_map` exported named integer vector shared by read_dta() and apply_do_labels().
+* `apply_do_labels()` converts numeric columns to R factors using .do label definitions, maps sentinel codes 996-999 to NA, and applies _label overrides from `transform_values()`.
+* `na_tag_map` exported named integer vector shared by `read_dta()` and `apply_do_labels()`.
 
 ## 2026.2.20 (PR#14)
 * Renamed merge_columns config fields column_1/column_2 to column_preferred/column_fallback for clarity.
