@@ -47,7 +47,7 @@ merge_vars(dt, merges, year)
     years = "2016",
     column_preferred = "col_a",
     column_fallback = "col_b"))
-  merge_vars(dt, merges, 2016L)
+  nsch::merge_vars(dt, merges, 2016L)
   dt
 
 }

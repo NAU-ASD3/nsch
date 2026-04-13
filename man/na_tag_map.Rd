@@ -15,6 +15,12 @@
     \code{.l} \tab 998 \tab Logical skip \cr
     \code{.d} \tab 999 \tab Suppressed for confidentiality
   }
+  
+  These sentinel codes are a convention introduced by this package
+  (originally by the predecessor script \code{data-cleanup.R}) and do
+  not appear in the NSCH data or Stata files.  The highest real
+  response code across all NSCH variables is 400, so values above 900
+  are safe to use as sentinels.
 
   \code{\link{read_dta}} replaces tagged NAs with these codes at
   ingestion time so the four missingness types survive as distinct

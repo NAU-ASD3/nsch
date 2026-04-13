@@ -48,3 +48,20 @@ harmonize_year(dt, config, year, define.dt)
 \author{
   Chris Reger
 }
+\examples{
+library(data.table)
+## Synthetic data: 2 rows, year 2099, one categorical variable.
+dt <- data.table(year = 2099L, sc_sex = c(1, 2))
+config <- list(
+  desired_variables = c("sc_sex"),
+  transformations = list(
+    transform = list(),
+    rename_columns = list(),
+    merge_columns = list()))
+define.dt <- data.table(
+  variable = c("sc_sex", "sc_sex"),
+  value = c("1", "2"),
+  desc = c("Male", "Female"))
+result <- nsch::harmonize_year(dt, config, 2099L, define.dt)
+result
+}

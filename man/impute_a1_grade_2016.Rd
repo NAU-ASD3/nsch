@@ -54,3 +54,11 @@ impute_a1_grade_2016(combined.dt, dta.2016.path, seed = 1L)
 \author{
   Chris Reger
 }
+\examples{
+\dontrun{
+## Requires combined multi-year data and the raw 2016 .dta file.
+## Run after get_clean_data(impute.2016 = FALSE):
+dta.2016.path <- "NSCH_data/00_original_Stata/nsch_2016_topical.dta"
+nsch::impute_a1_grade_2016(clean.dt, dta.2016.path, seed = 1L)
+}
+}

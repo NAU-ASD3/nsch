@@ -47,7 +47,7 @@ transform_values(dt, transforms, year)
     value = c("1", "2"),
     new_value = c("1", "2"),
     new_label = c("Male", "Female")))
-  transform_values(dt, transforms, 2016L)
+  nsch::transform_values(dt, transforms, 2016L)
 dt
 
 }
