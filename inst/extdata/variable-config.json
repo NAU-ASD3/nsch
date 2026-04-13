@@ -81,7 +81,7 @@
 				"new_label": ["Metropolitan Statistical Area", "Not Metropolitan Statistical Area"]
 			},
 			"hospitaler": {
-				"years": ["2016", "2017", "2022", "2023"],
+				"years": ["2016", "2017", "2022", "2023", "2024"],
 				"value": ["1", "2", "3", "4"],
 				"new_value": ["1", "2", "3", "3"],
 				"new_label": ["None", "1 time", "2 or more times", "2 or more times"]
@@ -93,7 +93,7 @@
 				"new_label": ["Clinic within a drug store or grocery store", "Some other place", "No usual place"]
 			},
 			"gowhensick": {
-				"years": ["2023"],
+				"years": ["2023", "2024"],
 				"value": ["4", "8", "998"],
 				"new_value": ["4", "7", "8"],
 				"new_label": ["Clinic or Health Center", "Some other place", "No usual place"]
@@ -143,7 +143,7 @@
 			"k5q11": {
 				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
 				"value": ["1", "2", "3", "998"],
-				"new_value": ["1", "2", "3", "4"],
+				"new_value": ["1", "2", "3", "5"],
 				"new_label": ["Not difficult", "Somewhat difficult", "Very difficult", "Did not need a referral"]
 			},
 			"k5q20_r": {
@@ -213,13 +213,13 @@
 				"new_label": ["Less than 1 hour per week", "This child does not need health care provided at home on a weekly basis"]
 			},
 			"hoursleep": {
-				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"value": ["1", "2", "3", "4", "5", "6", "7"],
 				"new_value": ["1", "1", "2", "3", "4", "5", "6"],
 				"new_label": ["Less than 7 hours", "Less than 7 hours", "7 hours", "8 hours", "9 hours", "10 hours", "11 or more hours"]
 			},
 			"hoursleep05": {
-				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"value": ["6", "7"],
 				"new_value": ["6", "6"],
 				"new_label": ["11 or more hours", "11 or more hours"]
@@ -241,6 +241,12 @@
 				"value": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
 				"new_value": ["1", "2", "3", "4", "5", "5", "8", "8", "8"],
 				"new_label": ["Two biogical/adoptive parents, currently married", "Two biogical/adoptive parents, not currently married", "Two parents (at least one not biological/adoptive), currently married", "Two parents (at least one not biological/adoptive), not currently married", "Single mother", "Single mother", "Other relation", "Other relation", "Other relation"]
+			},
+			"family_r": {
+				"years": ["2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
+				"value": ["6", "7"],
+				"new_value": ["8", "8"],
+				"new_label": ["Other relation", "Other relation"]
 			},
 			"hcability": {
 				"years": ["2016", "2017", "2018"],
@@ -267,18 +273,18 @@
 				"new_name": "eyedoctor"
 			},
 			"family_r": {
-				"years": ["2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"years": ["2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"new_name": "family"
 			},
 			"gowhensick": {
-				"years": ["2023"],
+				"years": ["2023",  "2024"],
 				"new_name": "k4q02_r"
 			}
 		},
 
 		"merge_columns": {
 			"sleep": {
-				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"column_preferred": "hoursleep",
 				"column_fallback": "hoursleep05"
 			}
