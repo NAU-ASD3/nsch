@@ -11,6 +11,16 @@
   combines all years via \code{\link{combine_years}}, and optionally imputes
   2016 \code{a1_grade} via \code{\link{impute_a1_grade_2016}}.
 }
+\details{
+This function reads \code{.dta} and \code{.do} files directly rather
+than the CSV files produced by \code{\link{Stata2csv_year}}.  Stata
+\code{.dta} files encode four tagged NA types (\code{.m}, \code{.n},
+\code{.l}, \code{.d}) that the pipeline maps to sentinel codes 996--999
+(see \code{\link{na_tag_map}}).  These distinct missingness types are
+used by downstream config transforms and by
+\code{\link{apply_do_labels}} during factor conversion.  CSV export
+collapses all four types to a single \code{NA}, losing that distinction.
+}
 \usage{
 get_clean_data(
   config.path = system.file("extdata", "variable-config.json", package = "nsch"),
