@@ -39,6 +39,8 @@ Every PR needs:
 
 **Development order: stub → tests → implementation → man page → NEWS.**
 
+Most PRs should target main branch.
+A stacked PR is a PR to a branch other than main.
 For stacked PRs, add at the top of the description:
 
 > ⚠️ Stacked PR — branches from `parent_branch` (#XX). Only files
