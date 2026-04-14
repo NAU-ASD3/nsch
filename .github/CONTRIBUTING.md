@@ -32,12 +32,12 @@ Every PR needs:
 
 - [ ] Version bump in `DESCRIPTION` (format `YYYY.M.DD`)
 - [ ] `NEWS.md` entry with PR number
-- [ ] Man page (`.Rd`) with `nsch::` prefix in examples
+- [ ] Man page (`.Rd`) with `nsch::` prefix in examples (for new exported functions)
 - [ ] `export()` in `NAMESPACE`
 - [ ] Tests in `tests/testthat/`
 - [ ] `R CMD build` + `R CMD check` with 0 errors, 0 warnings, 0 notes
 
-**Development order: stub → tests → implementation → man page → NEWS.**
+**Development order: tests → implementation → man page → NEWS.**
 
 Most PRs should target main branch.
 A stacked PR is a PR to a branch other than main.
@@ -215,10 +215,11 @@ reads `.dta`/`.do` files directly because Stata tagged NAs (`.m`, `.n`,
 
 ### Keep Data in Memory
 
-Pipeline functions compose in memory, not through the filesystem.
-Writing intermediate files between steps mixes side effects with
-transformations and creates implicit ordering dependencies. File I/O
-belongs only at pipeline boundaries.
+Pipeline functions compose in memory, passing data through function
+arguments rather than files. Intermediate steps should not write to
+disk — users who want to audit intermediate results can write them
+between calls. File I/O belongs at pipeline boundaries, not inside
+transformation functions.
 
 ### Package Scope
 
