@@ -11,10 +11,9 @@ check_na_rates <- function(dt) {
   out.list <- vector("list", length(var.names))
   for (i in seq_along(var.names)) {
     col <- var.names[i]
-    out.list[[i]] <- dt[, list(n.na = sum(is.na(get(col))), n.total = .N), by = year][, list(variable = col,
-                                                                                             year,
-                                                                                             na.rate = n.na / n.total,
-                                                                                             n.total)]
+    out.list[[i]] <- dt[
+      , list(n.na = sum(is.na(get(col))), n.total = .N), by = year][
+        , list(variable = col, year, na.rate = n.na / n.total, n.total)]
   }
   data.table::rbindlist(out.list)
 }
