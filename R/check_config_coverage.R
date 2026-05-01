@@ -57,16 +57,10 @@ check_config_coverage <- function(config, data.path) {
       for (merge.name in names(merges)) {
         entry <- merges[[merge.name]]
         if (merge.name == var && yr.char %in% entry$years) {
-          col1.name <- if (!is.null(entry$column_preferred))
-            entry$column_preferred
-          else
-            entry$column_1
-          col2.name <- if (!is.null(entry$column_fallback))
-            entry$column_fallback
-          else
-            entry$column_2
-          if (col1.name %in% do.vars || col2.name %in% do.vars) {
-            sources <- intersect(c(col1.name, col2.name), do.vars)
+          col.preferred <- entry$column_preferred
+          col.fallback <- entry$column_fallback
+          if (col.preferred %in% do.vars || col.fallback %in% do.vars) {
+            sources <- intersect(c(col.preferred, col.fallback), do.vars)
             out.list[[idx]] <- data.table::data.table(
               variable = var,
               year = yr,
