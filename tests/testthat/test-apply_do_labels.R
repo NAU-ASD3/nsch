@@ -42,12 +42,10 @@ test_that("_label column takes priority over do-derived labels", {
                      "Not in universe", "Suppressed for confidentiality")
   )
   nsch::apply_do_labels(dt, define.dt)
-  expect_identical(
-    as.character(dt$birthwt),
-    c("Custom VLB Label", "Low birth weight", "Not low birth weight"))
-  ## _label column should be removed
-  expect_false("birthwt_label" %in% names(dt))
-  expect_in("Custom VLB Label", levels(dt$birthwt))
+  expect_identical(dt, data.table(birthwt = factor(
+    c("Custom VLB Label", "Low birth weight", "Not low birth weight"),
+    c("Very low birth weight", "Low birth weight",
+      "Not low birth weight", "Custom VLB Label"))))
 })
 
 test_that("numeric columns without define entries are untouched", {
@@ -62,7 +60,6 @@ test_that("numeric columns without define entries are untouched", {
 })
 
 test_that("works with 2024 .do data", {
-  skip_if_not_installed("nsch")
   do.path <- system.file(
     package = "nsch", "extdata", "nsch_2024_topical.do", mustWork = TRUE
   )
@@ -75,8 +72,7 @@ test_that("works with 2024 .do data", {
     year = rep(2024L, nrow(sc_sex.vals))
   )
   nsch::apply_do_labels(dt, define.dt)
-  expect_is(dt$sc_sex, "factor")
-  expect_identical(length(levels(dt$sc_sex)), nrow(sc_sex.vals))
+  expect_identical(dt$sc_sex, factor(sc_sex.vals$desc, sc_sex.vals$desc))
   ## year should remain numeric (no define entries for it)
-  expect_is(dt$year, "integer")
+  expect_identical(dt$year, rep(2024L, nrow(sc_sex.vals)))
 })
