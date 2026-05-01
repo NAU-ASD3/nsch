@@ -2,12 +2,14 @@ Package: nsch
 Type: Package
 Encoding: UTF-8
 Title: National Survey of Children’s Health
-Version: 2026.3.14
+Version: 2026.4.27
 Authors@R: c(
     person("Toby", "Hocking",
      email="toby.hocking@r-project.org",
      role=c("aut", "cre")),
     person("Vincent", "Sutherland",
+     role=c("aut")),
+    person("Chris", "Reger",
      role=c("aut")))
 Description: The National Survey of Children’s Health
  <https://www.census.gov/programs-surveys/nsch.html>
