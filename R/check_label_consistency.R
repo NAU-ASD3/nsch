@@ -1,6 +1,5 @@
-year <- NULL
-
 check_label_consistency <- function(dt) {
+  year <- NULL  # for R CMD check
   if (!data.table::is.data.table(dt)) {
     stop("dt must be a data.table")
   }
