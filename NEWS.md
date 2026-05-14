@@ -1,6 +1,6 @@
 # nsch news and updates
 
-## 2026.5.14 (PR#XX)
+## 2026.5.14 (PR#41)
 
 - Fixed `harmonize_year()` silently dropping the `_label` companion columns added by `transform_values()`.  The function now captures return values from each pipeline step, which is necessary because `data.table::set()` calls that introduce new columns can fall back to copy-on-allocate.  Previously, every variable with a `998 →` remap in the config (k4q20r, dentistvisit, bestforchild, discussopt, k5q11, k5q20_r, k5q21, k5q31_r, k5q40, k5q41, k5q42, k5q43, k5q44) produced `NA` in the harmonized output for the remapped rows instead of receiving the intended override label.
 
