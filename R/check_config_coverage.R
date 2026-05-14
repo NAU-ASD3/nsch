@@ -1,3 +1,75 @@
+## Internal: try to find a rename rule that produces `var.name` for year `yr`.
+## Returns a one-row data.table on match, or NULL.
+find_rename_match <- function(var.name, yr, yr.char, renames, do.vars) {
+  for (old.name in names(renames)) {
+    entry <- renames[[old.name]]
+    if (entry$new_name == var.name
+        && yr.char %in% entry$years
+        && old.name %in% do.vars) {
+      return(data.table::data.table(
+        variable = var.name,
+        year = yr,
+        status = "renamed",
+        source = old.name
+      ))
+    }
+  }
+  NULL
+}
+
+## Internal: try to find a merge rule that produces `var.name` for year `yr`.
+## Returns a one-row data.table on match, or NULL.
+find_merge_match <- function(var.name, yr, yr.char, merges, do.vars) {
+  for (merge.name in names(merges)) {
+    entry <- merges[[merge.name]]
+    if (merge.name == var.name && yr.char %in% entry$years) {
+      col.preferred <- entry$column_preferred
+      col.fallback <- entry$column_fallback
+      if (col.preferred %in% do.vars || col.fallback %in% do.vars) {
+        sources <- intersect(c(col.preferred, col.fallback), do.vars)
+        return(data.table::data.table(
+          variable = var.name,
+          year = yr,
+          status = "merged",
+          source = paste(sources, collapse = "+")
+        ))
+      }
+    }
+  }
+  NULL
+}
+
+## Internal: classify a single variable for a single year against the
+## three possible sources: direct presence, rename rule, or merge rule.
+classify_variable <- function(var.name, yr, yr.char, renames, merges, do.vars) {
+  ## Check 1: variable exists directly in .do file.
+  if (var.name %in% do.vars) {
+    return(data.table::data.table(
+      variable = var.name,
+      year = yr,
+      status = "present",
+      source = NA_character_
+    ))
+  }
+  ## Check 2: a rename rule produces this variable for this year.
+  rename.match <- find_rename_match(var.name, yr, yr.char, renames, do.vars)
+  if (!is.null(rename.match)) {
+    return(rename.match)
+  }
+  ## Check 3: a merge rule produces this variable for this year.
+  merge.match <- find_merge_match(var.name, yr, yr.char, merges, do.vars)
+  if (!is.null(merge.match)) {
+    return(merge.match)
+  }
+  ## Not found by any means.
+  data.table::data.table(
+    variable = var.name,
+    year = yr,
+    status = "missing",
+    source = NA_character_
+  )
+}
+
 check_config_coverage <- function(config, data.path) {
   ## Discover .do files in data.path.
   do.files <- Sys.glob(file.path(data.path, "*topical*.do"))
@@ -21,65 +93,10 @@ check_config_coverage <- function(config, data.path) {
     do.lines <- readLines(do.files[i], warn = FALSE)
     var.lines <- grep("^label var ", do.lines, value = TRUE)
     do.vars <- sub("^label var ([^ ]+) .*", "\\1", var.lines)
-    for (var in desired) {
+    for (var.name in desired) {
       idx <- idx + 1L
-      ## Check 1: variable exists directly in .do file.
-      if (var %in% do.vars) {
-        out.list[[idx]] <- data.table::data.table(
-          variable = var,
-          year = yr,
-          status = "present",
-          source = NA_character_
-        )
-        next
-      }
-      ## Check 2: a rename rule produces this variable for this year.
-      found.rename <- FALSE
-      for (old.name in names(renames)) {
-        entry <- renames[[old.name]]
-        if (entry$new_name == var && yr.char %in% entry$years) {
-          if (old.name %in% do.vars) {
-            out.list[[idx]] <- data.table::data.table(
-              variable = var,
-              year = yr,
-              status = "renamed",
-              source = old.name
-            )
-            found.rename <- TRUE
-            break
-          }
-        }
-      }
-      if (found.rename)
-        next
-      ## Check 3: a merge rule produces this variable for this year.
-      found.merge <- FALSE
-      for (merge.name in names(merges)) {
-        entry <- merges[[merge.name]]
-        if (merge.name == var && yr.char %in% entry$years) {
-          col.preferred <- entry$column_preferred
-          col.fallback <- entry$column_fallback
-          if (col.preferred %in% do.vars || col.fallback %in% do.vars) {
-            sources <- intersect(c(col.preferred, col.fallback), do.vars)
-            out.list[[idx]] <- data.table::data.table(
-              variable = var,
-              year = yr,
-              status = "merged",
-              source = paste(sources, collapse = "+")
-            )
-            found.merge <- TRUE
-            break
-          }
-        }
-      }
-      if (found.merge)
-        next
-      ## Not found by any means.
-      out.list[[idx]] <- data.table::data.table(
-        variable = var,
-        year = yr,
-        status = "missing",
-        source = NA_character_
+      out.list[[idx]] <- classify_variable(
+        var.name, yr, yr.char, renames, merges, do.vars
       )
     }
   }
