@@ -36,12 +36,14 @@ test_that("produces same result as calling steps manually", {
     value = c("1", "2"),
     desc = c("Male", "Female")
   )
-  ## Manual pipeline on dt1.
-  nsch::transform_values(dt1, config$transformations$transform, 2099L)
-  nsch::rename_vars(dt1, config$transformations$rename_columns, 2099L)
-  nsch::merge_vars(dt1, config$transformations$merge_columns, 2099L)
+  ## Manual pipeline on dt1.  Capture return values from each step to
+  ## ensure new columns added via data.table::set() are preserved even
+  ## when truelength is exhausted.
+  dt1 <- nsch::transform_values(dt1, config$transformations$transform, 2099L)
+  dt1 <- nsch::rename_vars(dt1, config$transformations$rename_columns, 2099L)
+  dt1 <- nsch::merge_vars(dt1, config$transformations$merge_columns, 2099L)
   dt1 <- nsch::subset_vars(dt1, config$desired_variables)
-  nsch::apply_do_labels(dt1, define.dt)
+  dt1 <- nsch::apply_do_labels(dt1, define.dt)
   ## harmonize_year on dt2.
   result <- nsch::harmonize_year(dt2, config, 2099L, define.dt)
   expect_identical(result, dt1)
@@ -67,4 +69,45 @@ test_that("works with empty transform rules", {
   )
   result <- nsch::harmonize_year(dt, config, 2099L, define.dt)
   expect_identical(result[["sc_sex"]], factor(c("Male", "Female"), c("Male", "Female")))
+})
+
+test_that("preserves _label override through full pipeline (regression for return-capture bug)", {
+  ## This test guards against a bug where transform_values() adds a
+  ## `_label` companion column via data.table::set(), but the new
+  ## column is silently dropped if harmonize_year() does not capture
+  ## the return value.  The bug manifests as the remapped rows
+  ## becoming NA in the final factor instead of receiving the
+  ## override label from `new_label`.
+  dt <- data.table(
+    year = 2099L,
+    test_var = c(1, 2, 998, 998, 998)
+  )
+  config <- list(
+    desired_variables = "test_var",
+    transformations = list(
+      transform = list(
+        test_var = list(
+          years = "2099",
+          value = c("998"),
+          new_value = c("5"),
+          new_label = c("Override label")
+        )
+      ),
+      rename_columns = list(),
+      merge_columns = list()
+    )
+  )
+  define.dt <- data.table(
+    variable = c("test_var", "test_var"),
+    value = c("1", "2"),
+    desc = c("One", "Two")
+  )
+  result <- nsch::harmonize_year(dt, config, 2099L, define.dt)
+  ## The override label must appear as a real factor level, not NA.
+  expect_in("Override label", levels(result[["test_var"]]))
+  ## Three rows of value 998 should have been remapped to "Override label".
+  expect_identical(
+    as.character(result[["test_var"]]),
+    c("One", "Two", "Override label", "Override label", "Override label")
+  )
 })
