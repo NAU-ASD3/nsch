@@ -1,8 +1,10 @@
 # nsch news and updates
 
-## 2026.5.20 (PR#36)
+## 2026.5.21 (PR#36)
 
-- Config: added 2024 to `family_r` rename/transform, `sleep` merge, `hoursleep`/`hoursleep05`/`hospitaler`/`gowhensick` transforms, `family_r` value collapse, and `gowhensick` rename. Fixed `k5q11` 998→5 remap to avoid colliding with native value 4 ("It was not possible to get a referral") that has existed since 2018.
+- Config: added 2024 to `family_r` rename/transform, `sleep` merge, `hoursleep`/`hoursleep05`/`hospitaler`/`gowhensick` transforms, `family_r` value collapse, and `gowhensick` rename.
+- Config: extended 998-remap transforms (`k4q20r`, `dentistvisit`, `bestforchild`, `discussopt`, `k5q11`, `k5q20_r`, `k5q21`, `k5q31_r`, `k5q40`, `k5q41`, `k5q42`, `k5q43`, `k5q44`) to include 2024 — these were previously scoped to 2016-2023, causing 2024 logical-skip respondents to incorrectly fall through to NA in the harmonized output instead of receiving their override factor level.
+- Fixed `k5q11` 998→5 remap to avoid colliding with native value 4 ("It was not possible to get a referral") that has existed since 2018.
 
 ## 2026.5.14 (PR#43)
 
