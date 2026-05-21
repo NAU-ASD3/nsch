@@ -1,5 +1,9 @@
 # nsch news and updates
 
+## 2026.5.14 (PR#43)
+
+- Fixed `read_dta()` silently dropping the data.table over-allocation (truelength) by using base R `[[<-` assignment to coerce the `year` column to integer.  The lost over-allocation caused downstream `set()` calls in `transform_values()` to hit a function-boundary reallocation issue: new `_label` companion columns were visible inside the function but not to the caller, so `apply_do_labels()` received a data.table without them.  This produced `NA` for every config entry with a value remap and `new_label` (k4q20r, dentistvisit, bestforchild, discussopt, k5q11, k5q20_r, k5q21, k5q31_r, k5q40, k5q41, k5q42, k5q43, k5q44).  Replaced `[[<-` with `data.table::set()` which preserves truelength.
+
 ## 2026.4.27 (PR#34)
 
 - `get_all_years()` discovers NSCH .dta and .do files in a data directory, returning a data.table mapping each year to its file paths.

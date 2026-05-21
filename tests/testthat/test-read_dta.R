@@ -65,3 +65,16 @@ test_that("informative error for missing dta file", {
     does.not.exist
   ), fixed = TRUE)
 })
+
+test_that("read_dta preserves data.table over-allocation (regression for #41)", {
+  ## Bug: base R [[<- assignment was used to coerce the year column to
+  ## integer, which silently dropped data.table's over-allocation.
+  ## Downstream functions calling data.table::set() to add new columns
+  ## then hit reallocation at a function-call boundary, causing the new
+  ## columns to be lost from the caller's view.
+  tf <- tempfile(fileext = ".dta")
+  test_df <- data.frame(year = 2099L, x = c(1, 2, 3))
+  haven::write_dta(test_df, tf)
+  dt <- nsch::read_dta(tf)
+  expect_gt(data.table::truelength(dt), length(dt))
+})
