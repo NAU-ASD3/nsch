@@ -34,6 +34,6 @@ read_dta <- function(dta.path){
   if(!("year" %in% names(dt))){
     stop("dta file does not contain a 'year' column: ", dta.path)
   }
-  dt[["year"]] <- as.integer(dt[["year"]])
+  data.table::set(dt, j = "year", value = as.integer(dt[["year"]]))
   dt
 }
