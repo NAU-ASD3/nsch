@@ -117,79 +117,79 @@
 				"new_label": ["1st generation household [Child is born outside the United States and all reported parents are born outside the United States. At least one parent must be reported as born outside the United States.]", "2nd generation household [Child is born in the United States and at least one parent is born outside the United States OR child is born outside the United States, one parent is born in the United States and one parent is born outside the United States.]", "3rd+ generation [All parents in the household are born in the United States]", "Other [Child is born in the United States, parents are not listed.]"]
 			},
 			"k4q20r": {
-				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"value": ["998"],
 				"new_value": ["1"],
 				"new_label": ["0 visits"]
 			},
 			"dentistvisit": {
-				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"value": ["998"],
 				"new_value": ["1"],
 				"new_label": ["No preventive visits in past 12 months"]
 			},
 			"bestforchild": {
-				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"value": ["998"],
 				"new_value": ["4"],
 				"new_label": ["No healthcare provider visits last 12 months"]
 			},
 			"discussopt": {
-				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"value": ["998"],
 				"new_value": ["4"],
 				"new_label": ["No healthcare provider visits last 12 months"]
 			},
 			"k5q11": {
-				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"value": ["1", "2", "3", "998"],
 				"new_value": ["1", "2", "3", "5"],
 				"new_label": ["Not difficult", "Somewhat difficult", "Very difficult", "Did not need a referral"]
 			},
 			"k5q20_r": {
-				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"value": ["998"],
 				"new_value": ["3"],
 				"new_label": ["Did not see more than one health care provider in the past 12 months"]
 			},
 			"k5q21": {
-				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"value": ["998"],
 				"new_value": ["2"],
 				"new_label": ["No healthcare provider visits last 12 months"]
 			},
 			"k5q31_r": {
-				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"value": ["998"],
 				"new_value": ["3"],
 				"new_label": ["Did not need health care provider to communicate with these providers"]
 			},
 			"k5q40": {
-				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"value": ["998"],
 				"new_value": ["4"],
 				"new_label": ["No healthcare provider visits last 12 months"]
 			},
 			"k5q41": {
-				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"value": ["998"],
 				"new_value": ["4"],
 				"new_label": ["No healthcare provider visits last 12 months"]
 			},
 			"k5q42": {
-				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"value": ["998"],
 				"new_value": ["4"],
 				"new_label": ["No healthcare provider visits last 12 months"]
 			},
 			"k5q43": {
-				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"value": ["998"],
 				"new_value": ["4"],
 				"new_label": ["No healthcare provider visits last 12 months"]
 			},
 			"k5q44": {
-				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+				"years": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"value": ["998"],
 				"new_value": ["4"],
 				"new_label": ["No healthcare provider visits last 12 months"]
