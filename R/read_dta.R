@@ -1,4 +1,5 @@
 read_dta <- function(dta.path){
+  year <- NULL  # for R CMD check
   if(!file.exists(dta.path)){
     stop(
       "dta.path should be the path to a Stata .dta file, ",
@@ -34,6 +35,5 @@ read_dta <- function(dta.path){
   if(!("year" %in% names(dt))){
     stop("dta file does not contain a 'year' column: ", dta.path)
   }
-  data.table::set(dt, j = "year", value = as.integer(dt[["year"]]))
-  dt
+  dt[, year := as.integer(year)][]
 }

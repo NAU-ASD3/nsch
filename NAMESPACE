@@ -1,5 +1,6 @@
 importFrom(utils, unzip)
 importFrom(data.table, data.table)
+importFrom(data.table, ":=")
 importFrom(utils, download.file)
 export(get_nsch_index)
 export(get_year)
