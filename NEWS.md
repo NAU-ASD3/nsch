@@ -1,5 +1,9 @@
 # nsch news and updates
 
+## 2026.5.27 (PR#XX)
+
+- Fixed `merge_vars()` failing to consult `column_fallback` when `column_preferred` held the logical-skip sentinel `998`. Previously, only `NA` in `column_preferred` triggered the fallback — but `read_dta()` maps Stata's `.l` tagged-NA to `998` via `na_tag_map`, so any age-bucketed merge silently produced `998` (later mapped to `NA` by `apply_do_labels()`) instead of recovering the value from `column_fallback`. End-to-end impact: the `sleep` merge (`hoursleep` / `hoursleep05`) dropped 0–5-year-olds' sleep data in every harmonized run across 2016–2024 (~125,000 rows). The fix only applies to `998` (the routing sentinel); response-quality sentinels (`996`, `997`, `999`) continue to pass through to `apply_do_labels()`. The fix also treats `998` as missing for the companion `_label` coalesce so data and label stay in sync.
+
 ## 2026.5.14 (PR#43)
 
 - Fixed `read_dta()` silently dropping the data.table over-allocation (truelength) by using base R `[[<-` assignment to coerce the `year` column to integer.  The lost over-allocation caused downstream `set()` calls in `transform_values()` to hit a function-boundary reallocation issue: new `_label` companion columns were visible inside the function but not to the caller, so `apply_do_labels()` received a data.table without them.  This produced `NA` for every config entry with a value remap and `new_label` (k4q20r, dentistvisit, bestforchild, discussopt, k5q11, k5q20_r, k5q21, k5q31_r, k5q40, k5q41, k5q42, k5q43, k5q44).  Replaced `[[<-` with `data.table::set()` which preserves truelength.
