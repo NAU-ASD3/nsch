@@ -1,4 +1,12 @@
-apply_do_labels <- function(dt, define.dt) {
+apply_do_labels <- function(dt, define.dt, alias = list()) {
+  ## `alias` is an optional named list mapping a column name in `dt` to
+  ## the variable name to look up in `define.dt`.  Used by
+  ## `harmonize_year` to handle columns whose names changed via
+  ## `rename_vars` or `merge_vars`: e.g., alias = list(family = "family_r")
+  ## tells this function that the column named `family` should be labeled
+  ## using `family_r`'s define entries.  When `alias[[col.name]]` is not
+  ## set, `col.name` itself is used as the lookup key (no change).
+  
   ## Sentinel codes from na_tag_map (shared with read_dta).
   sentinel.codes <- unname(na_tag_map)
   
@@ -9,9 +17,11 @@ apply_do_labels <- function(dt, define.dt) {
   defined.vars <- unique(define.dt$variable)
   for (col.name in names(dt)) {
     label.col <- paste0(col.name, "_label")
-    if (col.name %in% defined.vars) {
-      ## Get define rows for this variable.
-      col.defs <- define.dt[define.dt$variable == col.name, ]
+    ## Resolve the lookup name (post-rename/merge -> original define entry).
+    lookup.name <- if (col.name %in% names(alias)) alias[[col.name]] else col.name
+    if (lookup.name %in% defined.vars) {
+      ## Get define rows for this variable (under its original name).
+      col.defs <- define.dt[define.dt$variable == lookup.name, ]
       
       ## Separate real values from missing-data codes.
       is.missing <- col.defs$value %in% missing.values

@@ -16,6 +16,12 @@
   \code{config$transformations} and \code{config$desired_variables}
   internally.  This is the function called by the full pipeline for
   each year, and is also exported for custom pipelines.
+
+  Columns whose names change via \code{rename_vars} or
+  \code{merge_vars} are still labeled correctly: this function
+  builds an alias map from the rename and merge rules and passes
+  it to \code{apply_do_labels}, so labels are looked up in
+  \code{define.dt} under the original (pre-rename) variable name.
 }
 \usage{
 harmonize_year(dt, config, year, define.dt)

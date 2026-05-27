@@ -1,5 +1,9 @@
 # nsch news and updates
 
+## 2026.5.21 (PR#45)
+
+- Fixed `apply_do_labels()` failing to label columns whose names changed via `rename_vars()` or `merge_vars()`.  Added an optional `alias` parameter that maps post-rename / post-merge column names to the original variable names used in `define.dt`.  `harmonize_year()` now builds this map from the rename and merge config and passes it through.  Previously, columns like `family` (renamed from `family_r`), `diabetes` (from `k2q41a`), `eyedoctor` (from `k4q31_r`), `k4q02_r` (from `gowhensick` in 2023+), and `sleep` (merged from `hoursleep`/`hoursleep05`) ended up as raw integer codes in harmonized output instead of labeled factors, for years where the rename or merge applied.
+
 ## 2026.5.21 (PR#36)
 
 - Config: added 2024 to `family_r` rename/transform, `sleep` merge, `hoursleep`/`hoursleep05`/`hospitaler`/`gowhensick` transforms, `family_r` value collapse, and `gowhensick` rename.
