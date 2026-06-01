@@ -1,5 +1,13 @@
 # nsch news and updates
 
+## 2026.5.27 (PR#37)
+
+- `check_na_rates()` computes NA proportion per column per year.
+- `check_year_coverage()` identifies variables with no data in specific years.
+- `check_sample_sizes()` reports row counts per year.
+- `check_label_consistency()` detects factor level differences across years.
+- `check_config_coverage()` audits config against .do files to verify all desired variables are accounted for.
+
 ## 2026.5.21 (PR#36)
 
 - Config: added 2024 to `family_r` rename/transform, `sleep` merge, `hoursleep`/`hoursleep05`/`hospitaler`/`gowhensick` transforms, `family_r` value collapse, and `gowhensick` rename.
