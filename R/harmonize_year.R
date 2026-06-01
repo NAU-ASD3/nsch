@@ -8,20 +8,21 @@
 ##   source's labels propagate via the _label companion column created by
 ##   merge_vars when both sources have transform-derived labels.)
 build_alias_map <- function(renames, merges, year) {
-  alias <- list()
   yr.char <- as.character(year)
-  for (old.name in names(renames)) {
-    entry <- renames[[old.name]]
-    if (yr.char %in% entry$years) {
-      alias[[entry$new_name]] <- old.name
-    }
-  }
-  for (out.name in names(merges)) {
-    entry <- merges[[out.name]]
-    if (yr.char %in% entry$years) {
-      alias[[out.name]] <- entry$column_preferred
-    }
-  }
+  applies <- function(entry) yr.char %in% entry$years
+  
+  active.renames <- Filter(applies, renames)
+  active.merges <- Filter(applies, merges)
+  
+  keys <- c(
+    vapply(active.renames, `[[`, character(1), "new_name"),
+    names(active.merges))
+  values <- c(
+    names(active.renames),
+    vapply(active.merges, `[[`, character(1), "column_preferred"))
+  
+  alias <- as.list(values)
+  names(alias) <- keys
   alias
 }
 

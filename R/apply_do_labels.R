@@ -1,12 +1,4 @@
 apply_do_labels <- function(dt, define.dt, alias = list()) {
-  ## `alias` is an optional named list mapping a column name in `dt` to
-  ## the variable name to look up in `define.dt`.  Used by
-  ## `harmonize_year` to handle columns whose names changed via
-  ## `rename_vars` or `merge_vars`: e.g., alias = list(family = "family_r")
-  ## tells this function that the column named `family` should be labeled
-  ## using `family_r`'s define entries.  When `alias[[col.name]]` is not
-  ## set, `col.name` itself is used as the lookup key (no change).
-  
   ## Sentinel codes from na_tag_map (shared with read_dta).
   sentinel.codes <- unname(na_tag_map)
   
