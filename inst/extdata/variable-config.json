@@ -82,7 +82,7 @@
 			},
 
 			"a2_relation": {
-				"years":     ["2016", "2017", "2018"],
+				"years":     ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"value":     ["5", "8"],
 				"new_value": ["6", "8"],
 				"new_label": [
@@ -92,7 +92,7 @@
 			},
 
 			"arrangehc": {
-				"years":     ["2016", "2017", "2018"],
+				"years":     ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"value":     ["1", "6"],
 				"new_value": ["2", "6"],
 				"new_label": [
@@ -102,7 +102,7 @@
 			},
 
 			"athomehc": {
-				"years":     ["2016", "2017"],
+				"years":     ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"value":     ["1", "6"],
 				"new_value": ["2", "6"],
 				"new_label": [
@@ -269,7 +269,7 @@
 			},
 
 			"instype": {
-				"years":     ["2016", "2017", "2018"],
+				"years":     ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"value":     ["1", "2", "4", "5"],
 				"new_value": ["1", "2", "1", "5"],
 				"new_label": [
@@ -335,9 +335,12 @@
 
 			"k5q20_r": {
 				"years":     ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
-				"value":     ["998"],
-				"new_value": ["3"],
-				"new_label": ["Did not see more than one health care provider in the past 12 months"]
+				"value":     ["3", "998"],
+				"new_value": ["3", "3"],
+				"new_label": [
+					"Did not see more than one health care provider in the past 12 months",
+					"Did not see more than one health care provider in the past 12 months"
+				]
 			},
 
 			"k5q21": {
@@ -390,7 +393,7 @@
 			},
 
 			"k8q30": {
-				"years":     ["2016", "2017"],
+				"years":     ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
 				"value":     ["4"],
 				"new_value": ["4"],
 				"new_label": ["Not well at all"]
