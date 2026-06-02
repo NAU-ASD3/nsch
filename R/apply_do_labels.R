@@ -1,5 +1,5 @@
 apply_do_labels <- function(dt, define.dt) {
-  ## Sentinel codes from na_tag_map (shared with read_dta).
+  ## Sentinel codes from na_tag_map (shared with read_nsch_dta).
   sentinel.codes <- unname(na_tag_map)
   
   ## The define.dt value strings that correspond to missing data.

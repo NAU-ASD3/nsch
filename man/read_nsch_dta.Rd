@@ -1,5 +1,5 @@
-\name{read_dta}
-\alias{read_dta}
+\name{read_nsch_dta}
+\alias{read_nsch_dta}
 \title{
   Read one year of NSCH Stata data
 }
@@ -28,7 +28,7 @@
   step using \code{\link{parse_do}} output.
 }
 \usage{
-read_dta(dta.path)
+read_nsch_dta(dta.path)
 }
 \arguments{
   \item{dta.path}{
@@ -59,6 +59,6 @@ nsch::get_year(
   dir2024)
 ## Now read the .dta file.
 dta.path <- file.path(dir2024, "nsch_2024e_topical.dta")
-dt <- nsch::read_dta(dta.path)
+dt <- nsch::read_nsch_dta(dta.path)
 str(dt[, 1:5])
 }

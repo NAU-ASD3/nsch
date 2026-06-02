@@ -14,19 +14,19 @@ nsch::get_year(
   dir2024)
 dta2024 <- file.path(dir2024, "nsch_2024e_topical.dta")
 
-test_that("read_dta returns a data.table", {
-  dt <- nsch::read_dta(dta2024)
+test_that("read_nsch_dta returns a data.table", {
+  dt <- nsch::read_nsch_dta(dta2024)
   expect_true(is.data.table(dt))
 })
 
 test_that("year column is integer", {
-  dt <- nsch::read_dta(dta2024)
+  dt <- nsch::read_nsch_dta(dta2024)
   expect_true("year" %in% names(dt))
   expect_true(is.integer(dt[["year"]]))
 })
 
 test_that("no haven_labelled columns remain", {
-  dt <- nsch::read_dta(dta2024)
+  dt <- nsch::read_nsch_dta(dta2024)
   labelled_cols <- names(dt)[sapply(dt, inherits, "haven_labelled")]
   expect_identical(labelled_cols, character(0))
 })
@@ -44,12 +44,12 @@ test_that("tagged NAs are replaced with sentinel codes", {
     )
   )
   haven::write_dta(test_df, tf)
-  dt <- nsch::read_dta(tf)
+  dt <- nsch::read_nsch_dta(tf)
   expect_identical(dt[["x"]], c(1, 2, 996, 997, 998, 999))
 })
 
 test_that("stratum is integer", {
-  dt <- nsch::read_dta(dta2024)
+  dt <- nsch::read_nsch_dta(dta2024)
   if("stratum" %in% names(dt)){
     expect_true(is.integer(dt[["stratum"]]))
   }
@@ -58,7 +58,7 @@ test_that("stratum is integer", {
 test_that("informative error for missing dta file", {
   does.not.exist <- tempfile(fileext = ".dta")
   expect_error({
-    nsch::read_dta(does.not.exist)
+    nsch::read_nsch_dta(does.not.exist)
   }, paste(
     "dta.path should be the path to a Stata .dta file,",
     "but this file does not exist:",
@@ -66,7 +66,7 @@ test_that("informative error for missing dta file", {
   ), fixed = TRUE)
 })
 
-test_that("read_dta preserves data.table over-allocation (regression for #41)", {
+test_that("read_nsch_dta preserves data.table over-allocation (regression for #41)", {
   ## Bug: base R [[<- assignment was used to coerce the year column to
   ## integer, which silently dropped data.table's over-allocation.
   ## Downstream functions calling data.table::set() to add new columns
@@ -75,6 +75,6 @@ test_that("read_dta preserves data.table over-allocation (regression for #41)", 
   tf <- tempfile(fileext = ".dta")
   test_df <- data.frame(year = 2099L, x = c(1, 2, 3))
   haven::write_dta(test_df, tf)
-  dt <- nsch::read_dta(tf)
+  dt <- nsch::read_nsch_dta(tf)
   expect_gt(data.table::truelength(dt), length(dt))
 })
