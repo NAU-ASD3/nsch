@@ -1,6 +1,6 @@
 # nsch news and updates
 
-## 2026.5.28 (PR#XX)
+## 2026.5.28 (PR#53)
 
 - Config: resolved the remaining safe label-drift cases from #50, stacked on #51. Extended year coverage to 2016–2024 on four value-remap transforms (`a2_relation`, `arrangehc`, `athomehc`, `instype`) and one pure label override (`k8q30`). For the four remap transforms, the per-year `.do` define entries confirm each remap's source value (`a2_relation` 5, `arrangehc`/`athomehc` 1, `instype` 4) appears only in years already covered, so extending the year list harmonizes the drifted labels without firing any remap in a new year. `k8q30` value 4 ("Not at all" → "Not well at all") is a same-category rewording (confirmed). Added a source value-3 label override to `k5q20_r` so native value-3 entries collapse onto the same canonical label as the existing 998 remap. Leaves `hospitaler` (co
 
