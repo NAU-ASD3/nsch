@@ -1,6 +1,6 @@
 # nsch news and updates
 
-## 2026.6.1 (PR#XX)
+## 2026.6.1 (PR#55)
 
 - Renamed the package's `read_dta()` function to `read_nsch_dta()` to avoid collision with `haven::read_dta()` (closes #42). Updated all call sites, the man page and its cross-references, tests, and the NAMESPACE export. Also dropped the redundant `nsch::` prefix on the internal call in `get_clean_data.R`.
 
