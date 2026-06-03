@@ -19,7 +19,7 @@ merge_vars(dt, merges, year)
 \arguments{
   \item{dt}{
     A \code{data.table} with numeric columns, as returned by
-    \code{\link{read_dta}}.
+    \code{\link{read_nsch_dta}}.
   }
   \item{merges}{
     The \code{config$transformations$merge_columns} list from

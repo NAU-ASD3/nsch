@@ -10,14 +10,14 @@ a1_grade_if <- year <- hhid <- NULL ## for R CMD check
   ## Read the raw 2016 .dta to access the imputation flag (a1_grade_if)
   ## and coarse imputed category (a1_grade_i).  These columns are not
   ## carried through harmonization, so we must read the original file.
-  raw.2016 <- read_dta(dta.2016.path)
+  raw.2016 <- read_nsch_dta(dta.2016.path)
   needed <- c("hhid", "a1_grade_if", "a1_grade_i")
   if (!all(needed %in% names(raw.2016))) {
     stop("2016 .dta must contain hhid, a1_grade_if, and a1_grade_i columns")
   }
   
   imp.dt <- raw.2016[, needed, with = FALSE]
-  ## a1_grade_if is numeric after read_dta (0 = not imputed, 1 = imputed;
+  ## a1_grade_if is numeric after read_nsch_dta (0 = not imputed, 1 = imputed;
   ## tagged NAs become sentinels 996-999).  Comparing with TRUE matches
   ## only the numeric 1 values, which is what we want.
   imputed.hhids <- imp.dt[a1_grade_if == TRUE][["hhid"]]

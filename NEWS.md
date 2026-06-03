@@ -1,12 +1,24 @@
 # nsch news and updates
 
-## 2026.5.28 (PR#53)
+## 2026.6.2 (PR#53)
 
 - Config: resolved the remaining safe label-drift cases from #50, stacked on #51. Extended year coverage to 2016â2024 on four value-remap transforms (`a2_relation`, `arrangehc`, `athomehc`, `instype`) and one pure label override (`k8q30`). For the four remap transforms, the per-year `.do` define entries confirm each remap's source value (`a2_relation` 5, `arrangehc`/`athomehc` 1, `instype` 4) appears only in years already covered, so extending the year list harmonizes the drifted labels without firing any remap in a new year. `k8q30` value 4 ("Not at all" â "Not well at all") is a same-category rewording (confirmed). Added a source value-3 label override to `k5q20_r` so native value-3 entries collapse onto the same canonical label as the existing 998 remap. Leaves `hospitaler` (correctly handled — the partial-coverage flag is a false positive from the legitimate 3-vs-4-level scheme change in 2022) and `k11q43r` 13 (a genuine cross-year top-coding incomparability, not a label issue — belongs in analysis-side methodology, not config) as the only remaining audit non-matches.
 
-## 2026.5.27 (PR#51)
+## 2026.6.1 (PR#55)
+
+- Renamed the package's `read_dta()` function to `read_nsch_dta()` to avoid collision with `haven::read_dta()` (closes #42). Updated all call sites, the man page and its cross-references, tests, and the NAMESPACE export. Also dropped the redundant `nsch::` prefix on the internal call in `get_clean_data.R`.
+
+## 2026.5.28 (PR#51)
 
 - Config: harmonized 33 label-drift cases across 15 variables surfaced by `audit-label-drift.R`. Added new `transform` entries for `a1_grade`, `a2_grade`, `k2q35a_1_years`, `k2q35d`, and `wgtconc` to override apostrophe and capitalization drift in their year-varying `.do` labels. Extended the existing `k4q02_r` transform to cover values 1 ("Doctor's Office") and 6 ("School (Nurse's Office, Athletic Trainer's Office)") which had 2016-only apostrophe-missing variants. Extended year coverage on nine existing transforms (`birthwt`, `currins`, `hcability`, `higrade`, `higrade_tvis`, `house_gen`, `k2q01_d`, `metro_yn`, `mpc_yn`) whose label overrides were scoped to 2016-only or 2016–2018 but whose variables continue in subsequent years with different `.do` label wording. These were all pure label overrides (no value remaps), so year-list extension is safe. Remaining drift cases — partially-handled transforms that include value remaps (`a2_relation`, `arrangehc`, `athomehc`, `instype`) and substantively-different wordings (`k11q43r` 13, `k5q20_r` 3, `hospitaler` 3, `k8q30` 4) — are deferred for per-case triage in #50.
+
+## 2026.5.27 (PR#37)
+
+- `check_na_rates()` computes NA proportion per column per year.
+- `check_year_coverage()` identifies variables with no data in specific years.
+- `check_sample_sizes()` reports row counts per year.
+- `check_label_consistency()` detects factor level differences across years.
+- `check_config_coverage()` audits config against .do files to verify all desired variables are accounted for.
 
 ## 2026.5.21 (PR#36)
 

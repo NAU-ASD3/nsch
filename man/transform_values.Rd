@@ -20,7 +20,7 @@ transform_values(dt, transforms, year)
 \arguments{
   \item{dt}{
     A \code{data.table} with numeric columns, as returned by
-    \code{\link{read_dta}}.
+    \code{\link{read_nsch_dta}}.
   }
   \item{transforms}{
     The \code{config$transformations$transform} list from

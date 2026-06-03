@@ -22,7 +22,7 @@ Stata2csv_year <- function(year, Stata.path = file.path("NSCH_data", "00_origina
   file_list <- list(
     "nsch_%d_topical.do"=parse_do,
     "nsch_%de_topical.dta"=function(f)
-      list(surveys=read_dta(f)))
+      list(surveys=read_nsch_dta(f)))
   year_dir <- file.path(csv.path, year)
   if(verbose)message(sprintf("converting %s to %s", Stata.path, year_dir))
   dir.create(year_dir, showWarnings=FALSE, recursive=TRUE)
