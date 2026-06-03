@@ -2,3 +2,5 @@ README.md
 .github
 .gitignore
 build.sh
+^.*\.Rproj$
+^\.Rproj\.user$
