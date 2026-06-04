@@ -150,19 +150,19 @@ test_that("merge output column gets labeled from preferred source define entries
   )
 })
 
-test_that("regression: handles truelength=0 input via read_dta path", {
+test_that("regression: handles truelength=0 input via read_nsch_dta path", {
   ## Guards against re-introduction of the bug where harmonize_year
   ## did not capture return values from transform_values etc., which
   ## fails when transform_values needs to add a _label companion
   ## column on a truelength=0 input.  This test uses the real
-  ## haven::write_dta + nsch::read_dta path to produce that state,
+  ## haven::write_dta + nsch::read_nsch_dta path to produce that state,
   ## matching how the bug actually manifested with NSCH data.
   tf <- tempfile(fileext = ".dta")
   haven::write_dta(
     data.frame(year = 2099L, test_var = c(1, 2, 998)),
     tf
   )
-  dt <- nsch::read_dta(tf)
+  dt <- nsch::read_nsch_dta(tf)
   config <- list(
     desired_variables = "test_var",
     transformations = list(

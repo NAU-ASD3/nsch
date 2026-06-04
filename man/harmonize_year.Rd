@@ -29,7 +29,7 @@ harmonize_year(dt, config, year, define.dt)
 \arguments{
   \item{dt}{
     A \code{\link[data.table]{data.table}} of raw numeric survey data
-    for a single year, as returned by \code{\link{read_dta}}.
+    for a single year, as returned by \code{\link{read_nsch_dta}}.
   }
   \item{config}{
     The parsed harmonization config list returned by

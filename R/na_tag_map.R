@@ -1,5 +1,5 @@
 ## Named integer vector mapping Stata tagged-NA letters to sentinel codes.
-## Used by read_dta() during ingestion and by apply_do_labels() when
+## Used by read_nsch_dta() during ingestion and by apply_do_labels() when
 ## converting sentinels back to factor NA.
 ##
 ## NSCH .dta files encode four types of missingness as Stata tagged NAs:
