@@ -20,7 +20,7 @@
 		"birthwt", "k2q05",
 
 		"c4q04", "hospitaler", "k4q01", "k4q02_r", "k4q20r", "k4q22_r",
-		"k4q23", "k4q24_r", "k4q27", "dentistvisit", "eyedoctor", "k4q36",
+		"k4q23", "k4q24_r", "k4q27", "dentistvisit", "k4q36",
 		"k6q15", "s4q01", "usualgo", "wgtconc",
 
 		"bestforchild", "discussopt", "k4q04_r", "k5q10", "k5q11", "k5q20_r",
@@ -447,11 +447,6 @@
 			"k2q41a": {
 				"years":    ["2016", "2017", "2018", "2019", "2020", "2021"],
 				"new_name": "diabetes"
-			},
-
-			"k4q31_r": {
-				"years":    ["2016", "2017", "2018", "2019", "2020", "2021"],
-				"new_name": "eyedoctor"
 			}
 
 		},

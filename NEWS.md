@@ -1,5 +1,9 @@
 # nsch news and updates
 
+## 2026.6.4 (PR#XX)
+
+- Config: dropped the `k4q31_r` → `eyedoctor` rename and removed `eyedoctor` from `desired_variables` (closes #47). The two underlying survey questions are distinct and shouldn't be conflated under one harmonized variable, so neither the renamed `eyedoctor` column nor the raw `k4q31_r` column is carried into the harmonized output.
+
 ## 2026.6.2 (PR#53)
  
 - Config: resolved the remaining safe label-drift cases from #50 (stacked on #51).
