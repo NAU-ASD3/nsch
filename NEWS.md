@@ -1,5 +1,14 @@
 # nsch news and updates
 
+## 2026.6.2 (PR#53)
+ 
+- Config: resolved the remaining safe label-drift cases from #50 (stacked on #51).
+- Extended year coverage to 2016–2024 on four value-remap transforms (`a2_relation`, `arrangehc`, `athomehc`, `instype`). The per-year `.do` define entries confirm each remap's source value (`a2_relation` 5, `arrangehc`/`athomehc` 1, `instype` 4) appears only in years already covered, so extending the year list harmonizes the drifted labels without firing any remap in a new year.
+- Extended `k8q30` to 2016–2024 (pure label override, no remap): value 4 "Not at all" (2016–2017) → "Not well at all" (2018+) is a same-category rewording, confirmed with Dr. Lindly.
+- Added a source value-3 label override to `k5q20_r` so native value-3 entries collapse onto the same canonical label as the existing 998 remap.
+- Left `hospitaler` unchanged: its partial-coverage flag is a false positive from the legitimate 3-vs-4-level scheme change in 2022.
+- Left `k11q43r` 13 unchanged: a genuine cross-year top-coding incomparability, not a label issue — belongs in analysis-side methodology, not config (see #54).
+
 ## 2026.6.1 (PR#55)
 
 - Renamed the package's `read_dta()` function to `read_nsch_dta()` to avoid collision with `haven::read_dta()` (closes #42). Updated all call sites, the man page and its cross-references, tests, and the NAMESPACE export. Also dropped the redundant `nsch::` prefix on the internal call in `get_clean_data.R`.
