@@ -22,7 +22,7 @@
   response code across all NSCH variables is 400, so values above 900
   are safe to use as sentinels.
 
-  \code{\link{read_dta}} replaces tagged NAs with these codes at
+  \code{\link{read_nsch_dta}} replaces tagged NAs with these codes at
   ingestion time so the four missingness types survive as distinct
   numeric values through the harmonization pipeline.  Downstream
   functions (e.g.\ \code{apply_do_labels}) use the same map to convert

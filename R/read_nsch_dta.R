@@ -1,4 +1,4 @@
-read_dta <- function(dta.path){
+read_nsch_dta <- function(dta.path){
   year <- NULL  # for R CMD check
   if(!file.exists(dta.path)){
     stop(

@@ -11,7 +11,7 @@ after the merge key) taking the value from \code{column_preferred}
 where it has a real value, falling back to \code{column_fallback}.
 The preferred column is considered missing when its value is
 \code{NA} or matches the logical-skip sentinel \code{998} from
-\code{\link{na_tag_map}} --- the sentinel \code{\link{read_dta}}
+\code{\link{na_tag_map}} --- the sentinel \code{\link{read_nsch_dta}}
 assigns when a respondent was age-routed away from a question.
 Other sentinels (\code{996} no valid response, \code{997} not in
 universe, \code{999} suppressed) indicate that the respondent was
@@ -27,20 +27,20 @@ absent.
 merge_vars(dt, merges, year)
 }
 \arguments{
-\item{dt}{
-A \code{data.table} with numeric columns, as returned by
-\code{\link{read_dta}}.
-}
-\item{merges}{
-The \code{config$transformations$merge_columns} list from
-\code{\link{read_config}} --- a named list keyed by the new
-column name, each with \code{years}, \code{column_preferred},
-\code{column_fallback}.
-}
-\item{year}{
-Integer year to process. Compared against the config's string
-\code{years} vectors using \code{as.character(year)}.
-}
+  \item{dt}{
+    A \code{data.table} with numeric columns, as returned by
+    \code{\link{read_nsch_dta}}.
+  }
+  \item{merges}{
+    The \code{config$transformations$merge_columns} list from
+    \code{\link{read_config}} --- a named list keyed by the new
+    column name, each with \code{years}, \code{column_preferred},
+    \code{column_fallback}.
+  }
+  \item{year}{
+    Integer year to process.  Compared against the config's string
+    \code{years} vectors using \code{as.character(year)}.
+  }
 }
 \value{
 Returns \code{dt} invisibly (modified by reference).

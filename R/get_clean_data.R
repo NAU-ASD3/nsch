@@ -14,7 +14,7 @@ get_clean_data <- function(
   year.list <- lapply(seq_len(nrow(files.dt)), function(i) {
     yr <- files.dt[["year"]][i]
     message("Processing year ", yr, "...")
-    dt <- nsch::read_dta(files.dt[["dta.path"]][i])
+    dt <- read_nsch_dta(files.dt[["dta.path"]][i])
     do.list <- nsch::parse_do(files.dt[["do.path"]][i])
     nsch::harmonize_year(dt, config, yr, do.list$define)
   })

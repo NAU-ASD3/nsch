@@ -1,8 +1,43 @@
 # nsch news and updates
 
-## 2026.5.27 (PR#49)
+## 2026.6.24 (PR#49)
 
-- Fixed `merge_vars()` failing to consult `column_fallback` when `column_preferred` held the logical-skip sentinel `998`. Previously, only `NA` in `column_preferred` triggered the fallback — but `read_dta()` maps Stata's `.l` tagged-NA to `998` via `na_tag_map`, so any age-bucketed merge silently produced `998` (later mapped to `NA` by `apply_do_labels()`) instead of recovering the value from `column_fallback`. End-to-end impact: the `sleep` merge (`hoursleep` / `hoursleep05`) dropped 0–5-year-olds' sleep data in every harmonized run across 2016–2024 (~125,000 rows). The fix only applies to `998` (the routing sentinel); response-quality sentinels (`996`, `997`, `999`) continue to pass through to `apply_do_labels()`. The fix also treats `998` as missing for the companion `_label` coalesce so data and label stay in sync.
+- Fixed `merge_vars()` failing to consult `column_fallback`... [the full existing #49 bullet, unchanged]
+
+## 2026.6.4 (PR#59)
+
+- Config: dropped the `k4q31_r` → `eyedoctor` rename and removed `eyedoctor` from `desired_variables` (closes #47). The two underlying survey questions are distinct and shouldn't be conflated under one harmonized variable, so neither the renamed `eyedoctor` column nor the raw `k4q31_r` column is carried into the harmonized output.
+
+## 2026.6.2 (PR#53)
+ 
+- Config: resolved the remaining safe label-drift cases from #50 (stacked on #51).
+- Extended year coverage to 2016–2024 on four value-remap transforms (`a2_relation`, `arrangehc`, `athomehc`, `instype`). The per-year `.do` define entries confirm each remap's source value (`a2_relation` 5, `arrangehc`/`athomehc` 1, `instype` 4) appears only in years already covered, so extending the year list harmonizes the drifted labels without firing any remap in a new year.
+- Extended `k8q30` to 2016–2024 (pure label override, no remap): value 4 "Not at all" (2016–2017) → "Not well at all" (2018+) is a same-category rewording, confirmed with Dr. Lindly.
+- Added a source value-3 label override to `k5q20_r` so native value-3 entries collapse onto the same canonical label as the existing 998 remap.
+- Left `hospitaler` unchanged: its partial-coverage flag is a false positive from the legitimate 3-vs-4-level scheme change in 2022.
+- Left `k11q43r` 13 unchanged: a genuine cross-year top-coding incomparability, not a label issue — belongs in analysis-side methodology, not config (see #54).
+
+## 2026.6.1 (PR#55)
+
+- Renamed the package's `read_dta()` function to `read_nsch_dta()` to avoid collision with `haven::read_dta()` (closes #42). Updated all call sites, the man page and its cross-references, tests, and the NAMESPACE export. Also dropped the redundant `nsch::` prefix on the internal call in `get_clean_data.R`.
+
+## 2026.5.28 (PR#51)
+
+- Config: harmonized 33 label-drift cases across 15 variables surfaced by `audit-label-drift.R`. Added new `transform` entries for `a1_grade`, `a2_grade`, `k2q35a_1_years`, `k2q35d`, and `wgtconc` to override apostrophe and capitalization drift in their year-varying `.do` labels. Extended the existing `k4q02_r` transform to cover values 1 ("Doctor's Office") and 6 ("School (Nurse's Office, Athletic Trainer's Office)") which had 2016-only apostrophe-missing variants. Extended year coverage on nine existing transforms (`birthwt`, `currins`, `hcability`, `higrade`, `higrade_tvis`, `house_gen`, `k2q01_d`, `metro_yn`, `mpc_yn`) whose label overrides were scoped to 2016-only or 2016–2018 but whose variables continue in subsequent years with different `.do` label wording. These were all pure label overrides (no value remaps), so year-list extension is safe. Remaining drift cases — partially-handled transforms that include value remaps (`a2_relation`, `arrangehc`, `athomehc`, `instype`) and substantively-different wordings (`k11q43r` 13, `k5q20_r` 3, `hospitaler` 3, `k8q30` 4) — are deferred for per-case triage in #50.
+
+## 2026.5.27 (PR#37)
+
+- `check_na_rates()` computes NA proportion per column per year.
+- `check_year_coverage()` identifies variables with no data in specific years.
+- `check_sample_sizes()` reports row counts per year.
+- `check_label_consistency()` detects factor level differences across years.
+- `check_config_coverage()` audits config against .do files to verify all desired variables are accounted for.
+
+## 2026.5.21 (PR#36)
+
+- Config: added 2024 to `family_r` rename/transform, `sleep` merge, `hoursleep`/`hoursleep05`/`hospitaler`/`gowhensick` transforms, `family_r` value collapse, and `gowhensick` rename.
+- Config: extended 998-remap transforms (`k4q20r`, `dentistvisit`, `bestforchild`, `discussopt`, `k5q11`, `k5q20_r`, `k5q21`, `k5q31_r`, `k5q40`, `k5q41`, `k5q42`, `k5q43`, `k5q44`) to include 2024 — these were previously scoped to 2016-2023, causing 2024 logical-skip respondents to incorrectly fall through to NA in the harmonized output instead of receiving their override factor level.
+- Fixed `k5q11` 998→5 remap to avoid colliding with native value 4 ("It was not possible to get a referral") that has existed since 2018.
 
 ## 2026.5.14 (PR#43)
 

@@ -18,7 +18,7 @@ rename_vars(dt, renames, year)
 \arguments{
   \item{dt}{
     A \code{data.table} with numeric columns, as returned by
-    \code{\link{read_dta}}.
+    \code{\link{read_nsch_dta}}.
   }
   \item{renames}{
     The \code{config$transformations$rename_columns} list from
