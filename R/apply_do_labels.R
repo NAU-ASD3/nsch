@@ -1,4 +1,4 @@
-apply_do_labels <- function(dt, define.dt) {
+apply_do_labels <- function(dt, define.dt, alias = list()) {
   ## Sentinel codes from na_tag_map (shared with read_nsch_dta).
   sentinel.codes <- unname(na_tag_map)
   
@@ -9,9 +9,11 @@ apply_do_labels <- function(dt, define.dt) {
   defined.vars <- unique(define.dt$variable)
   for (col.name in names(dt)) {
     label.col <- paste0(col.name, "_label")
-    if (col.name %in% defined.vars) {
-      ## Get define rows for this variable.
-      col.defs <- define.dt[define.dt$variable == col.name, ]
+    ## Resolve the lookup name (post-rename/merge -> original define entry).
+    lookup.name <- if (col.name %in% names(alias)) alias[[col.name]] else col.name
+    if (lookup.name %in% defined.vars) {
+      ## Get define rows for this variable (under its original name).
+      col.defs <- define.dt[define.dt$variable == lookup.name, ]
       
       ## Separate real values from missing-data codes.
       is.missing <- col.defs$value %in% missing.values
