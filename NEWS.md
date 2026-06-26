@@ -1,5 +1,9 @@
 # nsch news and updates
 
+## 2026.6.24 (PR#49)
+
+- Fixed `merge_vars()` failing to consult `column_fallback`... [the full existing #49 bullet, unchanged]
+
 ## 2026.6.4 (PR#59)
 
 - Config: dropped the `k4q31_r` → `eyedoctor` rename and removed `eyedoctor` from `desired_variables` (closes #47). The two underlying survey questions are distinct and shouldn't be conflated under one harmonized variable, so neither the renamed `eyedoctor` column nor the raw `k4q31_r` column is carried into the harmonized output.
