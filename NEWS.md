@@ -1,5 +1,9 @@
 # nsch news and updates
 
+## 2026.9.30 (PR#62)
+
+- Added a vignette, "Generating the harmonized NSCH dataset", covering package installation from GitHub, downloading the raw data and generating the combined 2016-2024 dataset with `get_clean_data()`, selecting a subset of variables, and pulling in a raw variable the package does not harmonize.
+
 ## 2026.7.2 (PR#63)
 
 - Hardened `apply_do_labels()` against alias year-list overshoot (#52). When a rename/merge alias points at a name with no define entries for a given year but the column's own name has them, the rename did not fire that year (the column is natively named), so its own define entries are now used instead of dropping the column to unlabeled.
@@ -9,6 +13,9 @@
 
 - Fixed `k2q01_d` (child's teeth condition) coming back unlabeled for 2016. The 2016 `.do` attaches `k2q01_d` to an incomplete label set that only defines value 6 ("no teeth"), with the `Excellent`-`Poor` scale (values 1-5) living in a separate label set that never got applied, so 2016 values 1-5 fell through to NA.
 - Expanded the `k2q01_d` transform to supply the full 1-6 labels. 2017-2024 are unaffected (their `.do` defines the scale directly, and `apply_do_labels()` runs after `transform_values()`), so the fix is self-limiting to 2016.
+## 2026.7.1 (PR#XX)
+
+- Added a vignette, "Generating the harmonized NSCH dataset", covering package installation from GitHub, downloading the raw data and generating the combined 2016-2024 dataset with `get_clean_data()`, selecting a subset of variables, and pulling in a raw variable the package does not harmonize.
 
 ## 2026.6.26 (PR#45)
 

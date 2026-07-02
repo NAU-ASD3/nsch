@@ -1,0 +1,162 @@
+---
+title: "Generating the harmonized NSCH dataset"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Generating the harmonized NSCH dataset}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE
+)
+```
+
+This vignette shows how to produce the harmonized NSCH dataset (survey years
+2016 through 2024) with the `nsch` package: installing the package, getting the
+raw data, generating the combined dataset, pulling a subset of variables, and
+adding a raw variable that the package does not harmonize.
+
+The code chunks are not run when the vignette builds, because the pipeline reads
+the raw NSCH Stata files, which are not shipped with the package. Run the same
+calls locally against your own copy of the data.
+
+## Installing the package
+
+The package lives on GitHub. Install it with `remotes` (or `pak`):
+
+```{r}
+# install.packages("remotes")
+remotes::install_github("NAU-ASD3/nsch")
+```
+
+If the repository is private, you will need a GitHub personal access token with
+repo read access, either set as the `GITHUB_PAT` environment variable or passed
+directly:
+
+```{r}
+remotes::install_github("NAU-ASD3/nsch", auth_token = "your_pat_here")
+```
+
+```{r}
+library(nsch)
+library(data.table)
+```
+
+## Getting the data and generating the dataset in one step
+
+The pipeline reads the original NSCH topical Stata files. The simplest path is to
+let the package download them for you and generate the harmonized dataset in a
+single call, by passing `download = TRUE`:
+
+```{r}
+d <- get_clean_data(years = 2016:2024, download = TRUE)
+```
+
+This fetches each year's file from the NSCH data portal into
+`NSCH_data/00_original_Stata` (relative to your working directory), then runs the
+full harmonization pipeline. The download happens once; on later runs the files
+are already present, so you can drop `download = TRUE`.
+
+If you already have the Stata files, point `data.path` at them and skip the
+download:
+
+```{r}
+d <- get_clean_data(
+  years = 2016:2024,
+  data.path = "path/to/your/NSCH_data/00_original_Stata")
+```
+
+Either way the result is a single long `data.table` with a `year` column, the
+harmonized variables from the package's configuration, and the survey unique
+identifier `hhid`. Categorical variables come back as labeled factors, with the
+value labels stored as the factor levels, so you can read and tabulate them
+directly.
+
+```{r}
+dim(d)
+d[, .N, by = year]
+```
+
+## Working with a subset of variables
+
+The full pull returns every variable in the package's desired-variable list. If
+you only need a few, select them afterward. Emergency-room visits (`hospitaler`)
+is a good example: it is one of the harmonized variables, so it is already in the
+output as a labeled factor (`None`, `1 time`, `2 or more times`).
+
+```{r}
+er <- d[, .(year, hhid, hospitaler)]
+er[, .N, by = .(year, hospitaler)][order(year, hospitaler)]
+```
+
+A note on cross-year comparability: `hospitaler` does not use the same response
+categories every year. Through 2021 it was asked as None / 1 / 2 or more; from
+2022 on it splits the top into 2-3 and 4 or more. The package emits the native
+per-year categories; reconciling them across years is left to your analysis. The
+year-level audit in the analysis repository lists every variable with this kind of
+shift.
+
+## Adding a variable the package does not harmonize
+
+The package harmonizes a curated set of variables. The raw Stata files contain
+many more. You can pull one of those extra variables into your dataset, but it
+comes through as-is: it is not renamed, merged, transformed, given factor labels,
+or checked for cross-year consistency the way the curated variables are. You are
+responsible for confirming it behaves sensibly across years.
+
+BMI classification (`bmiclass`) is an example. It is in the raw files but not in
+the harmonized set. Read each raw year, keep the survey ID (`hhid`) and
+`bmiclass`, stack the years, and join onto the harmonized data.
+
+```{r}
+"bmiclass" %in% names(d)   # FALSE: not harmonized
+
+add_bmiclass <- function(years, data.path = "NSCH_data/00_original_Stata") {
+  files <- get_all_years(data.path = data.path, years = years)
+  parts <- lapply(seq_len(nrow(files)), function(i) {
+    raw <- read_nsch_dta(files[["dta.path"]][i])
+    raw[, .(hhid, year = files[["year"]][i], bmiclass)]
+  })
+  data.table::rbindlist(parts)
+}
+
+bmi <- add_bmiclass(2016:2024)
+d_plus <- merge(d, bmi, by = c("hhid", "year"), all.x = TRUE)
+```
+
+The join is on `hhid` and `year`, which together uniquely identify a row, so the
+row count is unchanged.
+
+Because `bmiclass` skipped harmonization, it comes through as its raw numeric
+codes (not a labeled factor like the harmonized variables), and you should check
+it yourself before using it. Its native codes are 1 = less than 5th percentile,
+2 = 5th to less than 85th, 3 = 85th to less than 95th, 4 = at or above 95th, with
+values in the 990s marking missing data. Two things worth confirming for any added
+variable: that the codes mean the same thing in every year, and that the
+missing-data sentinels are handled the way you expect.
+
+```{r}
+d_plus[, .N, by = .(year, bmiclass)][order(year, bmiclass)]
+```
+
+In this case `bmiclass` happens to use the same codes in every year, so it is
+straightforward to use. That is not guaranteed for an un-harmonized variable; it
+is exactly the kind of consistency the pipeline handles for you on the curated
+set, and that you have to verify yourself when you step outside it.
+
+## Changing the variable set through the configuration
+
+The approach above adds a variable at the analysis stage, which is usually the
+simplest. If you would rather have the pipeline itself carry a different set, the
+desired-variable list lives in the package configuration
+(`inst/extdata/variable-config.json`, the `desired_variables` array). Adding a
+name that already has harmonization rules includes it in every `get_clean_data()`
+run; removing a name drops it. A raw variable added to that list without matching
+rules still comes through un-harmonized, the same caveat as above.
+
+For a one-off subset, filtering the returned `data.table` (as in the `hospitaler`
+example) is simpler and does not require touching the package.
