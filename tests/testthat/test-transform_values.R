@@ -66,3 +66,26 @@ test_that("missing variable in dt is silently skipped", {
   expect_no_error(nsch::transform_values(dt, transforms, 2016L))
   expect_identical(names(dt), "x")
 })
+test_that("identity remap supplies labels without changing values (k2q01_d #60)", {
+  ## Regression for #60: 2016 k2q01_d values 1-5 came out unlabeled because the
+  ## 2016 .do attached an incomplete label set. The config supplies identity
+  ## remaps (value == new_value) carrying the Excellent-Poor labels so the
+  ## scale is labeled even when the .do define omits it.
+  dt <- data.table::data.table(k2q01_d = c(1, 2, 3, 4, 5, 6))
+  transforms <- list(
+    k2q01_d = list(
+      years = c("2016", "2017", "2018", "2019", "2020",
+                "2021", "2022", "2023", "2024"),
+      value = c("1", "2", "3", "4", "5", "6"),
+      new_value = c("1", "2", "3", "4", "5", "6"),
+      new_label = c("Excellent", "Very Good", "Good", "Fair", "Poor",
+                    "This child does not have any teeth [T1 only]")))
+  nsch::transform_values(dt, transforms, 2016L)
+  ## Values unchanged (identity remap).
+  expect_identical(dt[["k2q01_d"]], c(1, 2, 3, 4, 5, 6))
+  ## Labels applied across the full scale.
+  expect_identical(
+    dt[["k2q01_d_label"]],
+    c("Excellent", "Very Good", "Good", "Fair", "Poor",
+      "This child does not have any teeth [T1 only]"))
+})
