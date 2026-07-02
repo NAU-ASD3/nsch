@@ -1,6 +1,6 @@
 # nsch news and updates
 
-## 2026.7.1 (PR#XX)
+## 2026.7.1 (PR#62)
 
 - Added a vignette, "Generating the harmonized NSCH dataset", covering package installation from GitHub, downloading the raw data and generating the combined 2016-2024 dataset with `get_clean_data()`, selecting a subset of variables, and pulling in a raw variable the package does not harmonize.
 
