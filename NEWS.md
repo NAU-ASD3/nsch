@@ -1,5 +1,9 @@
 # nsch news and updates
 
+## 2026.7.1 (PR#XX)
+
+- Added a vignette, "Generating the harmonized NSCH dataset", covering package installation from GitHub, downloading the raw data and generating the combined 2016-2024 dataset with `get_clean_data()`, selecting a subset of variables, and pulling in a raw variable the package does not harmonize.
+
 ## 2026.6.26 (PR#45)
 
 - Fixed `apply_do_labels()` failing to label columns whose names changed via `rename_vars()` or `merge_vars()`. Affected columns came out as raw integer codes (instead of labeled factors) in years where the rename or merge applied.
