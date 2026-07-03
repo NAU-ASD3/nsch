@@ -11,6 +11,15 @@ apply_do_labels <- function(dt, define.dt, alias = list()) {
     label.col <- paste0(col.name, "_label")
     ## Resolve the lookup name (post-rename/merge -> original define entry).
     lookup.name <- if (col.name %in% names(alias)) alias[[col.name]] else col.name
+    ## Guard against year-list overshoot: if a rename/merge alias points at a
+    ## name with no define entries this year, but the column's own name does
+    ## have them, the rename did not fire (the column is natively named), so
+    ## its own entries are the correct source. This only rescues the native-name
+    ## case: a genuinely misconfigured alias whose column also lacks define
+    ## entries still falls through to unlabeled, exactly as before.
+    if (!(lookup.name %in% defined.vars) && col.name %in% defined.vars) {
+      lookup.name <- col.name
+    }
     if (lookup.name %in% defined.vars) {
       ## Get define rows for this variable (under its original name).
       col.defs <- define.dt[define.dt$variable == lookup.name, ]

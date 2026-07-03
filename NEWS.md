@@ -1,5 +1,10 @@
 # nsch news and updates
 
+## 2026.7.2 (PR#XX)
+
+- Hardened `apply_do_labels()` against alias year-list overshoot (#52). When a rename/merge alias points at a name with no define entries for a given year but the column's own name has them, the rename did not fire that year (the column is natively named), so its own define entries are now used instead of dropping the column to unlabeled.
+- Only rescues the native-name case; a misconfigured alias whose column also lacks define entries still falls through unlabeled, as before.
+
 ## 2026.6.26 (PR#45)
 
 - Fixed `apply_do_labels()` failing to label columns whose names changed via `rename_vars()` or `merge_vars()`. Affected columns came out as raw integer codes (instead of labeled factors) in years where the rename or merge applied.

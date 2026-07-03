@@ -76,3 +76,38 @@ test_that("works with 2024 .do data", {
   ## year should remain numeric (no define entries for it)
   expect_identical(dt$year, rep(2024L, nrow(sc_sex.vals)))
 })
+
+test_that("alias year-list overshoot falls back to native name (#52)", {
+  ## Scenario from #47/#52: eyedoctor is natively named in this year (it has its
+  ## own define entries), but the alias still maps eyedoctor -> k4q31_r (the
+  ## pre-rename name), which is absent from this year's define. The guard should
+  ## fall back to eyedoctor's own entries and label it, rather than letting it
+  ## drop through to unlabeled.
+  dt <- data.table(eyedoctor = c(1, 2, 1))
+  define.dt <- data.table(
+    variable = rep("eyedoctor", 4),
+    value = c("1", "2", ".m", ".n"),
+    desc = c("Yes", "No", "No valid response", "Not in universe")
+  )
+  ## Alias points at a name NOT present in define.dt (rename overshoot).
+  alias <- list(eyedoctor = "k4q31_r")
+  nsch::apply_do_labels(dt, define.dt, alias)
+  expect_identical(dt$eyedoctor,
+                   factor(c("Yes", "No", "Yes"), c("Yes", "No")))
+})
+
+test_that("alias target absent AND column absent still falls through (#52)", {
+  ## A genuinely misconfigured alias whose column also has no define entries
+  ## must NOT be rescued by the guard - it should behave exactly as before
+  ## (numeric sentinels to NA, no factor conversion).
+  dt <- data.table(mystery = c(1, 2, 997))
+  define.dt <- data.table(
+    variable = "sc_sex",
+    value = "1",
+    desc = "Male"
+  )
+  alias <- list(mystery = "also_absent")
+  nsch::apply_do_labels(dt, define.dt, alias)
+  ## Unlabeled: stays numeric, sentinel 997 -> NA.
+  expect_identical(dt$mystery, c(1, 2, NA))
+})
