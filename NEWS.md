@@ -1,6 +1,6 @@
 # nsch news and updates
 
-## 2026.7.3 (PR#XX)
+## 2026.7.3 (PR#65)
 
 - Refactored the config transformation sections (rename/merge/transform) into long-format data.tables at a new internal `config_to_dt()` boundary, one row per (rule, year) and per (rule, year, value) for transforms. Consumers (`rename_vars`, `merge_vars`, `transform_values`, `build_alias_map`, `check_config_coverage`) now subset these tables by year instead of looping nested lists (#58).
 - Behavior-preserving: `get_clean_data(2016:2024)` output is byte-identical to the previous version. The change is for readability and idiom (the config is small, so this is not a performance change).
