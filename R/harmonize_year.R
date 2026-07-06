@@ -12,15 +12,13 @@
 ## config_to_dt(): one row per (rule, year).
 build_alias_map <- function(rename.dt, merge.dt, year) {
   yr <- year  # local copy avoids the year-column vs year-argument name clash
-  alias <- list()
   r <- rename.dt[year == yr]
-  for (i in seq_len(nrow(r))) {
-    alias[[r$new_name[i]]] <- r$old_name[i]
-  }
   m <- merge.dt[year == yr]
-  for (i in seq_len(nrow(m))) {
-    alias[[m$out_name[i]]] <- m$column_preferred[i]
-  }
+  ## Names are the columns as they appear in dt (post rename/merge); values are
+  ## the names to look up in define.dt. Renames map new_name -> old_name, merges
+  ## map out_name -> column_preferred.
+  alias <- as.list(c(r$old_name, m$column_preferred))
+  names(alias) <- c(r$new_name, m$out_name)
   alias
 }
 

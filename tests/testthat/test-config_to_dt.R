@@ -20,12 +20,12 @@ make_nested_config <- function() {
 test_that("rename section expands to one row per (rule, year)", {
   cfg <- nsch:::config_to_dt(make_nested_config())
   r <- cfg$transformations$rename_columns
-  expect_true(data.table::is.data.table(r))
+  expect_is(r, "data.table")
   expect_identical(nrow(r), 2L)
   expect_identical(sort(names(r)), c("new_name", "old_name", "year"))
   expect_identical(r[order(year)]$year, c(2016L, 2017L))
-  expect_true(all(r$old_name == "old1"))
-  expect_true(all(r$new_name == "new1"))
+  expect_identical(r$old_name, c("old1", "old1"))
+  expect_identical(r$new_name, c("new1", "new1"))
 })
 
 test_that("merge section expands to one row per (rule, year)", {
@@ -34,8 +34,8 @@ test_that("merge section expands to one row per (rule, year)", {
   expect_identical(nrow(m), 3L)
   expect_identical(sort(names(m)),
                    c("column_fallback", "column_preferred", "out_name", "year"))
-  expect_true(all(m$column_preferred == "pref"))
-  expect_true(all(m$column_fallback == "fb"))
+  expect_identical(m$column_preferred, c("pref", "pref", "pref"))
+  expect_identical(m$column_fallback, c("fb", "fb", "fb"))
 })
 
 test_that("transform section expands to one row per (rule, year, value)", {
