@@ -52,13 +52,14 @@ classify_variable <- function(var.name, yr, rename.dt, merge.dt, do.vars) {
     ))
   }
   ## Checks 2 and 3: a rename or merge rule produces this variable.
-  match <- find_rename_match(var.name, yr, rename.dt, do.vars)
-  if (!is.null(match)) {
-    return(match)
-  }
-  match <- find_merge_match(var.name, yr, merge.dt, do.vars)
-  if (!is.null(match)) {
-    return(match)
+  finders <- list(
+    list(fn = find_rename_match, rules = rename.dt),
+    list(fn = find_merge_match,  rules = merge.dt))
+  for (finder in finders) {
+    match <- finder$fn(var.name, yr, finder$rules, do.vars)
+    if (!is.null(match)) {
+      return(match)
+    }
   }
   ## Not found by any means.
   data.table::data.table(
