@@ -1,10 +1,14 @@
-merge_vars <- function(dt, merges, year){
-  for(variable.name in names(merges)){
-    details <- merges[[variable.name]]
-    col.preferred <- details$column_preferred
-    col.fallback <- details$column_fallback
-    if(as.character(year) %in% details$years &&
-       col.preferred %in% names(dt) &&
+## `merge.dt` is the long-format merge table from config_to_dt():
+## columns out_name | year | column_preferred | column_fallback,
+## one row per (rule, year).
+merge_vars <- function(dt, merge.dt, year){
+  yr <- year  # avoid year-column vs year-argument clash in the subset
+  rules <- merge.dt[year == yr]
+  for(i in seq_len(nrow(rules))){
+    variable.name <- rules$out_name[i]
+    col.preferred <- rules$column_preferred[i]
+    col.fallback <- rules$column_fallback[i]
+    if(col.preferred %in% names(dt) &&
        col.fallback %in% names(dt)){
       ## Coalesce data columns: prefer column_preferred where it has a
       ## real value. Treat the logical-skip sentinel (998, from

@@ -8,6 +8,7 @@ get_clean_data <- function(
 ) {
   config <- nsch::read_config(config.path)
   nsch::validate_config(config)
+  config <- config_to_dt(config)
   files.dt <- nsch::get_all_years(
     data.path = data.path, years = years, download = download)
   ## Process each year through the harmonization pipeline.

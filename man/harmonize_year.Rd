@@ -58,12 +58,20 @@ harmonize_year(dt, config, year, define.dt)
 library(data.table)
 ## Synthetic data: 2 rows, year 2099, one categorical variable.
 dt <- data.table(year = 2099L, sc_sex = c(1, 2))
+## Config transformation sections are long-format data.tables (as produced
+## by the internal config_to_dt() step). Empty sections here mean no
+## transform/rename/merge is applied.
 config <- list(
-  desired_variables = c("sc_sex"),
+  desired_variables = "sc_sex",
   transformations = list(
-    transform = list(),
-    rename_columns = list(),
-    merge_columns = list()))
+    transform = data.table(
+      variable = character(), year = integer(), value = character(),
+      new_value = character(), new_label = character()),
+    rename_columns = data.table(
+      old_name = character(), year = integer(), new_name = character()),
+    merge_columns = data.table(
+      out_name = character(), year = integer(),
+      column_preferred = character(), column_fallback = character())))
 define.dt <- data.table(
   variable = c("sc_sex", "sc_sex"),
   value = c("1", "2"),

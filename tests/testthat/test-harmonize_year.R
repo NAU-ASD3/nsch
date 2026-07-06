@@ -1,6 +1,11 @@
 library(testthat)
 library(data.table)
 
+## Configs in these tests are built nested (as they appear in JSON) and then
+## run through config_to_dt(), matching the real read -> validate -> convert
+## pipeline. harmonize_year and the individual consumers all expect the
+## converted (data.table) config shape.
+
 test_that("produces same result as calling steps manually", {
   ## Synthetic data: 3 rows, year 2099, two categorical variables.
   dt1 <- data.table(
@@ -10,7 +15,7 @@ test_that("produces same result as calling steps manually", {
   )
   dt2 <- data.table::copy(dt1)
   ## Minimal config with one transform, one rename, one merge, desired vars.
-  config <- list(
+  config <- nsch:::config_to_dt(list(
     desired_variables = c("sc_sex", "family"),
     transformations = list(
       transform = list(
@@ -29,7 +34,7 @@ test_that("produces same result as calling steps manually", {
       ),
       merge_columns = list()
     )
-  )
+  ))
   ## Synthetic define.dt with entries for both sc_sex (unrenamed) and
   ## fam_count (the pre-rename name of family).
   define.dt <- data.table(
@@ -55,14 +60,14 @@ test_that("works with empty transform rules", {
     year = 2099L,
     sc_sex = c(1, 2)
   )
-  config <- list(
+  config <- nsch:::config_to_dt(list(
     desired_variables = c("sc_sex"),
     transformations = list(
       transform = list(),
       rename_columns = list(),
       merge_columns = list()
     )
-  )
+  ))
   define.dt <- data.table(
     variable = c("sc_sex", "sc_sex"),
     value = c("1", "2"),
@@ -82,7 +87,7 @@ test_that("renamed column gets labeled from pre-rename define entries", {
     year = 2099L,
     fam_count = c(1, 2, 3, 1)
   )
-  config <- list(
+  config <- nsch:::config_to_dt(list(
     desired_variables = "family",
     transformations = list(
       transform = list(),
@@ -94,7 +99,7 @@ test_that("renamed column gets labeled from pre-rename define entries", {
       ),
       merge_columns = list()
     )
-  )
+  ))
   ## define.dt has entries for fam_count (the original .do variable name),
   ## NOT for family (the post-rename name).
   define.dt <- data.table(
@@ -121,7 +126,7 @@ test_that("merge output column gets labeled from preferred source define entries
     pref_col = c(1, NA, 2, NA),
     fall_col = c(NA, 2, NA, 1)
   )
-  config <- list(
+  config <- nsch:::config_to_dt(list(
     desired_variables = "merged_col",
     transformations = list(
       transform = list(),
@@ -134,7 +139,7 @@ test_that("merge output column gets labeled from preferred source define entries
         )
       )
     )
-  )
+  ))
   ## define.dt has entries for pref_col only — merged_col is not a
   ## real .do variable name.
   define.dt <- data.table(
@@ -163,7 +168,7 @@ test_that("regression: handles truelength=0 input via read_nsch_dta path", {
     tf
   )
   dt <- nsch::read_nsch_dta(tf)
-  config <- list(
+  config <- nsch:::config_to_dt(list(
     desired_variables = "test_var",
     transformations = list(
       transform = list(
@@ -177,7 +182,7 @@ test_that("regression: handles truelength=0 input via read_nsch_dta path", {
       rename_columns = list(),
       merge_columns = list()
     )
-  )
+  ))
   define.dt <- data.table(
     variable = c("test_var", "test_var"),
     value = c("1", "2"),

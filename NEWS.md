@@ -1,5 +1,11 @@
 # nsch news and updates
 
+## 2026.7.3 (PR#65)
+
+- Refactored the config transformation sections (rename/merge/transform) into long-format data.tables at a new internal `config_to_dt()` boundary, one row per (rule, year) and per (rule, year, value) for transforms. Consumers (`rename_vars`, `merge_vars`, `transform_values`, `build_alias_map`, `check_config_coverage`) now subset these tables by year instead of looping nested lists (#58).
+- Behavior-preserving: `get_clean_data(2016:2024)` output is byte-identical to the previous version. The change is for readability (the config is small, so a key or join would not change performance at this size).
+- `build_alias_map` now builds the alias with vector operations on the config data.tables instead of a for loop, addressing the review request on #45.
+
 ## 2026.6.26 (PR#45)
 
 - Fixed `apply_do_labels()` failing to label columns whose names changed via `rename_vars()` or `merge_vars()`. Affected columns came out as raw integer codes (instead of labeled factors) in years where the rename or merge applied.

@@ -7,21 +7,18 @@
 ##   (Merged columns inherit labels from the preferred source; the fallback
 ##   source's labels propagate via the _label companion column created by
 ##   merge_vars when both sources have transform-derived labels.)
-build_alias_map <- function(renames, merges, year) {
-  alias <- list()
-  yr.char <- as.character(year)
-  for (old.name in names(renames)) {
-    entry <- renames[[old.name]]
-    if (yr.char %in% entry$years) {
-      alias[[entry$new_name]] <- old.name
-    }
-  }
-  for (out.name in names(merges)) {
-    entry <- merges[[out.name]]
-    if (yr.char %in% entry$years) {
-      alias[[out.name]] <- entry$column_preferred
-    }
-  }
+##
+## `rename.dt` and `merge.dt` are the long-format config tables from
+## config_to_dt(): one row per (rule, year).
+build_alias_map <- function(rename.dt, merge.dt, year) {
+  yr <- year  # local copy avoids the year-column vs year-argument name clash
+  r <- rename.dt[year == yr]
+  m <- merge.dt[year == yr]
+  ## Names are the columns as they appear in dt (post rename/merge); values are
+  ## the names to look up in define.dt. Renames map new_name -> old_name, merges
+  ## map out_name -> column_preferred.
+  alias <- as.list(c(r$old_name, m$column_preferred))
+  names(alias) <- c(r$new_name, m$out_name)
   alias
 }
 
