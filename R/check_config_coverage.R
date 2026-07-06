@@ -80,7 +80,10 @@ check_config_coverage <- function(config, data.path) {
   do.years <- as.integer(regmatches(basename(do.files), regexpr("[0-9]{4}", basename(do.files))))
   ## Variables to check (exclude "year" — it's always present).
   desired <- setdiff(config$desired_variables, "year")
-  ## Long-format rename/merge tables from config_to_dt().
+  ## Accept the nested config from read_config() and convert to the long-format
+  ## data.tables the finders use. config_to_dt() is internal, so callers pass
+  ## the nested shape and we convert here.
+  config <- config_to_dt(config)
   rename.dt <- config$transformations$rename_columns
   merge.dt <- config$transformations$merge_columns
   out.list <- vector("list", length(do.files) * length(desired))

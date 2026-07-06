@@ -1,15 +1,16 @@
 library(testthat)
 library(data.table)
 
-## Helper: build a nested config and run it through config_to_dt(), matching
-## the real pipeline path (read_config -> validate_config -> config_to_dt).
+## Helper: build a nested config as returned by read_config(). check_config_coverage
+## converts it internally, so we pass the nested shape (as a user would with
+## read_config() output).
 make_config <- function(desired, renames = list(), merges = list()) {
-  nsch:::config_to_dt(list(
+  list(
     desired_variables = desired,
     transformations = list(
       transform = list(),
       rename_columns = renames,
-      merge_columns = merges)))
+      merge_columns = merges))
 }
 
 test_that("detects variable present directly in .do file", {
