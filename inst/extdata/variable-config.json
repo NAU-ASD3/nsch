@@ -282,9 +282,9 @@
 
 			"k2q01_d": {
 				"years":     ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
-				"value":     ["6"],
-				"new_value": ["6"],
-				"new_label": ["This child does not have any teeth [T1 only]"]
+				"value":     ["1", "2", "3", "4", "5", "6"],
+				"new_value": ["1", "2", "3", "4", "5", "6"],
+				"new_label": ["Excellent", "Very Good", "Good", "Fair", "Poor", "This child does not have any teeth [T1 only]"]
 			},
 
 			"k2q35a_1_years": {
