@@ -1,5 +1,10 @@
 # nsch news and updates
 
+## 2026.7.2 (PR#63)
+
+- Hardened `apply_do_labels()` against alias year-list overshoot (#52). When a rename/merge alias points at a name with no define entries for a given year but the column's own name has them, the rename did not fire that year (the column is natively named), so its own define entries are now used instead of dropping the column to unlabeled.
+- Only rescues the native-name case; a misconfigured alias whose column also lacks define entries still falls through unlabeled, as before.
+
 ## 2026.6.27 (PR#61)
 
 - Fixed `k2q01_d` (child's teeth condition) coming back unlabeled for 2016. The 2016 `.do` attaches `k2q01_d` to an incomplete label set that only defines value 6 ("no teeth"), with the `Excellent`-`Poor` scale (values 1-5) living in a separate label set that never got applied, so 2016 values 1-5 fell through to NA.
