@@ -45,4 +45,4 @@ vignettes/*.pdf
 *~
 
 # Local data artifacts
-/data_Classif.zip
+/data_*.zip
