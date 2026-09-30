@@ -26,6 +26,10 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       RCMDCHECK_ERROR_ON: note
+      # R CMD check verifies the system clock against worldclockapi.com,
+      # which can be unreachable; with ERROR_ON note that outage fails
+      # the build.
+      _R_CHECK_SYSTEM_CLOCK_: 0
       R_KEEP_PKG_SOURCE: yes
 
     steps:
