@@ -42,7 +42,6 @@ remotes::install_github("NAU-ASD3/nsch", auth_token = "your_pat_here")
 ```
 
 ```{r}
-library(nsch)
 library(data.table)
 ```
 
@@ -53,7 +52,7 @@ let the package download them for you and generate the harmonized dataset in a
 single call, by passing `download = TRUE`:
 
 ```{r}
-d <- get_clean_data(years = 2016:2024, download = TRUE)
+d <- nsch::get_clean_data(years = 2016:2024, download = TRUE)
 ```
 
 This fetches each year's file from the NSCH data portal into
@@ -65,7 +64,7 @@ If you already have the Stata files, point `data.path` at them and skip the
 download:
 
 ```{r}
-d <- get_clean_data(
+d <- nsch::get_clean_data(
   years = 2016:2024,
   data.path = "path/to/your/NSCH_data/00_original_Stata")
 ```
@@ -110,21 +109,15 @@ responsible for confirming it behaves sensibly across years.
 
 BMI classification (`bmiclass`) is an example. It is in the raw files but not in
 the harmonized set. Read each raw year, keep the survey ID (`hhid`) and
-`bmiclass`, stack the years, and join onto the harmonized data.
+`bmiclass`, and join onto the harmonized data.
 
 ```{r}
 "bmiclass" %in% names(d)   # FALSE: not harmonized
 
-add_bmiclass <- function(years, data.path = "NSCH_data/00_original_Stata") {
-  files <- get_all_years(data.path = data.path, years = years)
-  parts <- lapply(seq_len(nrow(files)), function(i) {
-    raw <- read_nsch_dta(files[["dta.path"]][i])
-    raw[, .(hhid, year = files[["year"]][i], bmiclass)]
-  })
-  data.table::rbindlist(parts)
-}
+files <- nsch::get_all_years(
+  data.path = "NSCH_data/00_original_Stata", years = 2016:2024)
+bmi <- files[, nsch::read_nsch_dta(dta.path)[, .(hhid, bmiclass)], by = year]
 
-bmi <- add_bmiclass(2016:2024)
 d_plus <- merge(d, bmi, by = c("hhid", "year"), all.x = TRUE)
 ```
 
