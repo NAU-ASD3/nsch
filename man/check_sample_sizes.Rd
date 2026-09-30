@@ -23,8 +23,7 @@ check_sample_sizes(dt)
   Chris Reger
 }
 \examples{
-library(data.table)
-dt <- data.table(
+dt <- data.table::data.table(
   year = c(2016L, 2016L, 2016L, 2017L, 2017L),
   x = 1:5)
 nsch::check_sample_sizes(dt)

@@ -28,8 +28,7 @@ check_label_consistency(dt)
   Chris Reger
 }
 \examples{
-library(data.table)
-dt <- data.table(
+dt <- data.table::data.table(
   year = c(2016L, 2016L, 2017L, 2017L),
   status = factor(c("A", "B", "A", "C")))
 nsch::check_label_consistency(dt)
