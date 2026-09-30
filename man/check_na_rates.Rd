@@ -25,8 +25,7 @@ check_na_rates(dt)
   Chris Reger
 }
 \examples{
-library(data.table)
-dt <- data.table(
+dt <- data.table::data.table(
   year = c(2016L, 2016L, 2017L, 2017L),
   x = c(1, NA, 3, 4),
   y = c(NA, NA, 5, 6))

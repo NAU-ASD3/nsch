@@ -52,9 +52,8 @@ apply_do_labels(dt, define.dt, alias = list())
   Chris Reger
 }
 \examples{
-  library(data.table)
-  dt <- data.table(sc_sex = c(1, 2, 997))
-  define.dt <- data.table(
+  dt <- data.table::data.table(sc_sex = c(1, 2, 997))
+  define.dt <- data.table::data.table(
     variable = rep("sc_sex", 5),
     value = c("1", "2", ".m", ".n", ".d"),
     desc = c("Male", "Female", "No valid response",
@@ -64,7 +63,7 @@ apply_do_labels(dt, define.dt, alias = list())
   dt$sc_sex
 
   ## With alias for a renamed column:
-  dt2 <- data.table(sex_renamed = c(1, 2))
+  dt2 <- data.table::data.table(sex_renamed = c(1, 2))
   nsch::apply_do_labels(
     dt2, define.dt,
     alias = list(sex_renamed = "sc_sex"))
