@@ -43,3 +43,6 @@ vignettes/*.pdf
 
 # Editor backups
 *~
+
+# Local data artifacts
+/data_*.zip
