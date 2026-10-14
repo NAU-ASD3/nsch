@@ -7,8 +7,9 @@ validate_config <- function(config, do.list = NULL){
       "but got length ", length(dv),
       " of class ", paste(class(dv), collapse = "/"))
   }
-  ## 2. Each transform entry needs equal-length years, value,
-  ##    new_value, new_label.
+  ## 2. Each transform entry needs equal-length value, new_value,
+  ##    new_label.  years is not length-checked: it lists which years
+  ##    the rule applies to, independent of how many values it remaps.
   transforms <- config$transformations$transform
   for(var.name in names(transforms)){
     entry <- transforms[[var.name]]

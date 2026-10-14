@@ -4,6 +4,10 @@
 
 - Added a vignette, "Generating the harmonized NSCH dataset", covering package installation from GitHub, downloading the raw data and generating the combined 2016-2024 dataset with `get_clean_data()`, selecting a subset of variables, and pulling in a raw variable the package does not harmonize.
 
+## 2026.9.29 (PR#71)
+
+- Examples in the six `.Rd` files that called `library(data.table)` now use `data.table::` qualification instead, matching the `nsch::` convention already documented in CONTRIBUTING.md (#66).
+
 ## 2026.7.2 (PR#63)
 
 - Hardened `apply_do_labels()` against alias year-list overshoot (#52). When a rename/merge alias points at a name with no define entries for a given year but the column's own name has them, the rename did not fire that year (the column is natively named), so its own define entries are now used instead of dropping the column to unlabeled.
