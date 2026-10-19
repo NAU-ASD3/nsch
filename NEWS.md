@@ -1,5 +1,10 @@
 # nsch news and updates
 
+## 2026.10.18 (PR#74)
+
+- Added the 2025 survey year: "2025" is appended to the 40 configuration rules that apply in 2024 (2 renames, 1 merge, 37 transforms), so 2025 is harmonized the same way as 2024. Every source column those rules read in 2024 is in the 2025 file under the same name.
+- The vignette now builds 2016 through 2025.
+
 ## 2026.9.30 (PR#62)
 
 - Added a vignette, "Generating the harmonized NSCH dataset", covering package installation from GitHub, downloading the raw data and generating the combined 2016-2024 dataset with `get_clean_data()`, selecting a subset of variables, and pulling in a raw variable the package does not harmonize.
