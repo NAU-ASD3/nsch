@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 ```
 
 This vignette shows how to produce the harmonized NSCH dataset (survey years
-2016 through 2024) with the `nsch` package: installing the package, getting the
+2016 through 2025) with the `nsch` package: installing the package, getting the
 raw data, generating the combined dataset, pulling a subset of variables, and
 adding a raw variable that the package does not harmonize.
 
@@ -52,7 +52,7 @@ let the package download them for you and generate the harmonized dataset in a
 single call, by passing `download = TRUE`:
 
 ```{r}
-d <- nsch::get_clean_data(years = 2016:2024, download = TRUE)
+d <- nsch::get_clean_data(years = 2016:2025, download = TRUE)
 ```
 
 This fetches each year's file from the NSCH data portal into
@@ -65,7 +65,7 @@ download:
 
 ```{r}
 d <- nsch::get_clean_data(
-  years = 2016:2024,
+  years = 2016:2025,
   data.path = "path/to/your/NSCH_data/00_original_Stata")
 ```
 
@@ -115,7 +115,7 @@ the harmonized set. Read each raw year, keep the survey ID (`hhid`) and
 "bmiclass" %in% names(d)   # FALSE: not harmonized
 
 files <- nsch::get_all_years(
-  data.path = "NSCH_data/00_original_Stata", years = 2016:2024)
+  data.path = "NSCH_data/00_original_Stata", years = 2016:2025)
 bmi <- files[, nsch::read_nsch_dta(dta.path)[, .(hhid, bmiclass)], by = year]
 
 d_plus <- merge(d, bmi, by = c("hhid", "year"), all.x = TRUE)
