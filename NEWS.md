@@ -1,6 +1,6 @@
 # nsch news and updates
 
-## 2026.10.18 (PR#74)
+## 2026.10.28 (PR#74)
 
 - Added the 2025 survey year: "2025" is appended to the 40 configuration rules that apply in 2024 (2 renames, 1 merge, 37 transforms), so 2025 is harmonized the same way as 2024. Every source column those rules read in 2024 is in the 2025 file under the same name.
 - The vignette now builds 2016 through 2025.
