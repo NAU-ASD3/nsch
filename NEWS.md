@@ -1,5 +1,10 @@
 # nsch news and updates
 
+## 2026.11.9 (PR#75)
+
+- `apply_do_labels()` now converts a column to a factor only when every value in it has a label. Columns whose `.do` labels cover only a top or bottom code (`a1_age`, `a2_age`, `famcount`, `hhcount`, `k11q43r`, `fpl_i1`, `k2q35a_1_years`) became factors with just those levels, so every other value turned into NA; they now stay numeric, as in Stata.
+- A `_label` companion of a column that stays numeric is dropped, which removes the empty `k2q35a_1_years_label` column from `get_clean_data()`'s output.
+
 ## 2026.10.28 (PR#74)
 
 - Added the 2025 survey year: "2025" is appended to the 40 configuration rules that apply in 2024 (2 renames, 1 merge, 37 transforms), so 2025 is harmonized the same way as 2024. Every source column those rules read in 2024 is in the 2025 file under the same name.
