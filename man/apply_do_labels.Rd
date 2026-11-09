@@ -13,14 +13,14 @@
   is removed.  Columns with no matching define entries are left
   numeric, but sentinel codes are still replaced with \code{NA}.
 
-  A column becomes a factor only when every value in it has a
-  label.  Some .do files label just the top or bottom code of a
+  A column becomes a factor only when every non-missing value in
+  it has a label, decided per year from that year's data.  Some .do files label just the top or bottom code of a
   count or an age (for example \code{a1_age} 70, "70 or older",
   and \code{hhcount} 10, "10 or more"); a factor would turn every
   other value into \code{NA}, so these columns stay numeric, with
-  sentinel codes replaced by \code{NA}, as they are in Stata.  A
-  \code{_label} companion of a column that stays numeric is
-  removed too.
+  sentinel codes replaced by \code{NA}, as they are in Stata.  The
+  \code{_label} companion of any column that is not converted to a
+  factor is removed too.
 
   When a column's name in \code{dt} differs from the variable
   name in \code{define.dt} (because an upstream \code{rename_vars}

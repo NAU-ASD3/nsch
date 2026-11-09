@@ -31,7 +31,7 @@ apply_do_labels <- function(dt, define.dt, alias = list()) {
       ## Skip variables that have only missing-data codes (no real values).
       if (nrow(real.defs) == 0) {
         ## Still replace sentinels with NA for numeric columns.
-        keep_numeric(dt, col.name, sentinel.codes)
+        leave_unlabeled(dt, col.name, sentinel.codes)
         next
       }
       
@@ -48,7 +48,8 @@ apply_do_labels <- function(dt, define.dt, alias = list()) {
       }
 
       ## A factor keeps only the labeled values, so convert only when every
-      ## value in the column has a label (from the .do or a _label override).
+      ## non-missing value has a label (from the .do or a _label override).
+      ## The decision is made per year, from that year's data.
       ## Some .do files label just the top or bottom code of a count or age,
       ## such as a1_age 70 "70 or older" or hhcount 10 "10 or more"; a factor
       ## would turn all the other values into NA, so those columns stay
@@ -62,7 +63,7 @@ apply_do_labels <- function(dt, define.dt, alias = list()) {
           is.unlabeled <- is.unlabeled & is.na(override.labels)
         }
         if (any(is.unlabeled)) {
-          keep_numeric(dt, col.name, sentinel.codes)
+          leave_unlabeled(dt, col.name, sentinel.codes)
           next
         }
       }
@@ -94,16 +95,17 @@ apply_do_labels <- function(dt, define.dt, alias = list()) {
       data.table::set(dt, j = col.name, value = new.factor)
     } else {
       ## Column with no define entries: replace sentinels with NA.
-      keep_numeric(dt, col.name, sentinel.codes)
+      leave_unlabeled(dt, col.name, sentinel.codes)
     }
   }
   invisible(dt)
 }
 
-## Internal: leave a column numeric, with sentinel codes replaced by NA, and
-## drop its _label companion. Those labels only take effect through a factor,
-## so for a numeric column they have nowhere to go.
-keep_numeric <- function(dt, col.name, sentinel.codes) {
+## Internal: leave a column unconverted, replacing sentinel codes with NA if
+## it is numeric, and drop its _label companion. Those labels only take effect
+## through a factor, so for a column that isn't converted they have nowhere
+## to go.
+leave_unlabeled <- function(dt, col.name, sentinel.codes) {
   col.vec <- dt[[col.name]]
   if (is.numeric(col.vec)) {
     is.sentinel <- col.vec %in% sentinel.codes

@@ -2,8 +2,8 @@
 
 ## 2026.11.9 (PR#75)
 
-- `apply_do_labels()` now converts a column to a factor only when every value in it has a label. Columns whose `.do` labels cover only a top or bottom code (`a1_age`, `a2_age`, `famcount`, `hhcount`, `k11q43r`, `fpl_i1`, `k2q35a_1_years`) became factors with just those levels, so every other value turned into NA; they now stay numeric, as in Stata.
-- A `_label` companion of a column that stays numeric is dropped, which removes the empty `k2q35a_1_years_label` column from `get_clean_data()`'s output.
+- `apply_do_labels()` now converts a column to a factor only when every non-missing value in it has a label. Columns whose `.do` labels cover only a top or bottom code (`a1_age`, `a2_age`, `famcount`, `hhcount`, `k11q43r`, `fpl_i1`, `k2q35a_1_years`) became factors with just those levels, so every other value turned into NA; they now stay numeric, as in Stata. These seven columns change type in `get_clean_data()` output, from factor to numeric.
+- The `_label` companion of a column that isn't converted to a factor is dropped, which removes the empty `k2q35a_1_years_label` column from `get_clean_data()`'s output.
 
 ## 2026.10.28 (PR#74)
 
