@@ -22,7 +22,7 @@ make_combined <- function(n.2016 = 10, n.other = 40) {
     "9th-12th grade; No diploma",
     "High School Graduate or GED Completed",
     "Completed a vocational, trade, or business school program",
-    "Some College Credit, but No Degree",
+    "Some College Credit, but no Degree",
     "Associate Degree (AA, AS)",
     "Bachelor's Degree (BA, BS, AB)",
     "Master's Degree (MA, MS, MSW, MBA)",
@@ -46,7 +46,7 @@ make_combined <- function(n.2016 = 10, n.other = 40) {
     "9th-12th grade; No diploma" = "Less than high school",
     "High School Graduate or GED Completed" = "High school (including vocational, trade, or business school)",
     "Completed a vocational, trade, or business school program" = "High school (including vocational, trade, or business school)",
-    "Some College Credit, but No Degree" = "More than high school",
+    "Some College Credit, but no Degree" = "More than high school",
     "Associate Degree (AA, AS)" = "More than high school",
     "Bachelor's Degree (BA, BS, AB)" = "More than high school",
     "Master's Degree (MA, MS, MSW, MBA)" = "More than high school",
@@ -57,7 +57,7 @@ make_combined <- function(n.2016 = 10, n.other = 40) {
     "9th-12th grade; No diploma" = "Less than high school",
     "High School Graduate or GED Completed" = "High school (including vocational, trade, or business school)",
     "Completed a vocational, trade, or business school program" = "High school (including vocational, trade, or business school)",
-    "Some College Credit, but No Degree" = "Some college or Associate Degree",
+    "Some College Credit, but no Degree" = "Some college or Associate Degree",
     "Associate Degree (AA, AS)" = "Some college or Associate Degree",
     "Bachelor's Degree (BA, BS, AB)" = "College degree or higher",
     "Master's Degree (MA, MS, MSW, MBA)" = "College degree or higher",
@@ -147,4 +147,86 @@ test_that("non-imputed 2016 rows are not modified", {
   nsch::impute_a1_grade_2016(dt, tf, seed = 1L)
   after <- dt[year == 2016L & hhid %in% non.imputed.hhids]
   expect_identical(before, after)
+})
+
+test_that("weights file has the nine categories from imputed 2017-2022 rows", {
+  weights.dt <- data.table::fread(system.file(
+    "extdata", "a1_grade_2016_weights.csv", package = "nsch", mustWork = TRUE))
+  expect_identical(weights.dt[["code"]], 1:9)
+  expect_identical(weights.dt[["group"]], c(1L, 1L, 2L, 2L, 3L, 3L, 3L, 3L, 3L))
+  expect_identical(weights.dt[["label"]], c(
+    "8th grade or less",
+    "9th-12th grade; No diploma",
+    "High School Graduate or GED Completed",
+    "Completed a vocational, trade, or business school program",
+    "Some College Credit, but no Degree",
+    "Associate Degree (AA, AS)",
+    "Bachelor's Degree (BA, BS, AB)",
+    "Master's Degree (MA, MS, MSW, MBA)",
+    "Doctorate (PhD, EdD) or Professional Degree (MD, DDS, DVM, JD)"
+  ))
+  expect_identical(
+    weights.dt[["n"]],
+    c(111L, 216L, 1149L, 380L, 1065L, 677L, 1778L, 957L, 293L)
+  )
+  ## 6,626 respondents had a1_grade imputed in 2017-2022.
+  expect_identical(sum(weights.dt[["n"]]), 6626L)
+})
+
+test_that("2016 draws do not depend on the other years in combined.dt", {
+  dta.path <- make_2016_dta(100)
+  set.seed(1)
+  dt.small <- make_combined(100, 40)
+  set.seed(2)
+  dt.large <- make_combined(100, 400)
+  dt.2016.only <- dt.small[year == 2016L]
+  nsch::impute_a1_grade_2016(dt.small, dta.path, seed = 1L)
+  nsch::impute_a1_grade_2016(dt.large, dta.path, seed = 1L)
+  nsch::impute_a1_grade_2016(dt.2016.only, dta.path, seed = 1L)
+  expect_identical(dt.large[year == 2016L], dt.small[year == 2016L])
+  expect_identical(dt.2016.only, dt.small[year == 2016L])
+})
+
+test_that("Some College Credit, but no Degree is drawn for the top group", {
+  top.group.hhids <- 1:200
+  tf <- tempfile(fileext = ".dta")
+  haven::write_dta(data.frame(
+    year = 2016L, hhid = top.group.hhids, a1_grade_if = TRUE, a1_grade_i = 3L
+  ), tf)
+  dt <- make_combined(length(top.group.hhids), 40)
+  nsch::impute_a1_grade_2016(dt, tf, seed = 1L)
+  expect_in(
+    "Some College Credit, but no Degree",
+    as.character(dt[year == 2016L, a1_grade])
+  )
+  expect_in(
+    as.character(dt[year == 2016L, a1_grade]),
+    c("Some College Credit, but no Degree",
+      "Associate Degree (AA, AS)",
+      "Bachelor's Degree (BA, BS, AB)",
+      "Master's Degree (MA, MS, MSW, MBA)",
+      "Doctorate (PhD, EdD) or Professional Degree (MD, DDS, DVM, JD)")
+  )
+})
+
+test_that("error when a drawn category is not a level of a1_grade", {
+  top.group.hhids <- 1:200
+  tf <- tempfile(fileext = ".dta")
+  haven::write_dta(data.frame(
+    year = 2016L, hhid = top.group.hhids, a1_grade_if = TRUE, a1_grade_i = 3L
+  ), tf)
+  dt <- make_combined(length(top.group.hhids), 40)
+  ## The spelling the package used before; the weights file has "no Degree".
+  old.levels <- levels(dt[["a1_grade"]])
+  old.levels[old.levels == "Some College Credit, but no Degree"] <-
+    "Some College Credit, but No Degree"
+  data.table::setattr(dt[["a1_grade"]], "levels", old.levels)
+  before <- data.table::copy(dt)
+  expect_error(
+    nsch::impute_a1_grade_2016(dt, tf, seed = 1L),
+    "a1_grade has no level for: Some College Credit, but no Degree",
+    fixed = TRUE
+  )
+  ## The check runs before any column is changed.
+  expect_identical(dt, before)
 })

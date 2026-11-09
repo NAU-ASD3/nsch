@@ -9,15 +9,25 @@
   than the 9 fine-grained categories used in 2017 and later.
 
   This function cannot use the standard config-driven transform
-  pipeline because it requires cross-year proportion computation
-  and probabilistic redistribution — operations that the per-year
+  pipeline because it reads columns from the raw 2016 file that
+  harmonization drops (\code{a1_grade_if}, \code{a1_grade_i}) and
+  draws at random, operations that the per-year
   transform/rename/merge system does not support.
 
   For each 2016 row where the imputation flag is set, the function
   reads the coarse group from the raw 2016 \code{.dta} file, then
-  uses \code{\link{sample}} with weights derived from the non-2016
-  \code{a1_grade} distribution to assign a fine category.
-  Reproducible given the same \code{seed} via \code{\link{set.seed}}.
+  uses \code{\link{sample}} to assign a fine category within that
+  group.  Reproducible given the same \code{seed} via
+  \code{\link{set.seed}}.
+
+  The sampling weights are how often each fine category occurs among
+  respondents whose \code{a1_grade} was itself imputed
+  (\code{a1_grade_if} = 1) in 2017 to 2022, the pool the original
+  analysis used.  They ship with the package in
+  \code{inst/extdata/a1_grade_2016_weights.csv}, so the 2016 values
+  do not depend on which other years \code{combined.dt} contains;
+  \code{data-raw/a1_grade_2016_weights.R} in the source repository
+  rebuilds the file from the raw Stata files.
 
   After assigning fine \code{a1_grade} values, the function
   deterministically updates \code{higrade} (3-level) and

@@ -39,7 +39,7 @@ a1_grade_if <- year <- hhid <- NULL ## for R CMD check
       "Completed a vocational, trade, or business school program"
     ),
     "3" = c(
-      "Some College Credit, but No Degree",
+      "Some College Credit, but no Degree",
       "Associate Degree (AA, AS)",
       "Bachelor's Degree (BA, BS, AB)",
       "Master's Degree (MA, MS, MSW, MBA)",
@@ -55,7 +55,7 @@ a1_grade_if <- year <- hhid <- NULL ## for R CMD check
       "High school (including vocational, trade, or business school)",
     "Completed a vocational, trade, or business school program" =
       "High school (including vocational, trade, or business school)",
-    "Some College Credit, but No Degree" = "More than high school",
+    "Some College Credit, but no Degree" = "More than high school",
     "Associate Degree (AA, AS)" = "More than high school",
     "Bachelor's Degree (BA, BS, AB)" = "More than high school",
     "Master's Degree (MA, MS, MSW, MBA)" = "More than high school",
@@ -72,7 +72,7 @@ a1_grade_if <- year <- hhid <- NULL ## for R CMD check
       "High school (including vocational, trade, or business school)",
     "Completed a vocational, trade, or business school program" =
       "High school (including vocational, trade, or business school)",
-    "Some College Credit, but No Degree" = "Some college or Associate Degree",
+    "Some College Credit, but no Degree" = "Some college or Associate Degree",
     "Associate Degree (AA, AS)" = "Some college or Associate Degree",
     "Bachelor's Degree (BA, BS, AB)" = "College degree or higher",
     "Master's Degree (MA, MS, MSW, MBA)" = "College degree or higher",
@@ -80,26 +80,17 @@ a1_grade_if <- year <- hhid <- NULL ## for R CMD check
       "College degree or higher"
   )
   
-  ## Compute the distribution of fine a1_grade categories from non-2016
-  ## rows.  These proportions are used as sampling weights to
-  ## redistribute the coarse 2016 categories across fine categories.
-  other.grades <- as.character(
-    combined.dt[year != 2016L][["a1_grade"]])
-  other.grades <- other.grades[!is.na(other.grades)]
-  grade.counts <- table(other.grades)
-  
-  ## Build per-group weight vectors.  If a group has zero observations
-  ## in non-2016 data (unlikely), fall back to uniform weights.
+  ## Sampling weights: how often each fine category occurs among
+  ## respondents whose a1_grade was itself imputed (a1_grade_if = 1) in
+  ## 2017-2022, as in the original analysis. They ship with the package, so
+  ## 2016's values don't depend on which other years combined.dt holds.
+  ## data-raw/a1_grade_2016_weights.R rebuilds the file from the raw data.
+  weights.dt <- data.table::fread(system.file(
+    "extdata", "a1_grade_2016_weights.csv", package = "nsch", mustWork = TRUE))
   group.weights <- lapply(a1.groups, function(fine.levels) {
-    counts <- grade.counts[fine.levels]
-    counts[is.na(counts)] <- 0
-    counts <- as.numeric(counts)
-    if (sum(counts) == 0)
-      rep(1, length(fine.levels))
-    else
-      counts
+    weights.dt[["n"]][match(fine.levels, weights.dt[["label"]])]
   })
-  
+
   ## Look up each 2016 imputed row's coarse group from the raw data,
   ## matching on hhid.
   imp.lookup <- imp.dt[a1_grade_if == TRUE]
@@ -123,6 +114,10 @@ a1_grade_if <- year <- hhid <- NULL ## for R CMD check
   
   ## Update combined.dt by reference, preserving existing factor levels.
   a1.levels <- levels(combined.dt[["a1_grade"]])
+  not.levels <- setdiff(new.a1, c(a1.levels, ""))
+  if (length(not.levels) > 0) {
+    stop("a1_grade has no level for: ", paste(not.levels, collapse = ", "))
+  }
   hi.levels <- levels(combined.dt[["higrade"]])
   tvis.levels <- levels(combined.dt[["higrade_tvis"]])
   data.table::set(

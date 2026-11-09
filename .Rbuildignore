@@ -5,3 +5,4 @@ build.sh
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^data_.*\.zip$
+^data-raw$

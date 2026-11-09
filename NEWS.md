@@ -1,5 +1,11 @@
 # nsch news and updates
 
+## 2026.11.9.1 (PR#78)
+
+- `impute_a1_grade_2016()` now draws each 2016 row's detailed category with weights from how often it occurs among respondents whose `a1_grade` was itself imputed (`a1_grade_if` = 1) in 2017-2022, as the original analysis did. Before, the weights came from every respondent in the other years of `combined.dt`, so adding a year changed 2016's values and a 2016-only build used equal weights. The counts ship in `inst/extdata/a1_grade_2016_weights.csv` (the same file as nsch-py's), and `data-raw/a1_grade_2016_weights.R` rebuilds it from the raw files.
+- The imputation spelled one category "Some College Credit, but No Degree", which matches no level in the data, so it was never drawn. It's now "Some College Credit, but no Degree". In the 2016 output that category gains about 200 rows from the rest of the top group, and about 200 rows of `higrade_tvis` move from "College degree or higher" to "Some college or Associate Degree".
+- `impute_a1_grade_2016()` now stops with an error, before changing anything, if a drawn category isn't a level of `a1_grade`.
+
 ## 2026.11.9 (PR#75)
 
 - `apply_do_labels()` now converts a column to a factor only when every non-missing value in it has a label. Columns whose `.do` labels cover only a top or bottom code (`a1_age`, `a2_age`, `famcount`, `hhcount`, `k11q43r`, `fpl_i1`, `k2q35a_1_years`) became factors with just those levels, so every other value turned into NA; they now stay numeric, as in Stata. These seven columns change type in `get_clean_data()` output, from factor to numeric.
