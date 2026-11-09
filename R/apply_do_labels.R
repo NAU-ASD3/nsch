@@ -31,14 +31,7 @@ apply_do_labels <- function(dt, define.dt, alias = list()) {
       ## Skip variables that have only missing-data codes (no real values).
       if (nrow(real.defs) == 0) {
         ## Still replace sentinels with NA for numeric columns.
-        if (is.numeric(dt[[col.name]])) {
-          col.vec <- dt[[col.name]]
-          is.sentinel <- col.vec %in% sentinel.codes
-          if (any(is.sentinel, na.rm = TRUE)) {
-            col.vec[is.sentinel] <- NA
-            data.table::set(dt, j = col.name, value = col.vec)
-          }
-        }
+        leave_unlabeled(dt, col.name, sentinel.codes)
         next
       }
       
@@ -52,6 +45,27 @@ apply_do_labels <- function(dt, define.dt, alias = list()) {
       has.label.col <- label.col %in% names(dt)
       if (has.label.col) {
         override.labels <- dt[[label.col]]
+      }
+
+      ## A factor keeps only the labeled values, so convert only when every
+      ## non-missing value has a label (from the .do or a _label override).
+      ## The decision is made per year, from that year's data.
+      ## Some .do files label just the top or bottom code of a count or age,
+      ## such as a1_age 70 "70 or older" or hhcount 10 "10 or more"; a factor
+      ## would turn all the other values into NA, so those columns stay
+      ## numeric, as they are in Stata.
+      col.vec <- dt[[col.name]]
+      if (is.numeric(col.vec)) {
+        is.unlabeled <- !is.na(col.vec) &
+          !(col.vec %in% sentinel.codes) &
+          !(col.vec %in% factor.levels)
+        if (has.label.col) {
+          is.unlabeled <- is.unlabeled & is.na(override.labels)
+        }
+        if (any(is.unlabeled)) {
+          leave_unlabeled(dt, col.name, sentinel.codes)
+          next
+        }
       }
       
       ## Convert to factor; sentinel codes become NA automatically
@@ -79,15 +93,30 @@ apply_do_labels <- function(dt, define.dt, alias = list()) {
       
       ## Assign the completed factor to the data.table.
       data.table::set(dt, j = col.name, value = new.factor)
-    } else if (is.numeric(dt[[col.name]])) {
-      ## Numeric column with no define entries: replace sentinels with NA.
-      col.vec <- dt[[col.name]]
-      is.sentinel <- col.vec %in% sentinel.codes
-      if (any(is.sentinel, na.rm = TRUE)) {
-        col.vec[is.sentinel] <- NA
-        data.table::set(dt, j = col.name, value = col.vec)
-      }
+    } else {
+      ## Column with no define entries: replace sentinels with NA.
+      leave_unlabeled(dt, col.name, sentinel.codes)
     }
+  }
+  invisible(dt)
+}
+
+## Internal: leave a column unconverted, replacing sentinel codes with NA if
+## it is numeric, and drop its _label companion. Those labels only take effect
+## through a factor, so for a column that isn't converted they have nowhere
+## to go.
+leave_unlabeled <- function(dt, col.name, sentinel.codes) {
+  col.vec <- dt[[col.name]]
+  if (is.numeric(col.vec)) {
+    is.sentinel <- col.vec %in% sentinel.codes
+    if (any(is.sentinel, na.rm = TRUE)) {
+      col.vec[is.sentinel] <- NA
+      data.table::set(dt, j = col.name, value = col.vec)
+    }
+  }
+  label.col <- paste0(col.name, "_label")
+  if (label.col %in% names(dt)) {
+    data.table::set(dt, j = label.col, value = NULL)
   }
   invisible(dt)
 }

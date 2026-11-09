@@ -111,3 +111,110 @@ test_that("alias target absent AND column absent still falls through (#52)", {
   ## Unlabeled: stays numeric, sentinel 997 -> NA.
   expect_identical(dt$mystery, c(1, 2, NA))
 })
+
+test_that("column with only its top code labeled stays numeric", {
+  ## The .do files label only the top code of a1_age, so a factor would
+  ## keep 70 and turn every other age into NA.
+  dt <- data.table(a1_age = c(35, 70, 42, 997))
+  define.dt <- data.table(
+    variable = rep("a1_age", 3),
+    value = c("70", ".m", ".n"),
+    desc = c("70 or older", "No valid response", "Not in universe")
+  )
+  nsch::apply_do_labels(dt, define.dt)
+  expect_identical(dt$a1_age, c(35, 70, 42, NA))
+})
+
+test_that("_label companion of a column that stays numeric is removed", {
+  ## k2q35a_1_years: labels for 1 and 15, a transform label for 15,
+  ## and unlabeled values in between.
+  dt <- data.table(
+    k2q35a_1_years = c(1, 7, 15, 996),
+    k2q35a_1_years_label = c(NA, NA, "15, 16 or 17", NA)
+  )
+  define.dt <- data.table(
+    variable = rep("k2q35a_1_years", 3),
+    value = c("1", "15", ".m"),
+    desc = c("0 or 1", "15 to 17", "No valid response")
+  )
+  nsch::apply_do_labels(dt, define.dt)
+  expect_identical(dt, data.table(k2q35a_1_years = c(1, 7, 15, NA)))
+})
+
+test_that("_label companion of a column without define entries is removed", {
+  dt <- data.table(
+    k2q35a_1_years = c(3, 15, 997),
+    k2q35a_1_years_label = c(NA, "15, 16 or 17", NA)
+  )
+  define.dt <- data.table(variable = "sc_sex", value = "1", desc = "Male")
+  nsch::apply_do_labels(dt, define.dt)
+  expect_identical(dt, data.table(k2q35a_1_years = c(3, 15, NA)))
+})
+
+test_that("values labeled only by a _label override still give a factor", {
+  ## Every value has a label once the override is counted, so the column
+  ## is categorical and becomes a factor as before.
+  dt <- data.table(
+    k2q01_d = c(1, 2, 6),
+    k2q01_d_label = c("Excellent", "Very good", NA)
+  )
+  define.dt <- data.table(
+    variable = rep("k2q01_d", 2),
+    value = c("6", ".m"),
+    desc = c("Child does not have any teeth", "No valid response")
+  )
+  nsch::apply_do_labels(dt, define.dt)
+  expect_identical(dt, data.table(k2q01_d = factor(
+    c("Excellent", "Very good", "Child does not have any teeth"),
+    c("Child does not have any teeth", "Excellent", "Very good"))))
+})
+
+test_that("top-coded columns in the 2024 .do stay numeric", {
+  do.path <- system.file(
+    package = "nsch", "extdata", "nsch_2024_topical.do", mustWork = TRUE
+  )
+  define.dt <- nsch::parse_do(do.path)$define
+  dt <- data.table(
+    a1_age = c(18, 45, 70),
+    hhcount = c(2, 4, 10),
+    famcount = c(1, 3, 8),
+    k11q43r = c(0, 5, 10),
+    fpl_i1 = c(50, 175, 400)
+  )
+  nsch::apply_do_labels(dt, define.dt)
+  expect_identical(dt, data.table(
+    a1_age = c(18, 45, 70),
+    hhcount = c(2, 4, 10),
+    famcount = c(1, 3, 8),
+    k11q43r = c(0, 5, 10),
+    fpl_i1 = c(50, 175, 400)
+  ))
+})
+
+test_that("_label companion of a column with only missing codes is removed", {
+  dt <- data.table(x = c(1, 996), x_label = c("a", NA))
+  define.dt <- data.table(variable = "x", value = ".m",
+                          desc = "No valid response")
+  nsch::apply_do_labels(dt, define.dt)
+  expect_identical(dt, data.table(x = c(1, NA)))
+})
+
+test_that("column with no unlabeled values in a year still gives a factor", {
+  ## The decision is per year: with only sentinel codes there is no
+  ## unlabeled value, so the column becomes a factor as before.
+  dt <- data.table(a1_age = c(997, 997, NA))
+  define.dt <- data.table(variable = c("a1_age", "a1_age"),
+                          value = c("70", ".n"),
+                          desc = c("70 or older", "NIU"))
+  nsch::apply_do_labels(dt, define.dt)
+  expect_identical(dt$a1_age,
+                   factor(c(NA, NA, NA), "70 or older"))
+})
+
+test_that("NaN counts as missing when deciding", {
+  dt <- data.table(a1_age = c(70, NaN))
+  define.dt <- data.table(variable = "a1_age", value = "70",
+                          desc = "70 or older")
+  nsch::apply_do_labels(dt, define.dt)
+  expect_identical(dt$a1_age, factor(c("70 or older", NA), "70 or older"))
+})
