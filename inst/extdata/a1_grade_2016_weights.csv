@@ -1,0 +1,10 @@
+"code","group","label","n"
+1,1,"8th grade or less",111
+2,1,"9th-12th grade; No diploma",216
+3,2,"High School Graduate or GED Completed",1149
+4,2,"Completed a vocational, trade, or business school program",380
+5,3,"Some College Credit, but no Degree",1065
+6,3,"Associate Degree (AA, AS)",677
+7,3,"Bachelor's Degree (BA, BS, AB)",1778
+8,3,"Master's Degree (MA, MS, MSW, MBA)",957
+9,3,"Doctorate (PhD, EdD) or Professional Degree (MD, DDS, DVM, JD)",293
