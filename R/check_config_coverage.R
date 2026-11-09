@@ -13,7 +13,6 @@ find_rename_match <- function(var.name, yr, rename.dt, do.vars) {
       source = hits$old_name[1]
     ))
   }
-  NULL
 }
 
 ## Internal: try to find a merge rule that produces `var.name` for year `yr`.
