@@ -13,6 +13,15 @@
   is removed.  Columns with no matching define entries are left
   numeric, but sentinel codes are still replaced with \code{NA}.
 
+  A column becomes a factor only when every value in it has a
+  label.  Some .do files label just the top or bottom code of a
+  count or an age (for example \code{a1_age} 70, "70 or older",
+  and \code{hhcount} 10, "10 or more"); a factor would turn every
+  other value into \code{NA}, so these columns stay numeric, with
+  sentinel codes replaced by \code{NA}, as they are in Stata.  A
+  \code{_label} companion of a column that stays numeric is
+  removed too.
+
   When a column's name in \code{dt} differs from the variable
   name in \code{define.dt} (because an upstream \code{rename_vars}
   or \code{merge_vars} step changed the column name), pass an
@@ -45,8 +54,8 @@ apply_do_labels(dt, define.dt, alias = list())
 \value{
   \code{dt} is modified by reference and returned invisibly.
   Categorical columns are converted to factors; continuous
-  columns remain numeric with sentinel codes replaced by
-  \code{NA}.
+  columns, including those with labels on only some values,
+  remain numeric with sentinel codes replaced by \code{NA}.
 }
 \author{
   Chris Reger
@@ -61,6 +70,16 @@ apply_do_labels(dt, define.dt, alias = list())
   )
   nsch::apply_do_labels(dt, define.dt)
   dt$sc_sex
+
+  ## Only the top code has a label, so the column stays numeric:
+  age.dt <- data.table::data.table(a1_age = c(35, 70, 997))
+  age.define <- data.table::data.table(
+    variable = c("a1_age", "a1_age"),
+    value = c("70", ".m"),
+    desc = c("70 or older", "No valid response")
+  )
+  nsch::apply_do_labels(age.dt, age.define)
+  age.dt$a1_age
 
   ## With alias for a renamed column:
   dt2 <- data.table::data.table(sex_renamed = c(1, 2))
