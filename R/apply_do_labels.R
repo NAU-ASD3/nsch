@@ -1,3 +1,9 @@
+## Columns apply_do_labels() leaves unconverted in every year. stratum is 1
+## or 2 in every year, and only the 2016 .do labels it ("Stratum 1",
+## "Stratum 2"), so labeling it would make it a factor in 2016 and an integer
+## in every other year.
+unlabeled.columns <- "stratum"
+
 apply_do_labels <- function(dt, define.dt, alias = list()) {
   ## Sentinel codes from na_tag_map (shared with read_nsch_dta).
   sentinel.codes <- unname(na_tag_map)
@@ -20,7 +26,7 @@ apply_do_labels <- function(dt, define.dt, alias = list()) {
     if (!(lookup.name %in% defined.vars) && col.name %in% defined.vars) {
       lookup.name <- col.name
     }
-    if (lookup.name %in% defined.vars) {
+    if (lookup.name %in% defined.vars && !(col.name %in% unlabeled.columns)) {
       ## Get define rows for this variable (under its original name).
       col.defs <- define.dt[define.dt$variable == lookup.name, ]
       

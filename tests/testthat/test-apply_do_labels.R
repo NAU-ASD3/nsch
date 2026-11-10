@@ -218,3 +218,13 @@ test_that("NaN counts as missing when deciding", {
   nsch::apply_do_labels(dt, define.dt)
   expect_identical(dt$a1_age, factor(c("70 or older", NA), "70 or older"))
 })
+
+test_that("stratum stays an integer even when the .do labels it", {
+  ## The 2016 .do labels stratum 1 and 2; no later year does.
+  dt <- data.table(stratum = c(1L, 2L, 2L), stratum_label = NA_character_)
+  define.dt <- data.table(variable = "stratum",
+                          value = c("1", "2", ".m"),
+                          desc = c("Stratum 1", "Stratum 2", "No valid response"))
+  nsch::apply_do_labels(dt, define.dt)
+  expect_identical(dt, data.table(stratum = c(1L, 2L, 2L)))
+})

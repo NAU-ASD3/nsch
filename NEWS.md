@@ -1,5 +1,9 @@
 # nsch news and updates
 
+## 2026.11.9.2 (PR#NN)
+
+- `apply_do_labels()` no longer converts `stratum` to a factor. Only the 2016 `.do` file labels it ("Stratum 1", "Stratum 2"), so `get_clean_data()` gave a factor whose levels mixed those labels with "1" and "2" from the other years. `stratum` is now an integer, 1 or 2, in every year, as in nsch-py.
+
 ## 2026.11.9.1 (PR#78)
 
 - `impute_a1_grade_2016()` now draws each 2016 row's detailed category with weights from how often it occurs among respondents whose `a1_grade` was itself imputed (`a1_grade_if` = 1) in 2017-2022, as the original analysis did. Before, the weights came from every respondent in the other years of `combined.dt`, so adding a year changed 2016's values and a 2016-only build used equal weights. The counts ship in `inst/extdata/a1_grade_2016_weights.csv` (the same file as nsch-py's), and `data-raw/a1_grade_2016_weights.R` rebuilds it from the raw files.
