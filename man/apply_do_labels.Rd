@@ -22,6 +22,10 @@
   \code{_label} companion of any column that is not converted to a
   factor is removed too.
 
+  \code{stratum} is never converted.  It is 1 or 2 in every year, and
+  only the 2016 .do file labels it ("Stratum 1", "Stratum 2"), so a
+  factor would make it differ between 2016 and the other years.
+
   When a column's name in \code{dt} differs from the variable
   name in \code{define.dt} (because an upstream \code{rename_vars}
   or \code{merge_vars} step changed the column name), pass an
