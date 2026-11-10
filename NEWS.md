@@ -1,6 +1,6 @@
 # nsch news and updates
 
-## 2026.11.9.2 (PR#NN)
+## 2026.11.9.2 (PR#83)
 
 - `apply_do_labels()` no longer converts `stratum` to a factor. Only the 2016 `.do` file labels it ("Stratum 1", "Stratum 2"), so `get_clean_data()` gave a factor whose levels mixed those labels with "1" and "2" from the other years. `stratum` is now an integer, 1 or 2, in every year, as in nsch-py.
 
