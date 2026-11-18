@@ -230,3 +230,82 @@ test_that("error when a drawn category is not a level of a1_grade", {
   ## The check runs before any column is changed.
   expect_identical(dt, before)
 })
+
+## Helper: 2016 rows that already hold higrade and higrade_tvis, as the
+## real 2016 file does when a second adult's education was reported.
+## Returns the combined table and the .dta path.
+make_with_file_values <- function(a1.grade.i, file.higrade, file.tvis) {
+  n <- length(a1.grade.i)
+  tf <- tempfile(fileext = ".dta")
+  haven::write_dta(data.frame(
+    year = 2016L, hhid = seq_len(n), a1_grade_if = TRUE,
+    a1_grade_i = a1.grade.i
+  ), tf)
+  dt <- make_combined(n, 40)
+  rows <- which(dt[, year == 2016L])
+  data.table::set(dt, i = rows, j = "higrade", value = factor(
+    levels(dt[["higrade"]])[file.higrade], levels = levels(dt[["higrade"]])))
+  data.table::set(dt, i = rows, j = "higrade_tvis", value = factor(
+    levels(dt[["higrade_tvis"]])[file.tvis],
+    levels = levels(dt[["higrade_tvis"]])))
+  list(dt = dt, dta.path = tf)
+}
+
+test_that("a higrade value in the 2016 file is kept unless adult 1's group is higher", {
+  higrade <- higrade_tvis <- year <- NULL ## for R CMD check
+  ## Levels by position: higrade 1 = less than high school, 2 = high
+  ## school, 3 = more; higrade_tvis adds 3 = some college, 4 = college.
+  made <- make_with_file_values(
+    a1.grade.i   = c(1L, 2L, 2L, 2L, 3L, 1L),
+    file.higrade = c(3L, 1L, NA, 3L, 1L, 2L),
+    file.tvis    = c(4L, 1L, NA, 3L, 1L, 2L)
+  )
+  dt <- made[["dt"]]
+  nsch::impute_a1_grade_2016(dt, made[["dta.path"]], seed = 1L)
+  hi.levels <- levels(dt[["higrade"]])
+  tvis.levels <- levels(dt[["higrade_tvis"]])
+  ## Row 1: the file is higher, so it stays. Row 2: adult 1's group is
+  ## higher. Row 3: nothing in the file. Row 4: the file is higher. Row 5:
+  ## adult 1's group is higher. Row 6: the file is higher.
+  expect_identical(
+    as.character(dt[year == 2016L, higrade]),
+    hi.levels[c(3L, 2L, 2L, 3L, 3L, 2L)]
+  )
+  ## Group 2 always implies "High school" in higrade_tvis, so rows 1 to 4
+  ## and 6 don't depend on the draw. Row 5 is some college or higher.
+  expect_identical(
+    as.character(dt[year == 2016L, higrade_tvis])[c(1L, 2L, 3L, 4L, 6L)],
+    tvis.levels[c(4L, 2L, 2L, 3L, 2L)]
+  )
+  expect_in(
+    as.character(dt[year == 2016L, higrade_tvis])[5L],
+    tvis.levels[3:4]
+  )
+})
+
+test_that("higrade and higrade_tvis are the higher of the file and adult 1", {
+  a1_grade <- higrade <- higrade_tvis <- year <- NULL ## for R CMD check
+  set.seed(3)
+  n <- 300L
+  a1.grade.i <- sample(1:3, n, replace = TRUE)
+  ## A third of the rows have nothing in the file, as when adult 2 is
+  ## missing; the rest hold a value from any level.
+  file.higrade <- sample(c(NA, 1:3), n, replace = TRUE, prob = c(3, 2, 2, 2))
+  file.tvis <- ifelse(
+    is.na(file.higrade), NA,
+    ifelse(file.higrade < 3L, file.higrade, sample(3:4, n, replace = TRUE)))
+  made <- make_with_file_values(a1.grade.i, file.higrade, file.tvis)
+  dt <- made[["dt"]]
+  nsch::impute_a1_grade_2016(dt, made[["dta.path"]], seed = 1L)
+  expect_identical(
+    as.integer(dt[year == 2016L, higrade]),
+    pmax(file.higrade, a1.grade.i, na.rm = TRUE)
+  )
+  ## higrade_tvis level implied by each of the nine a1_grade levels.
+  tvis.of.a1 <- c(1L, 1L, 2L, 2L, 3L, 3L, 4L, 4L, 4L)
+  expect_identical(
+    as.integer(dt[year == 2016L, higrade_tvis]),
+    pmax(file.tvis, tvis.of.a1[as.integer(dt[year == 2016L, a1_grade])],
+         na.rm = TRUE)
+  )
+})
