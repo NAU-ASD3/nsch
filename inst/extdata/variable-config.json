@@ -114,7 +114,7 @@
 			"bestforchild": {
 				"years":     ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
 				"value":     ["998"],
-				"new_value": ["4"],
+				"new_value": ["5"],
 				"new_label": ["No healthcare provider visits last 12 months"]
 			},
 
@@ -149,7 +149,7 @@
 			"discussopt": {
 				"years":     ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
 				"value":     ["998"],
-				"new_value": ["4"],
+				"new_value": ["5"],
 				"new_label": ["No healthcare provider visits last 12 months"]
 			},
 
@@ -346,7 +346,7 @@
 			"k5q21": {
 				"years":     ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
 				"value":     ["998"],
-				"new_value": ["2"],
+				"new_value": ["3"],
 				"new_label": ["No healthcare provider visits last 12 months"]
 			},
 
@@ -360,35 +360,35 @@
 			"k5q40": {
 				"years":     ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
 				"value":     ["998"],
-				"new_value": ["4"],
+				"new_value": ["5"],
 				"new_label": ["No healthcare provider visits last 12 months"]
 			},
 
 			"k5q41": {
 				"years":     ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
 				"value":     ["998"],
-				"new_value": ["4"],
+				"new_value": ["5"],
 				"new_label": ["No healthcare provider visits last 12 months"]
 			},
 
 			"k5q42": {
 				"years":     ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
 				"value":     ["998"],
-				"new_value": ["4"],
+				"new_value": ["5"],
 				"new_label": ["No healthcare provider visits last 12 months"]
 			},
 
 			"k5q43": {
 				"years":     ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
 				"value":     ["998"],
-				"new_value": ["4"],
+				"new_value": ["5"],
 				"new_label": ["No healthcare provider visits last 12 months"]
 			},
 
 			"k5q44": {
 				"years":     ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
 				"value":     ["998"],
-				"new_value": ["4"],
+				"new_value": ["5"],
 				"new_label": ["No healthcare provider visits last 12 months"]
 			},
 
