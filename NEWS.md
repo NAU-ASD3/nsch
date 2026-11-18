@@ -1,5 +1,9 @@
 # nsch news and updates
 
+## 2026.11.18 (PR#NN)
+
+- `impute_a1_grade_2016()` no longer lowers `higrade` or `higrade_tvis`. Both are the highest education among the adults in the household, and for 327 of the 1,524 households whose 2016 `a1_grade` is imputed the file already has a value, because a second adult's education was reported. The function replaced that value with the one adult 1's imputed education implies; it now keeps the higher of the two. In the 2016 output 28 values of `higrade` and 53 of `higrade_tvis` change, all upward, and nothing else does.
+
 ## 2026.11.9.2 (PR#83)
 
 - `apply_do_labels()` no longer converts `stratum` to a factor. Only the 2016 `.do` file labels it ("Stratum 1", "Stratum 2"), so `get_clean_data()` gave a factor whose levels mixed those labels with "1" and "2" from the other years. `stratum` is now an integer, 1 or 2, in every year, as in nsch-py.

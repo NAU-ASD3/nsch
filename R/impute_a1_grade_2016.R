@@ -126,17 +126,36 @@ a1_grade_if <- year <- hhid <- NULL ## for R CMD check
     j = "a1_grade",
     value = factor(new.a1, levels = a1.levels)
   )
+  ## higrade and higrade_tvis are the highest education among the adults
+  ## in the household. Where the 2016 file already has a value, because a
+  ## second adult's education was reported, keep the higher of that value
+  ## and the one adult 1's imputed education implies.
+  higher <- function(old, new, low.to.high) {
+    old.rank <- match(as.character(old), low.to.high)
+    new.rank <- match(new, low.to.high)
+    low.to.high[pmax(old.rank, new.rank, na.rm = TRUE)]
+  }
+  new.hi <- higher(
+    combined.dt[["higrade"]][rows.2016],
+    fine.to.higrade[new.a1],
+    unique(fine.to.higrade)
+  )
+  new.tvis <- higher(
+    combined.dt[["higrade_tvis"]][rows.2016],
+    fine.to.tvis[new.a1],
+    unique(fine.to.tvis)
+  )
   data.table::set(
     combined.dt,
     i = rows.2016,
     j = "higrade",
-    value = factor(fine.to.higrade[new.a1], levels = hi.levels)
+    value = factor(new.hi, levels = hi.levels)
   )
   data.table::set(
     combined.dt,
     i = rows.2016,
     j = "higrade_tvis",
-    value = factor(fine.to.tvis[new.a1], levels = tvis.levels)
+    value = factor(new.tvis, levels = tvis.levels)
   )
   invisible(combined.dt)
 }

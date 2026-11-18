@@ -29,11 +29,14 @@
   \code{data-raw/a1_grade_2016_weights.R} in the source repository
   rebuilds the file from the raw Stata files.
 
-  After assigning fine \code{a1_grade} values, the function
-  deterministically updates \code{higrade} (3-level) and
-  \code{higrade_tvis} (4-level) to be consistent, using the same
-  mappings that \code{apply_do_labels} derives from the \code{.do}
-  files.
+  After assigning fine \code{a1_grade} values, the function sets
+  \code{higrade} (3-level) and \code{higrade_tvis} (4-level) from
+  them, using the same mappings that \code{apply_do_labels} derives
+  from the \code{.do} files.  Both variables are the highest
+  education among the adults in the household.  Where the 2016 file
+  already has a value, because a second adult's education was
+  reported, the function keeps the higher of that value and the one
+  adult 1's imputed education implies.
 
   Modifies \code{combined.dt} by reference.
 }
